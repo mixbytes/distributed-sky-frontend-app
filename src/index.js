@@ -1,30 +1,33 @@
-const ManagerIPFS = require('./ManagerIPFS.js');
+const Controller = require('./Controller.js');
 const express = require('express');
 const busboyBodyParser = require('busboy-body-parser');
-const path = require('path');
 
 const app = express();
 app.use('/static', express.static('public'));
 app.use(busboyBodyParser());
 const port = 3001;
-const root = path.join(__dirname, '../public');
 
-const managerIPFS = new ManagerIPFS();
+const controller = new Controller();
 
-app.get('/upload_to_ipfs', (req, res) => {
-    res.sendFile(`${root}/index.html`);
+app.get('/', (req, res) => {
+    controller.main(req, res);
 });
 
 app.post('/upload_to_ipfs', (req, res) => {
-    const file = req.files['ipfs_file'];
+    controller.uploadToIPFS(req, res);
+});
 
-    const get_ipfs_hash = async () => {
-        return await managerIPFS.upload_to_ipfs(file);
-    };
+app.get('/connect_to_node', (req, res) => {
+    controller.connectToNode(req, res);
+});
 
-    get_ipfs_hash().then((hash) => res.send(hash)).catch((err) => res.send(err));
+app.post('/upload_to_node', (req, res) => {
+    controller.uploadToNode(req, res);
 });
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
+
+process.on('SIGTERM', () => process.exit());
+process.on('uncaughtException', () => process.exit());
