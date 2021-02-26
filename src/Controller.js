@@ -23,14 +23,28 @@ class Controller {
             .catch((err) => res.send(err));
     }
 
-    uploadToNode(req, res) {
+    registerPilot(req, res) {
         const hash = req.body['file_hash'];
 
-        const uploadToNodeResult = async () => {
-            return await managerBC.uploadToNode(hash);
+        const registerPilotResult = async () => {
+            return await managerBC.registerPilot(hash);
         };
 
-        uploadToNodeResult()
+        registerPilotResult()
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => res.send(err));
+    }
+
+    accountAdd(req, res) {
+        const hash = req.body['file_hash'];
+
+        const accountAddResult = async () => {
+            return await managerBC.accountAdd('0x04', hash);
+        };
+
+        accountAddResult()
             .then((result) => {
                 res.send(result);
             })
@@ -43,6 +57,21 @@ class Controller {
         };
 
         connectToNodeResult()
+            .then((result) => {
+                console.log(result);
+                res.send(result);
+            })
+            .catch((err) => res.send(err));
+    }
+
+    extractIpfsHashFromNode(req, res) {
+        const hash = req.query['account_id'];
+
+        const extractAccountFromNodeResult = async () => {
+            return await managerBC.extractIpfsHashFromAccount(hash);
+        };
+
+        extractAccountFromNodeResult()
             .then((result) => {
                 console.log(result);
                 res.send(result);
