@@ -1,5 +1,6 @@
 const ipfsClient = require('ipfs-http-client');
 const Hash = require('ipfs-only-hash')
+const toBuffer = require("it-to-buffer");
 
 const ipfs = ipfsClient('http://localhost:5001');
 
@@ -11,12 +12,8 @@ class ManagerIPFS {
         return await Hash.of(fileMetadata.data);
     }
 
-    // Получить файл по IPFS-хешу и отдельно реализовать
-    // функциональность для отображения картинки
     async downloadFromIPFS(hash) {
-        const bufferedContents = await toBuffer(ipfs.cat(hash));
-
-        return bufferedContents.toString();
+        return await toBuffer(ipfs.cat(hash));
     }
 }
 

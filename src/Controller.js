@@ -80,18 +80,19 @@ class Controller {
     }
 
     extractPNGFromIPFS(req, res) {
-        const hash = req.query['account_id'];
+        const hash = req.query['png_hash'];
 
-        const extractAccountFromNodeResult = async () => {
-            return await managerBC.extractIPFSHashFromAccount(hash);
+        const extractPNGFromIPFSResult = async () => {
+            return await managerIPFS.downloadFromIPFS(hash);
         };
 
-        extractAccountFromNodeResult()
+        extractPNGFromIPFSResult()
             .then((result) => {
-                console.log(result);
-                res.send(result);
+                res.render(`${root}/pilot_png.html`, {
+                    image: Buffer.from(result).toString('base64')
+                });
             })
-            .catch((err) => res.send(err));
+            .catch((err) => console.log(err));
     }
 }
 

@@ -5,6 +5,7 @@ const busboyBodyParser = require('busboy-body-parser');
 const app = express();
 app.use('/static', express.static('public'));
 app.use(busboyBodyParser());
+app.engine('.html', require('ejs').renderFile);
 const port = 3001;
 
 const controller = new Controller();
@@ -34,7 +35,7 @@ app.get('/extract_ipfs_hash', (req, res) => {
 })
 
 app.get('/extract_png_from_ipfs', (req, res) => {
-    controller.extractIPFSHashFromNode(req, res);
+    controller.extractPNGFromIPFS(req, res);
 })
 
 app.listen(port, () => {
