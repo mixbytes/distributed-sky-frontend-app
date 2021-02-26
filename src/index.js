@@ -21,9 +21,17 @@ app.get('/connect_to_node', (req, res) => {
     controller.connectToNode(req, res);
 });
 
-app.post('/upload_to_node', (req, res) => {
-    controller.uploadToNode(req, res);
+app.post('/register_pilot', (req, res) => {
+    controller.registerPilot(req, res);
 });
+
+app.post('/account_add', (req, res) => {
+    controller.accountAdd(req, res);
+});
+
+app.get('/extract_ipfs_hash', (req, res) => {
+    controller.extractIpfsHashFromNode(req, res);
+})
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
