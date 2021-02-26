@@ -30,7 +30,11 @@ app.post('/account_add', (req, res) => {
 });
 
 app.get('/extract_ipfs_hash', (req, res) => {
-    controller.extractIpfsHashFromNode(req, res);
+    controller.extractIPFSHashFromNode(req, res);
+})
+
+app.get('/extract_png_from_ipfs', (req, res) => {
+    controller.extractIPFSHashFromNode(req, res);
 })
 
 app.listen(port, () => {

@@ -70,7 +70,7 @@ class ManagerBC {
         return await this.api.query.dsAccountsModule.accountRegistry(accountId);
     }
 
-    async extractIpfsHashFromAccount(accountId) {
+    async extractIPFSHashFromAccount(accountId) {
         const account = await this.extractAccountFromNode(accountId);
 
         return account['metadata_ipfs_hash'].toHuman();

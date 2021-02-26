@@ -14,11 +14,11 @@ class Controller {
     uploadToIPFS(req, res) {
         const file = req.files['ipfs_file'];
 
-        const getIpfsHash = async () => {
-            return await managerIPFS.uploadToIpfs(file);
+        const getIPFSHash = async () => {
+            return await managerIPFS.uploadToIPFS(file);
         };
 
-        getIpfsHash()
+        getIPFSHash()
             .then((hash) => res.send(hash))
             .catch((err) => res.send(err));
     }
@@ -64,11 +64,26 @@ class Controller {
             .catch((err) => res.send(err));
     }
 
-    extractIpfsHashFromNode(req, res) {
+    extractIPFSHashFromNode(req, res) {
         const hash = req.query['account_id'];
 
         const extractAccountFromNodeResult = async () => {
-            return await managerBC.extractIpfsHashFromAccount(hash);
+            return await managerBC.extractIPFSHashFromAccount(hash);
+        };
+
+        extractAccountFromNodeResult()
+            .then((result) => {
+                console.log(result);
+                res.send(result);
+            })
+            .catch((err) => res.send(err));
+    }
+
+    extractPNGFromIPFS(req, res) {
+        const hash = req.query['account_id'];
+
+        const extractAccountFromNodeResult = async () => {
+            return await managerBC.extractIPFSHashFromAccount(hash);
         };
 
         extractAccountFromNodeResult()
