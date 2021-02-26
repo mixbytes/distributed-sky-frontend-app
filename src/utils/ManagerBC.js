@@ -1,8 +1,6 @@
 const { ApiPromise, WsProvider } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
-const { stringToU8a, u8aToHex } = require('@polkadot/util');
 const { readFileSync } = require('fs');
-const testKeyring = require('@polkadot/keyring/testing');
 
 class ManagerBC {
     isConnectedToNode;
@@ -25,65 +23,57 @@ class ManagerBC {
         this.isConnectedToNode = true;
     }
 
-    async uploadToNode(hash) {
+    async accountAdd(role, metadata_ipfs_hash) {
         if (!this.isConnectedToNode) {
             await this.connectToNode();
         }
 
-        console.log("Start");
+        const keyring = new Keyring({ type: 'sr25519' });
+        const bob = keyring.addFromUri('//Bob', { name: 'Bob default' });
+        const somebody = keyring.addFromMnemonic('magic flight monster twist divide bring wrist laundry kid front cloth celery');
+
+        const metaIPFS = this.api.createType('MetaIPFS', metadata_ipfs_hash);
+        const roleType = this.api.createType('AccountRole', role);
+
+        await this.api.tx.dsAccountsModule.accountAdd(bob.address, roleType, metaIPFS).signAndSend(bob);
+
+        const accountId = this.api.createType('AccountId', somebody.address);
+        const account = await this.extractAccountFromNode(accountId);
+
+        return account.toString();
+    }
+
+    async registerPilot(metadata_ipfs_hash) {
+        if (!this.isConnectedToNode) {
+            await this.connectToNode();
+        }
 
         const keyring = new Keyring({ type: 'sr25519' });
-        const master = keyring.addFromUri('//Alice', {
-            name: 'Alice (master)'
-        });
         const bob = keyring.addFromUri('//Bob', { name: 'Bob default' });
+        const somebody = keyring.addFromMnemonic('magic flight monster twist divide bring wrist laundry kid front cloth celery');
 
-        console.log("Creating admin [Alice] pair");
-        const adminId = await this.api.query.sudo.key();
-        console.log("Admin id created: ", adminId.toString());
-        const keyring_test = testKeyring.createTestKeyring();
-        const adminPair = keyring_test.getPair(adminId.toString());
-        console.log("Admin [Alice] pair created: ", adminPair.toJson());
+        const metaIPFS = this.api.createType('MetaIPFS', metadata_ipfs_hash);
 
-        const [result_balances] = await Promise.all([
-            this.api.tx.balances.setBalance(master.address, 100000, 100).signAndSend(bob)
-        ]);
-        console.log(result_balances);
+        this.api.tx.dsAccountsModule.registerPilot(somebody.address, metaIPFS).signAndSend(bob)
 
-        console.log('Before transaction');
+        const accountId = this.api.createType('AccountId', somebody.address);
+        const account = await this.extractAccountFromNode(accountId);
 
-        const metaIPFS = this.api.createType('MetaIPFS', hash);
-        const registrar = this.api.createType('AccountRole', '0x04');
-        console.log('metaIPFS: ', metaIPFS.toString());
-        console.log('registrar:', registrar.toString());
-        const [result_add] = await Promise.all([
-            /*
-            this.api.tx.sudo
-                .sudo(this.api.tx.dsAccountsModule.accountAdd(master.address, registrar, metaIPFS))
-                .signAndSend(bob)
-            */
-            this.api.tx.sudo
-                .sudo(this.api.tx.dsAccountsModule.registerPilot(bob.address, metaIPFS))
-                .signAndSend(bob)
-        ]);
-        console.log('Transaction hash: ', result_add.toString());
-        console.log('Successful transaction');
+        return account.toString();
+    }
 
-        console.log('Trying to retrieve hash');
-        const accountId = this.api.createType('AccountId', bob.address);
-        const [result_hash] = await Promise.all([
-           this.api.query.dsAccountsModule.accountRegistry(accountId)
-        ]);
-        console.log(result_hash.toString());
+    async extractAccountFromNode(accountId) {
+        if (!this.isConnectedToNode) {
+            await this.connectToNode();
+        }
 
-        /*
-        console.log(
-            await this.api.rpc.rpc.methods()
-        );*/
+        return await this.api.query.dsAccountsModule.accountRegistry(accountId);
+    }
 
-        console.log('End');
+    async extractIpfsHashFromAccount(accountId) {
+        const account = await this.extractAccountFromNode(accountId);
 
-        return hash;
+        return account['metadata_ipfs_hash'].toHuman();
     }
 }
 
