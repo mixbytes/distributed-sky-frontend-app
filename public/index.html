@@ -10,31 +10,33 @@
         <input type="submit" value="Upload to IPFS">
     </form>
     <br>
-    <form method="GET" action="connect_to_node">
-        <input type="submit" value="Connect to Substrate Node">
-    </form>
-    <br>
-    <form method="POST" action="register_pilot" enctype="multipart/form-data">
-        <label for="hash_pilot">Register pilot. PNG (or any other file) hash:</label>
-        <input type="text" id="hash_pilot" name="file_hash">
+    <form method="POST" action="account_add" enctype="multipart/form-data">
+        <label for="account_add_hash">Account add. PNG (or any other file) hash:</label>
+        <input type="text" id="account_add_hash" name="file_hash">
+        <label for="account_add_address">Account address:</label>
+        <input type="text" id="account_add_address" name="account_address">
+        <label for="account_add_role">Account role [ADMIN, REGISTRAR]:</label>
+        <input type="text" id="account_add_role" name="account_role">
         <button type="submit" value="Upload hash to Substrate Node">Отправить</button>
     </form>
     <br>
-    <form method="POST" action="account_add" enctype="multipart/form-data">
-        <label for="hash">Account add. PNG (or any other file) hash:</label>
-        <input type="text" id="hash" name="file_hash">
+    <form method="POST" action="register_pilot" enctype="multipart/form-data">
+        <label for="register_pilot_hash">Register pilot. PNG (or any other file) hash:</label>
+        <input type="text" id="register_pilot_hash" name="file_hash">
+        <label for="register_pilot_address">Account address:</label>
+        <input type="text" id="register_pilot_address" name="account_address">
         <button type="submit" value="Upload hash to Substrate Node">Отправить</button>
     </form>
     <br>
     <form method="GET" action="extract_ipfs_hash">
-        <label for="hash">Input account ID:</label>
-        <input type="text" id="account_id" name="account_id">
+        <label for="extract_ipfs_hash_hash">Input account ID:</label>
+        <input type="text" id="extract_ipfs_hash_hash" name="account_id">
         <input type="submit" value="Extract ipfs hash from account">
     </form>
     <br>
     <form method="GET" action="extract_png_from_ipfs">
-        <label for="hash">Input PNG IPFS hash:</label>
-        <input type="text" id="png_hash" name="png_hash">
+        <label for="extract_png_from_ipfs_png_hash">Input PNG IPFS hash:</label>
+        <input type="text" id="extract_png_from_ipfs_png_hash" name="png_hash">
         <input type="submit" value="Extract PNG from IPFS">
     </form>
 </body>
