@@ -20,35 +20,40 @@ class Controller {
 
         getIPFSHash()
             .then((hash) => res.send(hash))
-            .catch((err) => res.send(err));
+            .catch((err) => res.send(err.toString()));
     }
 
     registerPilot(req, res) {
+        const accountAddress = req.body['account_address'];
         const hash = req.body['file_hash'];
 
         const registerPilotResult = async () => {
-            return await managerBC.registerPilot(hash);
+            return await managerBC.registerPilot(accountAddress, hash);
         };
 
         registerPilotResult()
             .then((result) => {
                 res.send(result);
             })
-            .catch((err) => res.send(err));
+            .catch((err) => res.send(err.toString()));
     }
 
     accountAdd(req, res) {
+        const accountAddress = req.body['account_address'];
         const hash = req.body['file_hash'];
+        const role = req.body['account_role'];
 
         const accountAddResult = async () => {
-            return await managerBC.accountAdd('0x04', hash);
+            return await managerBC.accountAdd(accountAddress, role, hash);
         };
 
         accountAddResult()
             .then((result) => {
                 res.send(result);
             })
-            .catch((err) => res.send(err));
+            .catch((err) => {
+                res.send(err.toString());
+            });
     }
 
     connectToNode(req, res) {
@@ -61,7 +66,7 @@ class Controller {
                 console.log(result);
                 res.send(result);
             })
-            .catch((err) => res.send(err));
+            .catch((err) => res.send(err.toString()));
     }
 
     extractIPFSHashFromNode(req, res) {
@@ -76,7 +81,7 @@ class Controller {
                 console.log(result);
                 res.send(result);
             })
-            .catch((err) => res.send(err));
+            .catch((err) => res.send(err.toString()));
     }
 
     extractPNGFromIPFS(req, res) {
