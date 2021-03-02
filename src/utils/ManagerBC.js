@@ -3,9 +3,15 @@ const { Keyring } = require('@polkadot/keyring');
 const { readFileSync } = require('fs');
 const { roles, roles_allowed } = require('../consts/roles.js');
 
+const keyring = new Keyring({ type: 'sr25519' });
+
 class ManagerBC {
     isConnectedToNode;
     api;
+
+    get_admin() {
+        return keyring.addFromUri('//Alice', { name: 'Alice default' });
+    }
 
     async connectToNode() {
         const provider = new WsProvider('ws://127.0.0.1:9944');
@@ -34,15 +40,11 @@ class ManagerBC {
             await this.connectToNode();
         }
 
-        const keyring = new Keyring({ type: 'sr25519' });
-        const bob = keyring.addFromUri('//Bob', { name: 'Bob default' });
-
+        const accountId = this.api.createType('AccountId', accountAddress);
         const metaIPFS = this.api.createType('MetaIPFS', metadata_ipfs_hash);
         const roleType = this.api.createType('AccountRole', role_value);
 
-        // Replace with commented string when admin account will be fixed
-        // await this.api.tx.dsAccountsModule.accountAdd(bob.address, roleType, metaIPFS).signAndSend(bob);
-        await this.api.tx.dsAccountsModule.accountAdd(bob.address, roleType, metaIPFS).signAndSend(bob);
+        await this.api.tx.dsAccountsModule.accountAdd(accountId, roleType, metaIPFS).signAndSend(this.get_admin());
 
         return `Account ${accountAddress} with role: ${role} was successfully added to registry.`;
     }
@@ -52,12 +54,12 @@ class ManagerBC {
             await this.connectToNode();
         }
 
-        const keyring = new Keyring({ type: 'sr25519' });
-        const bob = keyring.addFromUri('//Bob', { name: 'Bob default' });
+        const registrar = keyring.addFromUri('//Bob', { name: 'Bob default' });
 
+        const accountId = this.api.createType('AccountId', accountAddress);
         const metaIPFS = this.api.createType('MetaIPFS', metadata_ipfs_hash);
 
-        this.api.tx.dsAccountsModule.registerPilot(accountAddress, metaIPFS).signAndSend(bob)
+        this.api.tx.dsAccountsModule.registerPilot(accountId, metaIPFS).signAndSend(registrar)
 
         return `Account ${accountAddress} was successfully registered as pilot.`;
     }
