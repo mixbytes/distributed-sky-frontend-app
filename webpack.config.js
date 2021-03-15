@@ -8,6 +8,9 @@ module.exports = {
     },
     resolve: {
         alias: {
+            consts: path.resolve(__dirname, 'src/consts/'),
+            services: path.resolve(__dirname, 'src/services/'),
+            utils: path.resolve(__dirname, 'src/utils/'),
         },
         extensions: ['.js'],
     },
