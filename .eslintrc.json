@@ -1,0 +1,32 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "google"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+
+        "max-len": [
+            "error",
+            {
+                "code": 115
+            }
+        ],
+        "no-useless-escape": "off",
+        "require-jsdoc": "off"
+    }
+}
