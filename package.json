@@ -9,8 +9,16 @@
     "busboy-body-parser": "^0.3.2",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "html-webpack-plugin": "^5.3.1",
     "ipfs-http-client": "^49.0.2",
     "ipfs-only-hash": "^2.0.1",
-    "it-to-buffer": "^2.0.0"
+    "it-to-buffer": "^2.0.0",
+    "webpack": "^5.26.0"
+  },
+  "scripts": {
+    "build": "webpack --config ./webpack.config.js"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.5.0"
   }
 }
