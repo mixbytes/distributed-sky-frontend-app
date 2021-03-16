@@ -11,6 +11,7 @@ module.exports = {
             consts: path.resolve(__dirname, 'src/consts/'),
             services: path.resolve(__dirname, 'src/services/'),
             utils: path.resolve(__dirname, 'src/utils/'),
+            views: path.resolve(__dirname, 'src/views'),
         },
         extensions: ['.js'],
     },
@@ -19,6 +20,10 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules)/,
+            },
+            {
+                test: /\.hbs$/,
+                use: 'handlebars-loader',
             },
         ],
     },
@@ -29,6 +34,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
+            inject: 'body',
             template: path.resolve(__dirname, 'public/index.html'),
             filename: 'index.html',
         }),
