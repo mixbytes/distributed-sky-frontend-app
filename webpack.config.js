@@ -8,10 +8,11 @@ module.exports = {
     },
     resolve: {
         alias: {
+            components: path.resolve(__dirname, 'src/components/'),
             consts: path.resolve(__dirname, 'src/consts/'),
             services: path.resolve(__dirname, 'src/services/'),
             utils: path.resolve(__dirname, 'src/utils/'),
-            views: path.resolve(__dirname, 'src/views'),
+            views: path.resolve(__dirname, 'src/views/'),
         },
         extensions: ['.js'],
     },
