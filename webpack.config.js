@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     mode: 'development',
@@ -16,6 +17,10 @@ module.exports = {
             views: path.resolve(__dirname, 'src/views/'),
         },
         extensions: ['.js'],
+        fallback: {
+            'crypto': require.resolve('crypto-browserify'),
+            'stream': require.resolve('stream-browserify'),
+        }
     },
     module: {
         rules: [
@@ -39,6 +44,10 @@ module.exports = {
             inject: 'body',
             template: path.resolve(__dirname, 'public/index.html'),
             filename: 'index.html',
+        }),
+        new webpack.ProvidePlugin({
+            Buffer: ['buffer', 'Buffer'],
+            process: 'process/browser.js',
         }),
     ],
 };
