@@ -14,7 +14,7 @@ export default class MainView extends BaseView {
     }
 
     /**
-     * Method that shows main page view
+     * Method that shows main page
      */
     async show() {
         this._menu = new Menu();
