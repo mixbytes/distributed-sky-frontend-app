@@ -1,5 +1,5 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     mode: 'development',
@@ -10,6 +10,7 @@ module.exports = {
         alias: {
             components: path.resolve(__dirname, 'src/components/'),
             consts: path.resolve(__dirname, 'src/consts/'),
+            controllers: path.resolve(__dirname, 'src/controllers'),
             services: path.resolve(__dirname, 'src/services/'),
             utils: path.resolve(__dirname, 'src/utils/'),
             views: path.resolve(__dirname, 'src/views/'),
