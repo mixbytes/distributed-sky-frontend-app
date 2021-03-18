@@ -1,5 +1,6 @@
 import AccountAddForm from 'components/AccountAddForm/AccountAddForm';
 import BaseView from 'views/BaseView/BaseView';
+import BCController from 'controllers/BCController';
 import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
 import template from 'views/AccountAddView/AccountAddView.hbs';
@@ -13,6 +14,7 @@ export default class AccountAddView extends BaseView {
             metadataIPFSHash: '',
             role: '',
         };
+        this._BCController = new BCController();
     }
 
     async show(routeData) {
@@ -50,7 +52,11 @@ export default class AccountAddView extends BaseView {
         }
     }
 
-    onSubmit() {
-        // TODO взаимодействие с контроллером для общения с БЧ
+    async onSubmit() {
+        await this._BCController.accountAdd(
+            this._accountAddFormData.accountAddress,
+            this._accountAddFormData.metadataIPFSHash,
+            this._accountAddFormData.role,
+        );
     }
 }
