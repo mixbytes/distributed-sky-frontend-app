@@ -1,38 +1,86 @@
-const { ApiPromise, WsProvider } = require('@polkadot/api');
-const { Keyring } = require('@polkadot/keyring');
-const { readFileSync } = require('fs');
-const { roles, roles_allowed } = require('../consts/roles.js');
+import { ApiPromise, WsProvider } from '@polkadot/api';
+import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import ROLES from 'consts/Roles';
 
-const keyring = new Keyring({ type: 'sr25519' });
+export default class ManagerBC {
+    constructor() {
+        this._isExtension = false;
+        this._isConnectedToNode = false;
+        this._api = {};
+        this._userAccounts = [];
+    }
 
-class ManagerBC {
-    isConnectedToNode;
-    api;
+    async login() {
+        const extensions = await web3Enable('DistributedSky');
 
-    get_admin() {
-        return keyring.addFromUri('//Alice', { name: 'Alice default' });
+        if (extensions.length === 0) {
+            alert('No extension installed, or you did not accept the authorization');
+            return false;
+        }
+
+        this._isExtension = true;
+        return true;
+    }
+
+    async loadUserAccounts() {
+        this._userAccounts = await web3Accounts();
     }
 
     async connectToNode() {
         const provider = new WsProvider('ws://127.0.0.1:9944');
-        this.api = await ApiPromise.create({
+        this._api = await ApiPromise.create({
             provider: provider,
-            types: JSON.parse(readFileSync('src/types.json', 'utf8')),
+            types: {
+                "AccountRole": "u8",
+                "AccountManager": "AccountId",
+                "Address": "AccountId",
+                "LookupSource": "AccountId",
+                "Moment": "u64",
+                "AccountOf": {
+                    "roles": "AccountRole",
+                    "create_date": "u64",
+                    "managed_by": "AccountManager",
+                    "metadata_ipfs_hash": "MetaIPFS"
+                },
+                "SerialNumber": "Vec<u8>",
+                "MetaIPFS": "Vec<u8>",
+                "UAVOf": {
+                    "uav_id": "SerialNumber",
+                    "metadata_ipfs_hash": "MetaIPFS",
+                    "managed_by": "AccountId"
+                }
+            }
         });
 
         const [chain, nodeName, nodeVersion] = await Promise.all([
-            this.api.rpc.system.chain(),
-            this.api.rpc.system.name(),
-            this.api.rpc.system.version(),
+            this._api.rpc.system.chain(),
+            this._api.rpc.system.name(),
+            this._api.rpc.system.version(),
         ]);
 
         console.log(`You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`);
         this.isConnectedToNode = true;
+        return true;
     }
 
-    async accountAdd(accountAddress, role, metadata_ipfs_hash) {
-        const role_value = roles.get(role);
-        if (!roles_allowed.has(role_value)) {
+    async accountAdd(accountAddress, role, metadataIPFSHash) {
+        if (!this._isExtension) {
+            if (!(await this.login())) {
+                return 'fail';
+            }
+            await this.loadUserAccounts();
+            console.log(this._userAccounts);
+        }
+
+        if (!this._isConnectedToNode) {
+            if (!await this.connectToNode()) {
+                return 'fail';
+            }
+        }
+
+        /*
+        const roleValue = roles.get(role);
+        if (!rolesAllowed.has(roleValue)) {
             throw new Error('Given role is not allowed');
         }
 
@@ -41,26 +89,27 @@ class ManagerBC {
         }
 
         const accountId = this.api.createType('AccountId', accountAddress);
-        const metaIPFS = this.api.createType('MetaIPFS', metadata_ipfs_hash);
-        const roleType = this.api.createType('AccountRole', role_value);
+        const metaIPFS = this.api.createType('MetaIPFS', metadataIPFSHash);
+        const roleType = this.api.createType('AccountRole', roleValue);
 
-        await this.api.tx.dsAccountsModule.accountAdd(accountId, roleType, metaIPFS).signAndSend(this.get_admin());
+        await this.api.tx.dsAccountsModule.accountAdd(accountId, roleType, metaIPFS);//.signAndSend(this.getAdmin());
 
-        return `Account ${accountAddress} with role: ${role} was successfully added to registry.`;
+        return `Account ${accountAddress} with role: ${role} was successfully added to registry.`;*/
+        return 'yeah';
     }
 
-    async registerPilot(accountAddress, metadata_ipfs_hash) {
+    async registerPilot(accountAddress, metadataIPFSHash) {
         if (!this.isConnectedToNode) {
             await this.connectToNode();
         }
-
-        const registrar = keyring.addFromUri('//Bob', { name: 'Bob default' });
+/*
+        const registrar = keyring.addFromUri('//Bob', {name: 'Bob default'});
 
         const accountId = this.api.createType('AccountId', accountAddress);
-        const metaIPFS = this.api.createType('MetaIPFS', metadata_ipfs_hash);
+        const metaIPFS = this.api.createType('MetaIPFS', metadataIPFSHash);
 
-        this.api.tx.dsAccountsModule.registerPilot(accountId, metaIPFS).signAndSend(registrar)
-
+        this.api.tx.dsAccountsModule.registerPilot(accountId, metaIPFS).signAndSend(registrar);
+*/
         return `Account ${accountAddress} was successfully registered as pilot.`;
     }
 
@@ -69,9 +118,9 @@ class ManagerBC {
             await this.connectToNode();
         }
 
-        accountId = this.api.createType('AccountId', accountId);
+        accountId = this._api.createType('AccountId', accountId);
 
-        return await this.api.query.dsAccountsModule.accountRegistry(accountId);
+        return await this._api.query.dsAccountsModule.accountRegistry(accountId);
     }
 
     async extractIPFSHashFromAccount(accountId) {
@@ -80,5 +129,3 @@ class ManagerBC {
         return account['metadata_ipfs_hash'].toHuman();
     }
 }
-
-module.exports = ManagerBC;
