@@ -23,6 +23,7 @@ export default class AccountAddView extends BaseView {
 
         EventBus.on(Events.InputAddress, this._onUpdateFieldHandler);
         EventBus.on(Events.InputHash, this._onUpdateFieldHandler);
+        EventBus.on(Events.InputRole, this._onUpdateFieldHandler);
         EventBus.on(Events.AccountAddSubmit, this._onSubmitHandler);
 
         this._accountAddForm = new AccountAddForm();
@@ -53,10 +54,14 @@ export default class AccountAddView extends BaseView {
     }
 
     async onSubmit() {
-        await this._BCController.accountAdd(
+        const result = await this._BCController.accountAdd(
             this._accountAddFormData.accountAddress,
             this._accountAddFormData.metadataIPFSHash,
             this._accountAddFormData.role,
         );
+
+        const resultBlock = document.querySelector('.result-block');
+        resultBlock.innerHTML = result;
+        resultBlock.classList.remove('result-block-display-none');
     }
 }

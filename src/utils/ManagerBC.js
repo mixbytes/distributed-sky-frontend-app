@@ -1,6 +1,6 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import ROLES from 'consts/Roles';
+import {web3Accounts, web3Enable, web3FromSource} from '@polkadot/extension-dapp';
+import Roles from 'consts/Roles';
 
 export default class ManagerBC {
     constructor() {
@@ -78,38 +78,55 @@ export default class ManagerBC {
             }
         }
 
-        /*
-        const roleValue = roles.get(role);
-        if (!rolesAllowed.has(roleValue)) {
+        const roleValue = Roles.roleValues.get(role);
+        if (!Roles.rolesAllowed.has(roleValue)) {
             throw new Error('Given role is not allowed');
         }
 
-        if (!this.isConnectedToNode) {
-            await this.connectToNode();
+        const accountId = this._api.createType('AccountId', accountAddress);
+        const metaIPFS = this._api.createType('MetaIPFS', metadataIPFSHash);
+        const roleType = this._api.createType('AccountRole', roleValue);
+
+        const account = this._userAccounts[0];
+        const injector = await web3FromSource(account.meta.source);
+        let error = '';
+        await this._api.tx.dsAccountsModule.accountAdd(accountId, roleType, metaIPFS)
+            .signAndSend(account.address, { signer: injector.signer }, ({ status }) => {
+                if (status.isInBlock) {
+                    console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+                } else {
+                    console.log(`Current status: ${status.type}`);
+                }
+            }).catch((errorMessage) => {
+                error = errorMessage;
+            });
+        if (error.length !== 0) {
+            return error;
         }
 
-        const accountId = this.api.createType('AccountId', accountAddress);
-        const metaIPFS = this.api.createType('MetaIPFS', metadataIPFSHash);
-        const roleType = this.api.createType('AccountRole', roleValue);
-
-        await this.api.tx.dsAccountsModule.accountAdd(accountId, roleType, metaIPFS);//.signAndSend(this.getAdmin());
-
-        return `Account ${accountAddress} with role: ${role} was successfully added to registry.`;*/
-        return 'yeah';
+        return `Account ${accountAddress} with role: ${role} was successfully added to registry.`;
     }
 
     async registerPilot(accountAddress, metadataIPFSHash) {
         if (!this.isConnectedToNode) {
             await this.connectToNode();
         }
-/*
-        const registrar = keyring.addFromUri('//Bob', {name: 'Bob default'});
 
-        const accountId = this.api.createType('AccountId', accountAddress);
-        const metaIPFS = this.api.createType('MetaIPFS', metadataIPFSHash);
+        const accountId = this._api.createType('AccountId', accountAddress);
+        const metaIPFS = this._api.createType('MetaIPFS', metadataIPFSHash);
 
-        this.api.tx.dsAccountsModule.registerPilot(accountId, metaIPFS).signAndSend(registrar);
-*/
+        const account = this._userAccounts[0];
+        const injector = await web3FromSource(account.meta.source);
+        this._api.tx.dsAccountsModule.registerPilot(accountId, metaIPFS)
+            .signAndSend(account.address, { signer: injector.signer }, ({ status }) => {
+                if (status.isInBlock) {
+                    console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+                } else {
+                    console.log(`Current status: ${status.type}`);
+                }
+            }).catch((error) => {
+            console.log(':( transaction failed', error);
+        });
         return `Account ${accountAddress} was successfully registered as pilot.`;
     }
 

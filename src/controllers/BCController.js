@@ -6,16 +6,6 @@ export default class BCController {
     }
 
     async accountAdd(accountAddress, metadataIPFSHash, role) {
-        const accountAddResult = async () => {
-            return await this._managerBC.accountAdd(accountAddress, role, metadataIPFSHash);
-        };
-
-        accountAddResult()
-            .then((result) => {
-                console.log(result);
-            })
-            .catch((err) => {
-                console.log(err.toString());
-            });
+        return await this._managerBC.accountAdd(accountAddress, role, metadataIPFSHash);
     }
 }
