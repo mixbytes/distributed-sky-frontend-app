@@ -1,4 +1,4 @@
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import {ApiPromise, WsProvider} from '@polkadot/api';
 import {web3Accounts, web3Enable, web3FromSource} from '@polkadot/extension-dapp';
 import Roles from 'consts/Roles';
 
@@ -31,25 +31,25 @@ export default class ManagerBC {
         this._api = await ApiPromise.create({
             provider: provider,
             types: {
-                "AccountRole": "u8",
-                "AccountManager": "AccountId",
-                "Address": "AccountId",
-                "LookupSource": "AccountId",
-                "Moment": "u64",
-                "AccountOf": {
-                    "roles": "AccountRole",
-                    "create_date": "u64",
-                    "managed_by": "AccountManager",
-                    "metadata_ipfs_hash": "MetaIPFS"
+                'AccountRole': 'u8',
+                'AccountManager': 'AccountId',
+                'Address': 'AccountId',
+                'LookupSource': 'AccountId',
+                'Moment': 'u64',
+                'AccountOf': {
+                    'roles': 'AccountRole',
+                    'create_date': 'u64',
+                    'managed_by': 'AccountManager',
+                    'metadata_ipfs_hash': 'MetaIPFS',
                 },
-                "SerialNumber": "Vec<u8>",
-                "MetaIPFS": "Vec<u8>",
-                "UAVOf": {
-                    "uav_id": "SerialNumber",
-                    "metadata_ipfs_hash": "MetaIPFS",
-                    "managed_by": "AccountId"
-                }
-            }
+                'SerialNumber': 'Vec<u8>',
+                'MetaIPFS': 'Vec<u8>',
+                'UAVOf': {
+                    'uav_id': 'SerialNumber',
+                    'metadata_ipfs_hash': 'MetaIPFS',
+                    'managed_by': 'AccountId',
+                },
+            },
         });
 
         const [chain, nodeName, nodeVersion] = await Promise.all([
@@ -91,7 +91,7 @@ export default class ManagerBC {
         const injector = await web3FromSource(account.meta.source);
         let error = '';
         await this._api.tx.dsAccountsModule.accountAdd(accountId, roleType, metaIPFS)
-            .signAndSend(account.address, { signer: injector.signer }, ({ status }) => {
+            .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
                     console.log(`Completed at block hash #${status.asInBlock.toString()}`);
                 } else {
@@ -108,25 +108,39 @@ export default class ManagerBC {
     }
 
     async registerPilot(accountAddress, metadataIPFSHash) {
-        if (!this.isConnectedToNode) {
-            await this.connectToNode();
+        if (!this._isExtension) {
+            if (!(await this.login())) {
+                return 'fail';
+            }
+            await this.loadUserAccounts();
+            console.log(this._userAccounts);
+        }
+
+        if (!this._isConnectedToNode) {
+            if (!await this.connectToNode()) {
+                return 'fail';
+            }
         }
 
         const accountId = this._api.createType('AccountId', accountAddress);
         const metaIPFS = this._api.createType('MetaIPFS', metadataIPFSHash);
 
-        const account = this._userAccounts[0];
+        const account = this._userAccounts[1];
         const injector = await web3FromSource(account.meta.source);
+        let error = '';
         this._api.tx.dsAccountsModule.registerPilot(accountId, metaIPFS)
-            .signAndSend(account.address, { signer: injector.signer }, ({ status }) => {
+            .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
                     console.log(`Completed at block hash #${status.asInBlock.toString()}`);
                 } else {
                     console.log(`Current status: ${status.type}`);
                 }
-            }).catch((error) => {
-            console.log(':( transaction failed', error);
-        });
+            }).catch((errorMessage) => {
+                error = errorMessage;
+            });
+        if (error.length !== 0) {
+            return error;
+        }
         return `Account ${accountAddress} was successfully registered as pilot.`;
     }
 
