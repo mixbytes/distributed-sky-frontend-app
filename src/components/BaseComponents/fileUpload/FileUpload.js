@@ -1,5 +1,5 @@
 import BaseComponent from 'components/BaseComponent';
-import template from 'components/BaseComponents/FileUpload/FileUpload.hbs';
+import template from 'components/BaseComponents/fileUpload/FileUpload.hbs';
 
 export default class FileUpload extends BaseComponent {
     /**

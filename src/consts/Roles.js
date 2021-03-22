@@ -8,15 +8,15 @@ const ROLES_ALLOWED = new Set([
     REGISTRAR,
 ]);
 
-const ROLES_VALUES = new Map([
+const ROLE_VALUES = new Map([
     ['ADMIN', ADMIN],
     ['PILOT', PILOT],
     ['REGISTRAR', REGISTRAR],
 ]);
 
-const ROLES = {
-    roles: ROLES_VALUES,
+const Roles = {
+    roleValues: ROLE_VALUES,
     rolesAllowed: ROLES_ALLOWED,
 };
 
-export default ROLES;
+export default Roles;
