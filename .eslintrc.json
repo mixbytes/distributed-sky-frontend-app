@@ -20,12 +20,7 @@
             }
         ],
 
-        "max-len": [
-            "error",
-            {
-                "code": 115
-            }
-        ],
+        "max-len": "off",
         "no-useless-escape": "off",
         "require-jsdoc": "off"
     }

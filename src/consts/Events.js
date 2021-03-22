@@ -6,6 +6,7 @@ const Events = {
     InputHash: 'inputHash',
     InputRole: 'inputRole',
     RefreshPage: 'refreshPage',
+    RegisterPilotSubmit: 'registerPilotSubmit',
     UploadFile: 'uploadFile',
     UploadToIPFS: 'uploadToIPFS',
     UploadToIPFSSubmit: 'uploadToIPFSSubmit',
