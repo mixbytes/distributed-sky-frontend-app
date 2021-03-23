@@ -1,6 +1,7 @@
 const Events = {
     AccountAddSubmit: 'accountAddSubmit',
     ChangePath: 'changePath',
+    ExtractFromIPFSSubmit: 'extractFromIPFSSubmit',
     ExtractFromStorageSubmit: 'extractFromStorageSubmit',
     GoToUploadToIPFSBlock: 'goToUploadToIPFSBlock',
     InputAddress: 'inputAddress',
@@ -8,7 +9,7 @@ const Events = {
     InputRole: 'inputRole',
     RefreshPage: 'refreshPage',
     RegisterPilotSubmit: 'registerPilotSubmit',
-    UploadFile: 'uploadFile',
+    UploadImage: 'uploadImage',
     UploadToIPFS: 'uploadToIPFS',
     UploadToIPFSSubmit: 'uploadToIPFSSubmit',
 };

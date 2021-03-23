@@ -3,7 +3,7 @@ const Routes = {
 
     AccountAdd: '/account_add',
     ExtractFromStorage: '/extract_from_storage',
-    ExtractPNGFromIPFS: '/extract_png_from_ipfs',
+    ExtractFromIPFS: '/extract_from_ipfs',
     Main: '/',
     RegisterPilot: '/register_pilot',
     UploadToIPFS: '/upload_to_ipfs',

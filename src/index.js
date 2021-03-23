@@ -1,4 +1,5 @@
 import AccountAddView from 'views/AccountAddView/AccountAddView';
+import ExtractFromIPFSView from 'views/ExtractFromIPFSView/ExtractFromIPFSView';
 import ExtractFromStorageView from 'views/ExtractFromStorageView/ExtractFromStorageView';
 import MainView from 'views/MainView/MainView';
 import RegisterPilotView from 'views/RegisterPilotView/RegisterPilotView';
@@ -14,5 +15,5 @@ router
     .register(Routes.AccountAdd, new AccountAddView())
     .register(Routes.RegisterPilot, new RegisterPilotView())
     .register(Routes.ExtractFromStorage, new ExtractFromStorageView())
-    // .register(Routes.ExtractFromIPFS, new ExtractFromIPFSView())
+    .register(Routes.ExtractFromIPFS, new ExtractFromIPFSView())
     .start();

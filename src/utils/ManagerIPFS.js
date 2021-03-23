@@ -1,20 +1,29 @@
-const ipfsClient = require('ipfs-http-client');
-const Hash = require('ipfs-only-hash')
-const toBuffer = require("it-to-buffer");
+import ipfsClient from 'ipfs-http-client';
+// import Hash from 'ipfs-only-hash';
+import toBuffer from 'it-to-buffer';
 
-const ipfs = ipfsClient('http://localhost:5001');
+const ipfs = ipfsClient({
+    host: 'localhost',
+    port: 5001,
+    protocol: 'http',
+});
 
-class ManagerIPFS {
+export default class ManagerIPFS {
     async uploadToIPFS(fileMetadata) {
         const file = {path: fileMetadata.name, content: fileMetadata.data};
-        await ipfs.add(file).catch((err) => console.log(err));
+        let error = '';
+        await ipfs.add(file).catch((err) => {
+            error = err;
+        });
 
-        return await Hash.of(fileMetadata.data);
+        if (error.length !== 0) {
+            return error;
+        }
+        return fileMetadata.data;
+        // return await Hash.of(fileMetadata.data);
     }
 
-    async downloadFromIPFS(hash) {
+    async extractFromIPFS(hash) {
         return await toBuffer(ipfs.cat(hash));
     }
 }
-
-module.exports = ManagerIPFS;
