@@ -1,6 +1,7 @@
 const Events = {
     AccountAddSubmit: 'accountAddSubmit',
     ChangePath: 'changePath',
+    ExtractFromStorageSubmit: 'extractFromStorageSubmit',
     GoToUploadToIPFSBlock: 'goToUploadToIPFSBlock',
     InputAddress: 'inputAddress',
     InputHash: 'inputHash',

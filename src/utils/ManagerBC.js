@@ -144,7 +144,7 @@ export default class ManagerBC {
         return `Account ${accountAddress} was successfully registered as pilot.`;
     }
 
-    async extractAccountFromNode(accountId) {
+    async extractAccountFromStorage(accountId) {
         if (!this.isConnectedToNode) {
             await this.connectToNode();
         }
@@ -155,7 +155,7 @@ export default class ManagerBC {
     }
 
     async extractIPFSHashFromAccount(accountId) {
-        const account = await this.extractAccountFromNode(accountId);
+        const account = await this.extractAccountFromStorage(accountId);
 
         return account['metadata_ipfs_hash'].toHuman();
     }

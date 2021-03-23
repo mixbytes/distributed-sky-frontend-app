@@ -9,6 +9,10 @@ export default class BCController {
         return await this._managerBC.accountAdd(accountAddress, role, metadataIPFSHash);
     }
 
+    async extractAccountIPFSHashFromStorage(accountAddress) {
+        return await this._managerBC.extractIPFSHashFromAccount(accountAddress);
+    }
+
     async registerPilot(accountAddress, metadataIPFSHash) {
         return await this._managerBC.registerPilot(accountAddress, metadataIPFSHash);
     }

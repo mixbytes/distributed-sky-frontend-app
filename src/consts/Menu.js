@@ -20,7 +20,7 @@ const menuItems = {
         },
         extractIPFSHash: {
             name: 'Extract IPFS hash from storage',
-            url: Routes.ExtractIPFSHash,
+            url: Routes.ExtractFromStorage,
             event: Events.ChangePath,
         },
         extractPNGFromIPFS: {

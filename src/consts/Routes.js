@@ -2,7 +2,7 @@ const Routes = {
     Host: 'localhost:5052/',
 
     AccountAdd: '/account_add',
-    ExtractIPFSHash: '/extract_ipfs_hash',
+    ExtractFromStorage: '/extract_from_storage',
     ExtractPNGFromIPFS: '/extract_png_from_ipfs',
     Main: '/',
     RegisterPilot: '/register_pilot',
