@@ -3,6 +3,7 @@ import BCController from 'controllers/BCController';
 import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
 import ExtractFromStorageForm from 'components/ExtractFromStorageForm/ExtractFromStorageForm';
+import IPFSController from 'controllers/IPFSController';
 import template from 'views/ExtractFromStorageView/ExtractFromStorageView.hbs';
 
 export default class ExtractFromStorageView extends BaseView {
@@ -14,6 +15,7 @@ export default class ExtractFromStorageView extends BaseView {
         };
 
         this._BCController = new BCController();
+        this._ipfsController = new IPFSController();
     }
 
     async show(routeData) {
@@ -44,15 +46,20 @@ export default class ExtractFromStorageView extends BaseView {
     }
 
     async onSubmit() {
-        const result = await this._BCController.extractAccountIPFSHashFromStorage(
+        const ipfsHash = await this._BCController.extractAccountIPFSHashFromStorage(
             this._extractFromStorageFormData.accountAddress,
         );
 
+        const result = await this._ipfsController.extractFromIPFS(ipfsHash);
+
         const resultBlock = document.querySelector('.result-block');
         if (result.length !== 0) {
-            resultBlock.innerHTML = `Extracted account metadata IPFS hash: ${result}`;
+            const image = document.getElementById('credentials');
+            const blob = new Blob([result], {'type': 'image/png'});
+            const url = URL.createObjectURL(blob);
+            image.setAttribute('src', url);
         } else {
-            resultBlock.innerHTML = 'The account metadata IPFS hash is missing.';
+            resultBlock.innerHTML = 'The content is missing.';
         }
         resultBlock.classList.remove('result-block-display-none');
     }

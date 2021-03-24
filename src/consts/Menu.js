@@ -18,11 +18,6 @@ const menuItems = {
             url: Routes.ExtractFromStorage,
             event: Events.ChangePath,
         },
-        extractPNGFromIPFS: {
-            name: 'Extract PNG from IPFS',
-            url: Routes.ExtractFromIPFS,
-            event: Events.ChangePath,
-        },
     },
 };
 
