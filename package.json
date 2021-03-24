@@ -16,7 +16,6 @@
     "html-webpack-plugin": "^5.3.1",
     "ipfs-http-client": "^49.0.2",
     "it-to-buffer": "^2.0.0",
-    "os-browserify": "^0.3.0",
     "path": "^0.12.7",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",

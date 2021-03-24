@@ -52,13 +52,6 @@ export default class ManagerBC {
             },
         });
 
-        const [chain, nodeName, nodeVersion] = await Promise.all([
-            this._api.rpc.system.chain(),
-            this._api.rpc.system.name(),
-            this._api.rpc.system.version(),
-        ]);
-
-        console.log(`You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`);
         this.isConnectedToNode = true;
         return true;
     }
@@ -69,7 +62,6 @@ export default class ManagerBC {
                 return 'fail';
             }
             await this.loadUserAccounts();
-            console.log(this._userAccounts);
         }
 
         if (!this._isConnectedToNode) {
@@ -113,7 +105,6 @@ export default class ManagerBC {
                 return 'fail';
             }
             await this.loadUserAccounts();
-            console.log(this._userAccounts);
         }
 
         if (!this._isConnectedToNode) {
