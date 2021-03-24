@@ -12,8 +12,6 @@ export default class AccountAddView extends BaseView {
         this._template = template;
         this._accountAddFormData = {
             accountAddress: '',
-            imageForIPFS: {},
-            metadataIPFSHash: '',
             role: '',
         };
         this._BCController = new BCController();
@@ -47,12 +45,6 @@ export default class AccountAddView extends BaseView {
                 this._accountAddFormData.role = data.value;
                 break;
             }
-            case Events.UploadImage: {
-                if (data.target.files[0].type.match('image.*')) {
-                    this._accountAddFormData.metadataIPFSHash = await this._ipfsController.uploadToIPFS(data.target.files[0]);
-                }
-                break;
-            }
             default: {
                 break;
             }
@@ -62,7 +54,6 @@ export default class AccountAddView extends BaseView {
     async onSubmit() {
         const result = await this._BCController.accountAdd(
             this._accountAddFormData.accountAddress,
-            this._accountAddFormData.metadataIPFSHash,
             this._accountAddFormData.role,
         );
 

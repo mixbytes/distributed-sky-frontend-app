@@ -7,11 +7,6 @@ const AccountAddFormItems = {
         inputType: 'text',
         event: Events.InputAddress,
     },
-    imageForIPFS: {
-        inputID: 'imageForIPFS',
-        inputName: 'Image for IPFS',
-        event: Events.UploadImage,
-    },
     role: {
         inputID: 'role',
         inputName: 'Добавить роль',
