@@ -5,7 +5,7 @@ export default class BCController {
         this._managerBC = new ManagerBC();
     }
 
-    async accountAdd(accountAddress, metadataIPFSHash, role) {
+    async accountAdd(accountAddress, role, metadataIPFSHash = '') {
         return await this._managerBC.accountAdd(accountAddress, role, metadataIPFSHash);
     }
 
