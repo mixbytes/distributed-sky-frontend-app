@@ -1,5 +1,5 @@
 import BaseComponent from 'components/BaseComponent';
-import template from 'components/BaseComponents/standardButton/StandardButton.hbs';
+import template from 'components/BaseComponents/StandardButton/StandardButton.hbs';
 
 export default class StandardButton extends BaseComponent {
     /**
