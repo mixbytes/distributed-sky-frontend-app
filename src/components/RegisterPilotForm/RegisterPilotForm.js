@@ -1,10 +1,10 @@
 import BaseComponent from 'components/BaseComponent';
 import template from 'components/AccountAddForm/AccountAddForm.hbs';
-import TextInput from 'components/BaseComponents/textInput/TextInput';
+import TextInput from 'components/BaseComponents/TextInput/TextInput';
 import Routes from 'consts/Routes';
 import Events from 'consts/Events';
 import RegisterPilotFormItems from 'consts/RegisterPilotFormItems';
-import StandardButton from 'components/BaseComponents/standardButton/StandardButton';
+import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 
 export default class RegisterPilotForm extends BaseComponent {
     constructor(context = {}) {

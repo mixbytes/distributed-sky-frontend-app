@@ -2,9 +2,9 @@ import BaseComponent from 'components/BaseComponent';
 import Events from 'consts/Events';
 import ExtractFromIPFSFormItems from 'consts/ExtractFromIPFSFormItems';
 import Routes from 'consts/Routes';
-import StandardButton from 'components/BaseComponents/standardButton/StandardButton';
+import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/ExtractFromIPFSForm/ExtractFromIPFSForm.hbs';
-import TextInput from 'components/BaseComponents/textInput/TextInput';
+import TextInput from 'components/BaseComponents/TextInput/TextInput';
 
 export default class ExtractFromIPFSForm extends BaseComponent {
     constructor(context = {}) {
