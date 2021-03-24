@@ -6,7 +6,6 @@ const Routes = {
     ExtractFromIPFS: '/extract_from_ipfs',
     Main: '/',
     RegisterPilot: '/register_pilot',
-    UploadToIPFS: '/upload_to_ipfs',
 };
 
 export default Routes;

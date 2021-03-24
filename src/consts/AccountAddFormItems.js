@@ -7,12 +7,10 @@ const AccountAddFormItems = {
         inputType: 'text',
         event: Events.InputAddress,
     },
-    metadataIPFSHash: {
-        inputID: 'metadataIPFSHash',
-        inputName: 'Добавить IPFS-хеш аккаунта',
-        inputType: 'text',
-        event: Events.InputHash,
-
+    imageForIPFS: {
+        inputID: 'imageForIPFS',
+        inputName: 'Image for IPFS',
+        event: Events.UploadImage,
     },
     role: {
         inputID: 'role',

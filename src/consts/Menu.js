@@ -3,11 +3,6 @@ import Routes from 'consts/Routes';
 
 const menuItems = {
     menuLinks: {
-        uploadToIPFS: {
-            name: 'Upload to IPFS',
-            url: Routes.UploadToIPFS,
-            event: Events.ChangePath,
-        },
         accountAdd: {
             name: 'Add account to registry',
             url: Routes.AccountAdd,

@@ -11,7 +11,6 @@ const router = new Router(body);
 
 router
     .register(Routes.Main, new MainView())
-    // .register(Routes.UploadToIPFS, new UploadToIPFSView())
     .register(Routes.AccountAdd, new AccountAddView())
     .register(Routes.RegisterPilot, new RegisterPilotView())
     .register(Routes.ExtractFromStorage, new ExtractFromStorageView())

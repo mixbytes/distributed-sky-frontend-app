@@ -1,10 +1,11 @@
 import AccountAddFormItems from 'consts/AccountAddFormItems';
 import BaseComponent from 'components/BaseComponent';
 import Events from 'consts/Events';
+import ImageInput from 'components/BaseComponents/ImageInput/ImageInput';
 import Routes from 'consts/Routes';
-import StandardButton from 'components/BaseComponents/standardButton/StandardButton';
+import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/AccountAddForm/AccountAddForm.hbs';
-import TextInput from 'components/BaseComponents/textInput/TextInput';
+import TextInput from 'components/BaseComponents/TextInput/TextInput';
 
 export default class AccountAddForm extends BaseComponent {
     constructor(context = {}) {
@@ -14,6 +15,10 @@ export default class AccountAddForm extends BaseComponent {
 
         for (const i in AccountAddFormItems) {
             if (Object.prototype.hasOwnProperty.call(AccountAddFormItems, i)) {
+                if (i === 'imageForIPFS') {
+                    this._context.input.push((new ImageInput().render()));
+                    continue;
+                }
                 this._context.input.push((new TextInput(AccountAddFormItems[i])).render());
             }
         }

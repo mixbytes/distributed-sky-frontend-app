@@ -3,6 +3,7 @@ import BaseView from 'views/BaseView/BaseView';
 import BCController from 'controllers/BCController';
 import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
+import IPFSController from 'controllers/IPFSController';
 import template from 'views/AccountAddView/AccountAddView.hbs';
 
 export default class AccountAddView extends BaseView {
@@ -11,10 +12,12 @@ export default class AccountAddView extends BaseView {
         this._template = template;
         this._accountAddFormData = {
             accountAddress: '',
+            imageForIPFS: {},
             metadataIPFSHash: '',
             role: '',
         };
         this._BCController = new BCController();
+        this._ipfsController = new IPFSController();
     }
 
     async show(routeData) {
@@ -22,7 +25,7 @@ export default class AccountAddView extends BaseView {
         this._onSubmitHandler = this.onSubmit.bind(this);
 
         EventBus.on(Events.InputAddress, this._onUpdateFieldHandler);
-        EventBus.on(Events.InputHash, this._onUpdateFieldHandler);
+        EventBus.on(Events.UploadImage, this._onUpdateFieldHandler);
         EventBus.on(Events.InputRole, this._onUpdateFieldHandler);
         EventBus.on(Events.AccountAddSubmit, this._onSubmitHandler);
 
@@ -30,21 +33,24 @@ export default class AccountAddView extends BaseView {
         const data = {
             AccountAddForm: this._accountAddForm.render(),
         };
+        console.log(data);
         await super.show(this._template(data));
     }
 
-    onUpdateField(data = {}) {
+    async onUpdateField(data = {}) {
         switch (data.event) {
             case Events.InputAddress: {
                 this._accountAddFormData.accountAddress = data.value;
                 break;
             }
-            case Events.InputHash: {
-                this._accountAddFormData.metadataIPFSHash = data.value;
-                break;
-            }
             case Events.InputRole: {
                 this._accountAddFormData.role = data.value;
+                break;
+            }
+            case Events.UploadImage: {
+                if (data.target.files[0].type.match('image.*')) {
+                    this._accountAddFormData.metadataIPFSHash = await this._ipfsController.uploadToIPFS(data.target.files[0]);
+                }
                 break;
             }
             default: {

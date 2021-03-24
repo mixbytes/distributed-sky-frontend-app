@@ -1,5 +1,5 @@
 import BaseComponent from 'components/BaseComponent';
-import template from 'components/BaseComponents/textInput/TextInput.hbs';
+import template from 'components/BaseComponents/TextInput/TextInput.hbs';
 
 export default class TextInput extends BaseComponent {
     /**
