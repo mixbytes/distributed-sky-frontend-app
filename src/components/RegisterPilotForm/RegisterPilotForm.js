@@ -1,8 +1,9 @@
 import BaseComponent from 'components/BaseComponent';
+import Events from 'consts/Events';
+import ImageInput from 'components/BaseComponents/ImageInput/ImageInput';
 import template from 'components/AccountAddForm/AccountAddForm.hbs';
 import TextInput from 'components/BaseComponents/TextInput/TextInput';
 import Routes from 'consts/Routes';
-import Events from 'consts/Events';
 import RegisterPilotFormItems from 'consts/RegisterPilotFormItems';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 
@@ -14,6 +15,10 @@ export default class RegisterPilotForm extends BaseComponent {
 
         for (const i in RegisterPilotFormItems) {
             if (Object.prototype.hasOwnProperty.call(RegisterPilotFormItems, i)) {
+                if (i === 'imageForIPFS') {
+                    this._context.input.push((new ImageInput().render()));
+                    continue;
+                }
                 this._context.input.push((new TextInput(RegisterPilotFormItems[i])).render());
             }
         }

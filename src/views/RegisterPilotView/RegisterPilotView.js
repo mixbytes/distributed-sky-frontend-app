@@ -1,9 +1,10 @@
 import BaseView from 'views/BaseView/BaseView';
-import template from 'views/RegisterPilotView/RegisterPilotView.hbs';
 import BCController from 'controllers/BCController';
 import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
+import IPFSController from 'controllers/IPFSController';
 import RegisterPilotForm from 'components/RegisterPilotForm/RegisterPilotForm';
+import template from 'views/RegisterPilotView/RegisterPilotView.hbs';
 
 export default class RegisterPilotView extends BaseView {
     constructor(title = 'Register Pilot') {
@@ -14,6 +15,7 @@ export default class RegisterPilotView extends BaseView {
             metadataIPFSHash: '',
         };
         this._BCController = new BCController();
+        this._ipfsController = new IPFSController();
     }
 
     async show(routeData) {
@@ -21,7 +23,7 @@ export default class RegisterPilotView extends BaseView {
         this._onSubmitHandler = this.onSubmit.bind(this);
 
         EventBus.on(Events.InputAddress, this._onUpdateFieldHandler);
-        EventBus.on(Events.InputHash, this._onUpdateFieldHandler);
+        EventBus.on(Events.UploadImage, this._onUpdateFieldHandler);
         EventBus.on(Events.RegisterPilotSubmit, this._onSubmitHandler);
 
         this._registerPilotForm = new RegisterPilotForm();
@@ -31,14 +33,16 @@ export default class RegisterPilotView extends BaseView {
         await super.show(this._template(data));
     }
 
-    onUpdateField(data = {}) {
+    async onUpdateField(data = {}) {
         switch (data.event) {
             case Events.InputAddress: {
                 this._registerPilotFormData.accountAddress = data.value;
                 break;
             }
-            case Events.InputHash: {
-                this._registerPilotFormData.metadataIPFSHash = data.value;
+            case Events.UploadImage: {
+                if (data.target.files[0].type.match('image.*')) {
+                    this._registerPilotFormData.metadataIPFSHash = await this._ipfsController.uploadToIPFS(data.target.files[0]);
+                }
                 break;
             }
             default: {
