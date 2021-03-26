@@ -1,3 +1,4 @@
+import 'index.scss';
 import AccountAddView from 'views/AccountAddView/AccountAddView';
 import ExtractFromStorageView from 'views/ExtractFromStorageView/ExtractFromStorageView';
 import MainView from 'views/MainView/MainView';

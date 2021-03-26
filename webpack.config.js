@@ -15,6 +15,8 @@ module.exports = {
             services: path.resolve(__dirname, 'src/services/'),
             utils: path.resolve(__dirname, 'src/utils/'),
             views: path.resolve(__dirname, 'src/views/'),
+
+            'index.scss': path.resolve(__dirname, 'public/css/index.scss'),
         },
         extensions: ['.js'],
         fallback: {
@@ -27,6 +29,10 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules)/,
+            },
+            {
+                test: /\.s[ac]ss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.hbs$/,
