@@ -3,13 +3,13 @@ import Events from 'consts/Events';
 const AccountAddFormItems = {
     accountAddress: {
         inputID: 'accountAddress',
-        inputName: 'Добавить аккаунт',
+        inputName: 'Account address',
         inputType: 'text',
         event: Events.InputAddress,
     },
     role: {
         inputID: 'role',
-        inputName: 'Добавить роль',
+        inputName: 'Account role',
         inputType: 'text',
         event: Events.InputRole,
     },

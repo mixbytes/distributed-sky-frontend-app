@@ -3,7 +3,7 @@ import Events from 'consts/Events';
 const RegisterPilotFormItems = {
     accountAddress: {
         inputID: 'accountAddress',
-        inputName: 'Добавить аккаунт',
+        inputName: 'Account address',
         inputType: 'text',
         event: Events.InputAddress,
     },
