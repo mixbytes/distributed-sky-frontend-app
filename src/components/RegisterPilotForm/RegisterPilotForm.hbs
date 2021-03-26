@@ -1,13 +1,15 @@
-<form class="registerPilotForm__input">
-    {{#each input }}
-        {{{ this }}}
-    {{/each}}
-</form>
-<div class="registerPilotForm__admission">
-    <div class="registerPilotForm__header-enter">
-        {{{ StandardButton }}}
+<div class="register-pilot__form-block">
+    <form class="registerPilotForm__input">
+        {{#each input }}
+            {{{ this }}}
+        {{/each}}
+    </form>
+    <div class="registerPilotForm__admission">
+        <div class="registerPilotForm__header-enter">
+            {{{ StandardButton }}}
+        </div>
     </div>
-</div>
-<div class="result-block {{#unless visibility }}result-block-display-none{{/unless}}">
-    {{ result }}
+    <div class="result-block {{#unless visibility }}result-block-display-none{{/unless}}">
+        {{ result }}
+    </div>
 </div>

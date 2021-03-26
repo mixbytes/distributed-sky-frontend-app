@@ -1,0 +1,25 @@
+.extract-from-storage__form-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.extractFromStorageForm__input {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 30em;
+}
+
+.extractFromStorageForm__admission {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.extractFromStorageForm {
+  height: 100vh;
+}

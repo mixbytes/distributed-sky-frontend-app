@@ -1,0 +1,38 @@
+@import "vars";
+@import "../../src/components/AccountAddForm/AccountAddForm";
+@import "../../src/components/ExtractFromStorageForm/ExtractFromStorageForm";
+@import "../../src/components/Menu/Menu";
+@import "../../src/components/RegisterPilotForm/RegisterPilotForm";
+@import "../../src/components/BaseComponents/StandardButton/StandardButton";
+@import "../../src/components/BaseComponents/TextInput/TextInput";
+
+html, body {
+  padding: 0;
+  margin: 0;
+
+  background: $main__background_color;
+
+  color: $main__font_color;
+  text-shadow: 0 4px 4px $main__text_shadow-color;
+  font: {
+    family: $main__font;
+    size: $main__font_size;
+  }
+}
+
+.content {
+  width: $main__page_width;
+  margin: 0 auto;
+}
+
+.cs-border {
+  padding: $main__border_padding;
+  margin: $main__border_margin;
+
+  border: $main__border_thickness solid $main__brand_color {
+    radius: $main__border_radius;
+  };
+
+  background: $main__background_color;
+}
+

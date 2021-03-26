@@ -22,7 +22,7 @@ export default class AccountAddForm extends BaseComponent {
         this._context.RegisterEvent = Events.ChangePath;
 
         this._context.StandardButton = (new StandardButton({
-            buttonName: 'Добавить аккаунт',
+            buttonName: 'Add account to registry',
             event: Events.AccountAddSubmit,
         })).render();
     }

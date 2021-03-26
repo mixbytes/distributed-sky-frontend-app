@@ -1,13 +1,16 @@
-<form class="accountAddForm__input">
-    {{#each input }}
-        {{{ this }}}
-    {{/each}}
-</form>
-<div class="accountAddForm__admission">
-    <div class="accountAddForm__header-enter">
-        {{{ StandardButton }}}
+<div class="accountAdd__form-block">
+    <form class="accountAddForm__input">
+        {{#each input }}
+            {{{ this }}}
+        {{/each}}
+    </form>
+    <div class="accountAddForm__admission">
+        <div class="accountAddForm__header-enter">
+            {{{ StandardButton }}}
+        </div>
+    </div>
+    <div class="result-block {{#unless visibility }}result-block-display-none{{/unless}}">
+        {{ result }}
     </div>
 </div>
-<div class="result-block {{#unless visibility }}result-block-display-none{{/unless}}">
-    {{ result }}
-</div>
+
