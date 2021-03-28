@@ -23,7 +23,6 @@ export default class AccountAddView extends BaseView {
         this._onSubmitHandler = this.onSubmit.bind(this);
 
         EventBus.on(Events.InputAddress, this._onUpdateFieldHandler);
-        EventBus.on(Events.UploadImage, this._onUpdateFieldHandler);
         EventBus.on(Events.InputRole, this._onUpdateFieldHandler);
         EventBus.on(Events.AccountAddSubmit, this._onSubmitHandler);
 
@@ -31,7 +30,6 @@ export default class AccountAddView extends BaseView {
         const data = {
             AccountAddForm: this._accountAddForm.render(),
         };
-        console.log(data);
         await super.show(this._template(data));
     }
 
