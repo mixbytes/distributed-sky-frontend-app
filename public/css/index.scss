@@ -5,6 +5,7 @@
 @import "../../src/components/RegisterPilotForm/RegisterPilotForm";
 @import "../../src/components/BaseComponents/StandardButton/StandardButton";
 @import "../../src/components/BaseComponents/TextInput/TextInput";
+@import "../../src/components/ImageForIPFS/_ImageForIPFS";
 
 html, body {
   padding: 0;
@@ -28,6 +29,7 @@ html, body {
   align-items: center;
   height: 100%;
   width: 400px;
+  flex-direction: column;
 }
 
 .cs-border {
