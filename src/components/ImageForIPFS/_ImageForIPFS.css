@@ -2,3 +2,12 @@
     width: 300px;
     margin: 30px 10px 10px 10px;
 }
+
+.image-input__label {
+    display: inline-block;
+    margin-bottom: .5em;
+    margin-left: .2em;
+    font-size: 1em;
+    font-weight: bold;
+}
+

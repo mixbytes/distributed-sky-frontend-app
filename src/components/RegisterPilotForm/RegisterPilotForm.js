@@ -16,7 +16,7 @@ export default class RegisterPilotForm extends BaseComponent {
         for (const i in RegisterPilotFormItems) {
             if (Object.prototype.hasOwnProperty.call(RegisterPilotFormItems, i)) {
                 if (i === 'licensePNG') {
-                    this._context.input.push((new ImageInput().render()));
+                    this._context.input.push((new ImageInput(RegisterPilotFormItems[i]).render()));
                     continue;
                 }
                 this._context.input.push((new TextInput(RegisterPilotFormItems[i])).render());

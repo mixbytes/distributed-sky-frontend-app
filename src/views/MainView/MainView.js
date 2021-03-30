@@ -8,7 +8,7 @@ export default class MainView extends BaseView {
      * @constructor
      * @param {string} title - title of the main page
      */
-    constructor(title = 'DistributedSky') {
+    constructor(title = 'Distributed Sky') {
         super(title);
         this._template = template;
     }

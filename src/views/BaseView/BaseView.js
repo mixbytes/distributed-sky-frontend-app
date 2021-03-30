@@ -6,7 +6,7 @@ export default class BaseView {
      * @constructor
      * @param {string} title
      */
-    constructor(title = 'DistributedSky') {
+    constructor(title = 'Distributed Sky') {
         document.title = title;
         this._root = document.querySelector('.application');
         this._template = template;
