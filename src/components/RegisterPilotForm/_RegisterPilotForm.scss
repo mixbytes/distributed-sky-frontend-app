@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  //height: 100%;
 }
 
 .registerPilotForm__input {
@@ -20,10 +19,24 @@
   align-items: center;
 }
 
-.registerPilotForm {
-  //height: 100vh;
+.result-block {
+  margin-top: 30px;
+  color: green;
+  font-family: inherit;
+  font-size: 1.2em;
 }
 
-.result-block {
-  margin: 30px 10px 10px 10px;
+.register-pilot__info {
+  margin-top: 30px;
+  color: red;
+  font-family: inherit;
+  font-size: 0.8em;
+  align-items: center;
+}
+
+.block-hash {
+  color: red;
+  font-family: inherit;
+  font-size: 0.8em;
+  align-items: center;
 }

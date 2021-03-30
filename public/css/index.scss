@@ -1,11 +1,11 @@
 @import "vars";
 @import "../../src/components/AccountAddForm/AccountAddForm";
-@import "../../src/components/ExtractFromStorageForm/ExtractFromStorageForm";
-@import "../../src/components/Menu/Menu";
-@import "../../src/components/RegisterPilotForm/RegisterPilotForm";
 @import "../../src/components/BaseComponents/StandardButton/StandardButton";
 @import "../../src/components/BaseComponents/TextInput/TextInput";
+@import "../../src/components/ExtractFromStorageForm/ExtractFromStorageForm";
 @import "../../src/components/ImageForIPFS/_ImageForIPFS";
+@import "../../src/components/Menu/Menu";
+@import "../../src/components/RegisterPilotForm/RegisterPilotForm";
 
 html, body {
   padding: 0;
