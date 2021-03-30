@@ -59,14 +59,14 @@ export default class ManagerBC {
     async accountAdd(accountAddress, role, metadataIPFSHash) {
         if (!this._isExtension) {
             if (!(await this.login())) {
-                return 'fail';
+                throw new Error('No extension installed, or you did not accept the authorization');
             }
             await this.loadUserAccounts();
         }
 
         if (!this._isConnectedToNode) {
             if (!await this.connectToNode()) {
-                return 'fail';
+                throw new Error('failed to connect to the node');
             }
         }
 
@@ -81,35 +81,32 @@ export default class ManagerBC {
 
         const account = this._userAccounts[0];
         const injector = await web3FromSource(account.meta.source);
-        let error = '';
         await this._api.tx.dsAccountsModule.accountAdd(accountId, roleType, metaIPFS)
             .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
                     console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+                    const resultBlock = document.querySelector('.result-block');
+                    resultBlock.innerHTML = `Account ${accountAddress} with role: ${role} was successfully added to registry.`;
+                    resultBlock.classList.remove('result-block-display-none');
                 } else {
                     console.log(`Current status: ${status.type}`);
                 }
             }).catch((errorMessage) => {
-                error = errorMessage;
+                throw new Error(errorMessage);
             });
-        if (error.length !== 0) {
-            return error;
-        }
-
-        return `Account ${accountAddress} with role: ${role} was successfully added to registry.`;
     }
 
     async registerPilot(accountAddress, metadataIPFSHash) {
         if (!this._isExtension) {
             if (!(await this.login())) {
-                return 'fail';
+                throw new Error('No extension installed, or you did not accept the authorization');
             }
             await this.loadUserAccounts();
         }
 
         if (!this._isConnectedToNode) {
             if (!await this.connectToNode()) {
-                return 'fail';
+                throw new Error('failed to connect to the node');
             }
         }
 
@@ -118,21 +115,19 @@ export default class ManagerBC {
 
         const account = this._userAccounts[1];
         const injector = await web3FromSource(account.meta.source);
-        let error = '';
         this._api.tx.dsAccountsModule.registerPilot(accountId, metaIPFS)
             .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
                     console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+                    const resultBlock = document.querySelector('.result-block');
+                    resultBlock.innerHTML = `Account ${accountAddress} was successfully registered as pilot.`;
+                    resultBlock.classList.remove('result-block-display-none');
                 } else {
                     console.log(`Current status: ${status.type}`);
                 }
             }).catch((errorMessage) => {
-                error = errorMessage;
+                throw new Error(errorMessage);
             });
-        if (error.length !== 0) {
-            return error;
-        }
-        return `Account ${accountAddress} was successfully registered as pilot.`;
     }
 
     async extractAccountFromStorage(accountId) {

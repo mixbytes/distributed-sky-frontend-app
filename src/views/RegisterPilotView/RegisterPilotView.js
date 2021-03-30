@@ -52,13 +52,9 @@ export default class RegisterPilotView extends BaseView {
     }
 
     async onSubmit() {
-        const result = await this._BCController.registerPilot(
+        await this._BCController.registerPilot(
             this._registerPilotFormData.accountAddress,
             this._registerPilotFormData.metadataIPFSHash,
         );
-
-        const resultBlock = document.querySelector('.result-block');
-        resultBlock.innerHTML = result;
-        resultBlock.classList.remove('result-block-display-none');
     }
 }

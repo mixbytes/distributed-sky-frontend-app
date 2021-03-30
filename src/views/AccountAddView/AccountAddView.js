@@ -50,13 +50,9 @@ export default class AccountAddView extends BaseView {
     }
 
     async onSubmit() {
-        const result = await this._BCController.accountAdd(
+        await this._BCController.accountAdd(
             this._accountAddFormData.accountAddress,
             this._accountAddFormData.role,
         );
-
-        const resultBlock = document.querySelector('.result-block');
-        resultBlock.innerHTML = result;
-        resultBlock.classList.remove('result-block-display-none');
     }
 }
