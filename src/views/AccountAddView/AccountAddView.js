@@ -7,7 +7,7 @@ import IPFSController from 'controllers/IPFSController';
 import template from 'views/AccountAddView/AccountAddView.hbs';
 
 export default class AccountAddView extends BaseView {
-    constructor(title = 'Account Add') {
+    constructor(title = 'Distributed Sky') {
         super(title);
         this._template = template;
         this._accountAddFormData = {

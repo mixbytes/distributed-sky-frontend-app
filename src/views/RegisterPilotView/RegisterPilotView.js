@@ -7,7 +7,7 @@ import RegisterPilotForm from 'components/RegisterPilotForm/RegisterPilotForm';
 import template from 'views/RegisterPilotView/RegisterPilotView.hbs';
 
 export default class RegisterPilotView extends BaseView {
-    constructor(title = 'Register Pilot') {
+    constructor(title = 'Distributed Sky') {
         super(title);
         this._template = template;
         this._registerPilotFormData = {

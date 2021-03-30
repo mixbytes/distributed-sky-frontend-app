@@ -7,7 +7,7 @@ import IPFSController from 'controllers/IPFSController';
 import template from 'views/ExtractFromStorageView/ExtractFromStorageView.hbs';
 
 export default class ExtractFromStorageView extends BaseView {
-    constructor(title = 'Extract from storage') {
+    constructor(title = 'Distributed Sky') {
         super(title);
         this._template = template;
         this._extractFromStorageFormData = {
