@@ -14,7 +14,7 @@ const menuItems = {
             event: Events.ChangePath,
         },
         extractIPFSHash: {
-            name: 'Extract IPFS hash from storage',
+            name: 'Extract license from storage',
             url: Routes.ExtractFromStorage,
             event: Events.ChangePath,
         },

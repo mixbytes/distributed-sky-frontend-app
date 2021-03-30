@@ -22,7 +22,7 @@ export default class ExtractFromStorageForm extends BaseComponent {
         this._context.RegisterEvent = Events.ChangePath;
 
         this._context.StandardButton = (new StandardButton({
-            buttonName: 'Extract from storage',
+            buttonName: 'Extract license',
             event: Events.ExtractFromStorageSubmit,
         })).render();
     }

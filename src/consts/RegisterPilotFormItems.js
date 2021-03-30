@@ -7,9 +7,9 @@ const RegisterPilotFormItems = {
         inputType: 'text',
         event: Events.InputAddress,
     },
-    imageForIPFS: {
-        inputID: 'imageForIPFS',
-        inputName: 'Image for IPFS',
+    licensePNG: {
+        inputID: 'licensePNG',
+        inputName: 'License PNG',
         event: Events.UploadImage,
     },
 };
