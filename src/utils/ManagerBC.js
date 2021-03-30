@@ -84,12 +84,21 @@ export default class ManagerBC {
         await this._api.tx.dsAccountsModule.accountAdd(accountId, roleType, metaIPFS)
             .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
-                    console.log(`Completed at block hash #${status.asInBlock.toString()}`);
-                    const resultBlock = document.querySelector('.result-block');
-                    resultBlock.innerHTML = `Account ${accountAddress} with role: ${role} was successfully added to registry.`;
-                    resultBlock.classList.remove('result-block-display-none');
+                    document.querySelector('.account-add__info').innerHTML = 'Completed at block hash';
+                    const blockHashElement = document.querySelector('.block-hash');
+                    blockHashElement.innerHTML = `#${status.asInBlock.toString()}`;
+                    blockHashElement.classList.remove('block-hash-display-none');
                 } else {
-                    console.log(`Current status: ${status.type}`);
+                    if (status.type === 'Finalized') {
+                        document.querySelector('.account-add__info').remove();
+                        document.querySelector('.block-hash').remove();
+                        document.querySelector('.result-block').innerHTML = 'The account was successfully added to the registry';
+                        document.querySelector('.result-block').classList.remove('result-block-display-none');
+                        return;
+                    }
+                    const infoElement = document.querySelector('.account-add__info');
+                    infoElement.innerHTML = `Current status: ${status.type}`;
+                    infoElement.classList.remove('info-display-none');
                 }
             }).catch((errorMessage) => {
                 throw new Error(errorMessage);
@@ -118,12 +127,21 @@ export default class ManagerBC {
         this._api.tx.dsAccountsModule.registerPilot(accountId, metaIPFS)
             .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
-                    console.log(`Completed at block hash #${status.asInBlock.toString()}`);
-                    const resultBlock = document.querySelector('.result-block');
-                    resultBlock.innerHTML = `Account ${accountAddress} was successfully registered as pilot.`;
-                    resultBlock.classList.remove('result-block-display-none');
+                    document.querySelector('.register-pilot__info').innerHTML = 'Completed at block hash';
+                    const blockHashElement = document.querySelector('.block-hash');
+                    blockHashElement.innerHTML = `#${status.asInBlock.toString()}`;
+                    blockHashElement.classList.remove('block-hash-display-none');
                 } else {
-                    console.log(`Current status: ${status.type}`);
+                    if (status.type === 'Finalized') {
+                        document.querySelector('.register-pilot__info').remove();
+                        document.querySelector('.block-hash').remove();
+                        document.querySelector('.result-block').innerHTML = `The account was successfully registered as pilot.`;
+                        document.querySelector('.result-block').classList.remove('result-block-display-none');
+                        return;
+                    }
+                    const infoElement = document.querySelector('.register-pilot__info');
+                    infoElement.innerHTML = `Current status: ${status.type}`;
+                    infoElement.classList.remove('info-display-none')
                 }
             }).catch((errorMessage) => {
                 throw new Error(errorMessage);
