@@ -6,20 +6,15 @@
   height: 100%;
 }
 
-.extractFromStorageForm__input {
+.extract-from-storage-form__input {
   font-size: 1rem;
-  //margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   width: 30em;
 }
 
-.extractFromStorageForm__admission {
+.extract-from-storage-form__admission {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.extractFromStorageForm {
-  //height: 100vh;
 }

@@ -1,11 +1,11 @@
-.accountAdd__form-block {
+.account-add-form__block {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.accountAddForm__input {
+.account-add-form__input {
   font-size: 1rem;
   margin-bottom: 20px;
   display: flex;
@@ -13,7 +13,7 @@
   width: 30em;
 }
 
-.accountAddForm__admission {
+.account-add-form__admission {
   display: flex;
   flex-direction: row;
   align-items: center;
