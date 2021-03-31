@@ -1,5 +1,7 @@
 import {ApiPromise, WsProvider} from '@polkadot/api';
 import {web3Accounts, web3Enable, web3FromSource} from '@polkadot/extension-dapp';
+import BCTypes from 'consts/BCTypes';
+import Errors from 'consts/Errors';
 import Roles from 'consts/Roles';
 
 export default class ManagerBC {
@@ -30,26 +32,7 @@ export default class ManagerBC {
         const provider = new WsProvider('ws://127.0.0.1:9944');
         this._api = await ApiPromise.create({
             provider: provider,
-            types: {
-                'AccountRole': 'u8',
-                'AccountManager': 'AccountId',
-                'Address': 'AccountId',
-                'LookupSource': 'AccountId',
-                'Moment': 'u64',
-                'AccountOf': {
-                    'roles': 'AccountRole',
-                    'create_date': 'u64',
-                    'managed_by': 'AccountManager',
-                    'metadata_ipfs_hash': 'MetaIPFS',
-                },
-                'SerialNumber': 'Vec<u8>',
-                'MetaIPFS': 'Vec<u8>',
-                'UAVOf': {
-                    'uav_id': 'SerialNumber',
-                    'metadata_ipfs_hash': 'MetaIPFS',
-                    'managed_by': 'AccountId',
-                },
-            },
+            types: BCTypes,
         });
 
         this.isConnectedToNode = true;
@@ -59,20 +42,20 @@ export default class ManagerBC {
     async accountAdd(accountAddress, role, metadataIPFSHash) {
         if (!this._isExtension) {
             if (!(await this.login())) {
-                throw new Error('No extension installed, or you did not accept the authorization');
+                throw new Error(Errors.ExtensionsNotFound);
             }
             await this.loadUserAccounts();
         }
 
         if (!this._isConnectedToNode) {
             if (!await this.connectToNode()) {
-                throw new Error('failed to connect to the node');
+                throw new Error(Errors.ConnectionToNode);
             }
         }
 
         const roleValue = Roles.roleValues.get(role);
         if (!Roles.rolesAllowed.has(roleValue)) {
-            throw new Error('Given role is not allowed');
+            throw new Error(Errors.NotAllowedRole);
         }
 
         const accountId = this._api.createType('AccountId', accountAddress);
@@ -108,14 +91,14 @@ export default class ManagerBC {
     async registerPilot(accountAddress, metadataIPFSHash) {
         if (!this._isExtension) {
             if (!(await this.login())) {
-                throw new Error('No extension installed, or you did not accept the authorization');
+                throw new Error(Errors.ExtensionsNotFound);
             }
             await this.loadUserAccounts();
         }
 
         if (!this._isConnectedToNode) {
             if (!await this.connectToNode()) {
-                throw new Error('failed to connect to the node');
+                throw new Error(Errors.ConnectionToNode);
             }
         }
 
@@ -141,7 +124,7 @@ export default class ManagerBC {
                     }
                     const infoElement = document.querySelector('.register-pilot__info');
                     infoElement.innerHTML = `Current status: ${status.type}`;
-                    infoElement.classList.remove('info-display-none')
+                    infoElement.classList.remove('info-display-none');
                 }
             }).catch((errorMessage) => {
                 throw new Error(errorMessage);

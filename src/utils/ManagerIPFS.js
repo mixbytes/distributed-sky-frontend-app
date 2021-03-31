@@ -9,14 +9,9 @@ const ipfs = ipfsClient({
 
 export default class ManagerIPFS {
     async uploadToIPFS(fileMetadata) {
-        let error = '';
         const file = await ipfs.add(fileMetadata).catch((err) => {
-            error = err;
+            throw new Error(err);
         });
-
-        if (error.length !== 0) {
-            return error;
-        }
 
         return file.path;
     }
