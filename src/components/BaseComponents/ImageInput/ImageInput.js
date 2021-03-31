@@ -33,13 +33,7 @@ export default class ImageInput extends BaseComponent {
 
         const reader = new FileReader();
         reader.onload = (() => {
-            return function(file) {
-                const imageForIPFS = document.querySelector('.image-input__wrapper_image_for_ipfs');
-                const imageForIPFSPreview = document.createElement('img');
-                imageForIPFS.className = 'imageForIPFS';
-                imageForIPFS.src = file.target.result;
-                imageForIPFS.innerHTML = imageForIPFSPreview.outerHTML;
-            };
+            return function(file) {};
         })(file);
 
         reader.readAsDataURL(file);
