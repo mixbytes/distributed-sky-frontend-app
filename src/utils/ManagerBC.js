@@ -75,10 +75,15 @@ export default class ManagerBC {
                     if (status.type === 'Finalized') {
                         document.querySelector('.account-add__info').remove();
                         document.querySelector('.block-hash').remove();
+                        document.querySelector('.account-add__status').remove();
                         document.querySelector('.result-block').innerHTML = 'The account was successfully added to the registry';
                         document.querySelector('.result-block').classList.remove('result-block-display-none');
                         return;
                     }
+                    const statusElement = document.querySelector('.account-add__status');
+                    statusElement.innerHTML = 'Waiting for finalization...';
+                    statusElement.classList.remove('status-display-none');
+
                     const infoElement = document.querySelector('.account-add__info');
                     infoElement.innerHTML = `Current status: ${status.type}`;
                     infoElement.classList.remove('info-display-none');
@@ -118,10 +123,15 @@ export default class ManagerBC {
                     if (status.type === 'Finalized') {
                         document.querySelector('.register-pilot__info').remove();
                         document.querySelector('.block-hash').remove();
+                        document.querySelector('.register-pilot__status').remove();
                         document.querySelector('.result-block').innerHTML = `The account was successfully registered as pilot.`;
                         document.querySelector('.result-block').classList.remove('result-block-display-none');
                         return;
                     }
+                    const statusElement = document.querySelector('.register-pilot__status');
+                    statusElement.innerHTML = 'Waiting for finalization...';
+                    statusElement.classList.remove('status-display-none');
+
                     const infoElement = document.querySelector('.register-pilot__info');
                     infoElement.innerHTML = `Current status: ${status.type}`;
                     infoElement.classList.remove('info-display-none');

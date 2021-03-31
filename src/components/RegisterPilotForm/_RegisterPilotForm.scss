@@ -27,7 +27,7 @@
 }
 
 .register-pilot__info {
-  margin-top: 30px;
+  margin-top: 5px;
   color: red;
   font-family: inherit;
   font-size: 0.8em;
@@ -35,6 +35,14 @@
 }
 
 .block-hash {
+  color: red;
+  font-family: inherit;
+  font-size: 0.8em;
+  align-items: center;
+}
+
+.register-pilot__status {
+  margin-top: 30px;
   color: red;
   font-family: inherit;
   font-size: 0.8em;
