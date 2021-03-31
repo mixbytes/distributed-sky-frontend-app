@@ -1,0 +1,52 @@
+@import "vars";
+@import "../../src/components/AccountAddForm/AccountAddForm";
+@import "../../src/components/BaseComponents/StandardButton/StandardButton";
+@import "../../src/components/BaseComponents/TextInput/TextInput";
+@import "../../src/components/ExtractFromStorageForm/ExtractFromStorageForm";
+@import "../../src/components/ImageForIPFS/_ImageForIPFS";
+@import "../../src/components/Menu/Menu";
+@import "../../src/components/RegisterPilotForm/RegisterPilotForm";
+
+html, body {
+  padding: 0;
+  margin: 0;
+
+  background: $main__background_color;
+
+  color: $main__font_color;
+  text-shadow: 0 4px 4px $main__text_shadow-color;
+  font: {
+    family: $main__font;
+    size: $main__font_size;
+  }
+  height: 100vh;
+}
+
+.content {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 400px;
+  flex-direction: column;
+}
+
+.cs-border {
+  padding: $main__border_padding;
+  margin: $main__border_margin;
+
+  width: 700px;
+  height: 500px;
+  border: $main__border_thickness solid $main__brand_color {
+    radius: $main__border_radius;
+  };
+
+}
+
+.application {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

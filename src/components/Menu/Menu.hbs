@@ -1,0 +1,11 @@
+<div class="menu">
+    {{#with menuItems}}
+        {{#each menuLinks }}
+            <a id="{{ this.id }}" data-event="{{ this.event }}" class="menu__item"
+               href="{{ this.url }}" data-path="{{this.url}}">
+                {{ this.name }}
+            </a>
+            <br>
+        {{/each}}
+    {{/with}}
+</div>

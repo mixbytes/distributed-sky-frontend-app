@@ -1,0 +1,27 @@
+.button {
+  border: none;
+  border-radius: $button__border_radius;
+  padding: $button__padding_y $button__padding_x;
+
+  font: {
+    size: inherit;
+  }
+
+  background: #390993;
+  color: white;
+  cursor: pointer;
+  filter: drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.5));
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background: #350887;
+  }
+
+  &:active {
+    background: #550ddb;
+  }
+
+}

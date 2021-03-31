@@ -1,0 +1,50 @@
+.register-pilot__form-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-pilot-form__input {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 30em;
+}
+
+.register-pilot-form__admission {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.result-block {
+  margin-top: 30px;
+  color: green;
+  font-family: inherit;
+  font-size: 1.2em;
+}
+
+.register-pilot__info {
+  margin-top: 5px;
+  color: red;
+  font-family: inherit;
+  font-size: 0.8em;
+  align-items: center;
+}
+
+.block-hash {
+  color: red;
+  font-family: inherit;
+  font-size: 0.8em;
+  align-items: center;
+}
+
+.register-pilot__status {
+  margin-top: 30px;
+  color: red;
+  font-family: inherit;
+  font-size: 0.8em;
+  align-items: center;
+}

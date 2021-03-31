@@ -1,0 +1,32 @@
+.menu__item {
+  color: white;
+  text-decoration: none;
+  border: 2px solid #390993;
+  background: transparent;
+  border-radius: 10px;
+  width: 100%;
+  height: 2rem;
+  text-align: center;
+  line-height: 2rem;
+}
+
+.menu__item:hover {
+  background: #350887;
+}
+
+.menu__item:active {
+  background: #550ddb;
+}
+
+.menu {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-block {
+  width: 100%;
+}

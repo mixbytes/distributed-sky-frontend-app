@@ -1,0 +1,25 @@
+<div class="account-add-form__block">
+    <form class="account-add-form__input">
+        {{#each input }}
+            {{{ this }}}
+        {{/each}}
+    </form>
+    <div class="account-add-form__admission">
+        <div class="account-add-form__header-enter">
+            {{{ StandardButton }}}
+        </div>
+    </div>
+    <div class="result-block {{#unless visibility }}result-block-display-none{{/unless}}">
+        {{ result }}
+    </div>
+    <div class="account-add__status {{#unless visibility}}status-display-none{{/unless}}">
+        {{ status }}
+    </div>
+    <div class="account-add__info {{#unless visibility}}info-display-none{{/unless}}">
+        {{ info }}
+    </div>
+    <div class="block-hash {{#unless visibility}}block-hash-display-none{{/unless}}">
+        {{ blockHash }}
+    </div>
+</div>
+
