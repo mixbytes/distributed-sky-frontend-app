@@ -50,17 +50,21 @@ export default class ExtractFromStorageView extends BaseView {
             this._extractFromStorageFormData.accountAddress,
         );
 
-        const result = await this._ipfsController.extractFromIPFS(ipfsHash);
+        const result = await this._ipfsController.extractFromIPFS(ipfsHash).catch(() => {
+            return 0;
+        });
 
-        const resultBlock = document.querySelector('.result-block');
-        if (result.length !== 0) {
+        if (result && result.length !== 0) {
+            const resultBlock = document.querySelector('.result-block-image');
             const image = document.getElementById('credentials');
             const blob = new Blob([result], {'type': 'image/png'});
             const url = URL.createObjectURL(blob);
             image.setAttribute('src', url);
+            resultBlock.classList.remove('result-block-image-display-none');
         } else {
+            const resultBlock = document.querySelector('.result-block');
             resultBlock.innerHTML = 'The content is missing.';
+            resultBlock.classList.remove('result-block-display-none');
         }
-        resultBlock.classList.remove('result-block-display-none');
     }
 }

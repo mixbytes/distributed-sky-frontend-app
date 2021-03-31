@@ -17,6 +17,8 @@ export default class ManagerIPFS {
     }
 
     async extractFromIPFS(hash) {
-        return await toBuffer(ipfs.cat(hash));
+        return await toBuffer(ipfs.cat(hash)).catch((err) => {
+            throw new Error(err);
+        });
     }
 }
