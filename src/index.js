@@ -1,8 +1,9 @@
 import 'index.scss';
-import AccountAddView from 'views/AccountAddView/AccountAddView';
-import ExtractFromStorageView from 'views/ExtractFromStorageView/ExtractFromStorageView';
 import MainView from 'views/MainView/MainView';
+import AccountAddView from 'views/AccountAddView/AccountAddView';
 import RegisterPilotView from 'views/RegisterPilotView/RegisterPilotView';
+import ExtractFromStorageView from 'views/ExtractFromStorageView/ExtractFromStorageView';
+import UseMapView from 'views/UseMapView/UseMapView';
 import Router from 'services/Router';
 import Routes from 'consts/Routes';
 
@@ -14,4 +15,5 @@ router
     .register(Routes.AccountAdd, new AccountAddView())
     .register(Routes.RegisterPilot, new RegisterPilotView())
     .register(Routes.ExtractFromStorage, new ExtractFromStorageView())
+    .register(Routes.UseMap, new UseMapView())
     .start();

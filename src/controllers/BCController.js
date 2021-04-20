@@ -16,4 +16,8 @@ export default class BCController {
     async registerPilot(accountAddress, metadataIPFSHash) {
         return await this._managerBC.registerPilot(accountAddress, metadataIPFSHash);
     }
+
+    async rootAdd(rootCoords) {
+        return await this._managerBC.rootAdd(rootCoords);
+    }
 }

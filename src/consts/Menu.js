@@ -18,6 +18,11 @@ const menuItems = {
             url: Routes.ExtractFromStorage,
             event: Events.ChangePath,
         },
+        useMap: {
+            name: 'Use maps',
+            url: Routes.UseMap,
+            event: Events.ChangePath,
+        },
     },
 };
 
