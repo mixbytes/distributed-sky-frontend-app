@@ -5,6 +5,7 @@ import StandardButton from 'components/BaseComponents/StandardButton/StandardBut
 import template from 'components/UseMapForm/UseMapForm.hbs';
 import BaseComponent from 'components/BaseComponent';
 import UseMapFormItems from 'consts/UseMapFormItems';
+import L from 'leaflet';
 
 export default class UseMapForm extends BaseComponent {
     constructor(context = {}) {
@@ -12,18 +13,15 @@ export default class UseMapForm extends BaseComponent {
         this._template = template;
         this._context.input = [];
 
-        for (const i in UseMapFormItems) {
-            if (Object.prototype.hasOwnProperty.call(UseMapFormItems, i)) {
-                this._context.input.push((new TextInput(UseMapFormItems[i])).render());
-            }
-        }
-
         this._context.RegisterPath = Routes.UseMap;
         this._context.RegisterEvent = Events.ChangePath;
 
-        this._context.StandardButton = (new StandardButton({
-            buttonName: 'Set root here',
-            event: Events.InputRoot,
-        })).render();
-    }
+        let elementMapId = document.createElement("div");
+
+        elementMapId.id = "mapid";
+        elementMapId.style = "width: 100%; height: 100%;";
+        elementMapId.tabindex = "1";
+        this._context.MapForm = elementMapId.context;
+        // document.append(elementMapId);
+        }
 }

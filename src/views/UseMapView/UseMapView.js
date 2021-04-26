@@ -1,10 +1,12 @@
-import BaseView from 'views/BaseView/BaseView';
-import BCController from 'controllers/BCController';
 import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
-import IPFSController from 'controllers/IPFSController';
-import UseMapForm from 'components/UseMapForm/UseMapForm';
+import BaseView from 'views/BaseView/BaseView';
+import BCController from 'controllers/BCController';
+import MapController from 'controllers/MapController';
 import template from 'views/UseMapView/UseMapView.hbs';
+import UseMapForm from 'components/UseMapForm/UseMapForm';
+import MapComponent from 'components/MapComponent/MapComponent';
+
 
 export default class UseMapView extends BaseView {
     constructor(title = 'Distributed Sky') {
@@ -14,7 +16,7 @@ export default class UseMapView extends BaseView {
             rootCoords: '',
         };
         this._BCController = new BCController();
-        this._ipfsController = new IPFSController();
+        // this._MapController = new MapController();
     }
 
     async show(routeData) {
@@ -23,11 +25,15 @@ export default class UseMapView extends BaseView {
 
         EventBus.on(Events.InputRoot, this._onUpdateFieldHandler);
         EventBus.on(Events.RegisterPilotSubmit, this._onSubmitHandler);
-
+        // super.hide_root();
         this._useMapForm = new UseMapForm();
+        this._mapComponent = new MapComponent();
+
         const data = {
             UseMapForm: this._useMapForm.render(),
+            MapData: this._mapComponent.render(),
         };
+        
         await super.show(this._template(data));
     }
 

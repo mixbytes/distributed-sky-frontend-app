@@ -1,20 +1,18 @@
 .map-usage__form-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
+.cs-border { 
+  padding: $main__border_padding;
+  margin: $main__border_margin;
 
-.gps-coords-for-root__input {
-    font-size: 1rem;
-    display: flex;
-    flex-direction: column;
-    width: 30em;
-}
+  width: 700px;
+  height: 500px;
+  border: $main__border_thickness solid $main__brand_color {
+    radius: $main__border_radius;
+  };
 
-.gps-coords-for-root-form__admission {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
 }
