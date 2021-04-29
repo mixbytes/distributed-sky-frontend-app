@@ -5,7 +5,6 @@ import BCController from 'controllers/BCController';
 import MapController from 'controllers/MapController';
 import template from 'views/UseMapView/UseMapView.hbs';
 import UseMapForm from 'components/UseMapForm/UseMapForm';
-import MapComponent from 'components/MapComponent/MapComponent';
 
 
 export default class UseMapView extends BaseView {
@@ -16,30 +15,48 @@ export default class UseMapView extends BaseView {
             rootCoords: '',
         };
         this._BCController = new BCController();
-        // this._MapController = new MapController();
+        this._MapController = new MapController();
+        this._useMapForm = new UseMapForm();
     }
 
     async show(routeData) {
         this._onUpdateFieldHandler = this.onUpdateField.bind(this);
         this._onSubmitHandler = this.onSubmit.bind(this);
+        this._onFormRendered = this.onFormRendered.bind(this);
 
         EventBus.on(Events.InputRoot, this._onUpdateFieldHandler);
         EventBus.on(Events.RegisterPilotSubmit, this._onSubmitHandler);
-        // super.hide_root();
-        this._useMapForm = new UseMapForm();
-        this._mapComponent = new MapComponent();
-
+        EventBus.on(Events.FormRendered, this._onFormRendered);
+        
         const data = {
             UseMapForm: this._useMapForm.render(),
-            MapData: this._mapComponent.render(),
         };
         
         await super.show(this._template(data));
+    }
+    
+    async onFormRendered(data = {}) {
+        console.log("Form rendered event now triggered");
+        const map_data = {MapData: this._useMapForm}
+        this._useMapForm.draw_map();
+    }
+
+    async omMapTouched(data = {}) {
+        console.log(data);
+    }
+    
+    async onReset(){
+        console.log("Input data was cleaned");
     }
 
     async onUpdateField(data = {}) {
         switch (data.event) {
             case Events.InputRoot:
+                {
+                    this._rootAddFormData.rootCoords = data.value;
+                    break;
+                }
+            case Events.TouchMap:
                 {
                     this._rootAddFormData.rootCoords = data.value;
                     break;

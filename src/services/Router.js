@@ -70,6 +70,7 @@ class Router {
                 EventBus.emit(data.event, data);
             }
         });
+
         window.addEventListener('popstate', () => {
             this.go(window.location.pathname, window.history.state);
         });
@@ -97,6 +98,9 @@ class Router {
             window.history.pushState(null, null, path);
         }
         this.currentView.show(routeData);
+
+        console.log("now new event runs");
+        EventBus.emit(Events.FormRendered);
     }
 
     /**

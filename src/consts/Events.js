@@ -13,6 +13,7 @@ const Events = {
     UploadToIPFS: 'uploadToIPFS',
     UploadToIPFSSubmit: 'uploadToIPFSSubmit',
     InputRoot: 'inputRoot',
+    FormRendered: 'formRendered',
 };
 
 export default Events;

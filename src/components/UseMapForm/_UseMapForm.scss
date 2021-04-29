@@ -5,14 +5,3 @@
   justify-content: center;
   height: 100%;
 }
-.cs-border { 
-  padding: $main__border_padding;
-  margin: $main__border_margin;
-
-  width: 700px;
-  height: 500px;
-  border: $main__border_thickness solid $main__brand_color {
-    radius: $main__border_radius;
-  };
-
-}
