@@ -15,29 +15,43 @@ export default class UseMapForm extends BaseComponent {
 
         this._context.RegisterPath = Routes.UseMap;
         this._context.RegisterEvent = Events.ChangePath;
+
+        this._context.SubmitRootButton = (new StandardButton({
+            buttonName: 'Submit Root',
+            event: Events.AccountAddSubmit,
+        })).render();
+        this._context.ResetButton = (new StandardButton({
+            buttonName: 'Reset selection',
+            event: Events.AccountAddSubmit,
+        })).render();
     }
 
-draw_map() {
-        let element = document.getElementById("mapid");
+    draw_map() {
+        // If map already exists, replace w new one
+        let container = L.DomUtil.get('mapid');
+        if(container != null){
+            container._leaflet_id = null;
+        }
 
-        console.log("found maps");
-        element = L.map('mapid').setView([51.505, -0.09], 13);
+        // let mymap = document.getElementById("mapid");
+        // Setting default location to Moscow
+        let mymap = L.map('mapid').setView([55.751, 37.618], 10);
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-            maxZoom: 18,
+            maxZoom: 19,
+            minZoom: 3,
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
             'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1
-        }).addTo(element);
+        }).addTo(mymap);
+        let popup = L.popup();
 
-        // function onMapClick(e) {
-        //     popup
-        //         .setLatLng(e.latlng)
-        //         .setContent("You clicked the map at " + e.latlng.toString())
-        //         .openOn(mymap);
-        // }
-
-        // mymap.on('click', onMapClick);
+        mymap.on('click', (e) => {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("You clicked the map at " + e.latlng.toString())
+                .openOn(mymap);
+        });
     }
 }

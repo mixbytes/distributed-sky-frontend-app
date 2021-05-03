@@ -23,10 +23,11 @@ export default class UseMapView extends BaseView {
         this._onUpdateFieldHandler = this.onUpdateField.bind(this);
         this._onSubmitHandler = this.onSubmit.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
+        this._onMapTouched = this.onMapTouched.bind(this);
 
         EventBus.on(Events.InputRoot, this._onUpdateFieldHandler);
-        EventBus.on(Events.RegisterPilotSubmit, this._onSubmitHandler);
         EventBus.on(Events.FormRendered, this._onFormRendered);
+        EventBus.on(Events.MapTouched, this._onMapTouched);
         
         const data = {
             UseMapForm: this._useMapForm.render(),
@@ -36,13 +37,13 @@ export default class UseMapView extends BaseView {
     }
     
     async onFormRendered(data = {}) {
-        console.log("Form rendered event now triggered");
-        const map_data = {MapData: this._useMapForm}
         this._useMapForm.draw_map();
     }
 
-    async omMapTouched(data = {}) {
-        console.log(data);
+    async onMapTouched(data = {}) {
+        // this._useMapForm.onMapClick(data);
+
+        // console.log(data.latlng);
     }
     
     async onReset(){
@@ -52,11 +53,6 @@ export default class UseMapView extends BaseView {
     async onUpdateField(data = {}) {
         switch (data.event) {
             case Events.InputRoot:
-                {
-                    this._rootAddFormData.rootCoords = data.value;
-                    break;
-                }
-            case Events.TouchMap:
                 {
                     this._rootAddFormData.rootCoords = data.value;
                     break;
