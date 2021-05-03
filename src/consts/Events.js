@@ -13,7 +13,6 @@ const Events = {
     UploadToIPFS: 'uploadToIPFS',
     UploadToIPFSSubmit: 'uploadToIPFSSubmit',
     FormRendered: 'formRendered',
-    MapTouched: 'mapTouched',
 };
 
 export default Events;

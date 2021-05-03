@@ -20,48 +20,27 @@ export default class UseMapView extends BaseView {
     }
 
     async show(routeData) {
-        this._onUpdateFieldHandler = this.onUpdateField.bind(this);
         this._onSubmitHandler = this.onSubmit.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
-        this._onMapTouched = this.onMapTouched.bind(this);
 
-        EventBus.on(Events.InputRoot, this._onUpdateFieldHandler);
         EventBus.on(Events.FormRendered, this._onFormRendered);
         EventBus.on(Events.MapTouched, this._onMapTouched);
         
         const data = {
+            // Create buttons, making place for maps
             UseMapForm: this._useMapForm.render(),
         };
         
         await super.show(this._template(data));
     }
-    
+ 
     async onFormRendered(data = {}) {
+        // Rendering maps after building the page
         this._useMapForm.draw_map();
     }
-
-    async onMapTouched(data = {}) {
-        // this._useMapForm.onMapClick(data);
-
-        // console.log(data.latlng);
-    }
     
-    async onReset(){
+    async onReset() {
         console.log("Input data was cleaned");
-    }
-
-    async onUpdateField(data = {}) {
-        switch (data.event) {
-            case Events.InputRoot:
-                {
-                    this._rootAddFormData.rootCoords = data.value;
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
     }
 
     async onSubmit() {
