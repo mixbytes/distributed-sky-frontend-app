@@ -4,8 +4,8 @@ const BCTypes = {
     'LookupSource': 'AccountId',
     'Moment': 'u64',
     'AccountOf': {
-	  'roles': 'AccountRole',
-	  'create_date': 'u64',
+        'roles': 'AccountRole',
+        'create_date': 'u64',
     },
     'SerialNumber': 'Vec<u8>',
     'MetaIPFS': 'Vec<u8>',

@@ -36,7 +36,7 @@ export default class MapUsageForm extends BaseComponent {
         const myMap = L.map('mapid').setView([55.751, 37.618], 10);
 
         const popup = L.popup();
-        // binding leaflet events to map clicks 
+        // binding leaflet events to map clicks
         myMap.on('click', (e) => {
             popup
                 .setLatLng(e.latlng)
