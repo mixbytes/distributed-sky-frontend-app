@@ -43,12 +43,12 @@ export default class MapUsageView extends BaseView {
     }
 
     async onReset() {
-        console.log('Input data was cleaned');
+        await this._MapController.clearSelection();
     }
 
     async onSubmit() {
         await this._BCController.rootAdd(
-            this._registerPilotFormData.rootCoords,
+            this._rootAddFormData.rootCoords,
         );
     }
 }
