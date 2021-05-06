@@ -36,14 +36,14 @@ export default class MapUsageForm extends BaseComponent {
         const myMap = L.map('mapid').setView([55.751, 37.618], 10);
 
         const popup = L.popup();
-        // So, this is weird way to handle events. But otherwise, we can't get latlng.
+        // binding leaflet events to map clicks 
         myMap.on('click', (e) => {
             popup
                 .setLatLng(e.latlng)
                 .setContent('You clicked the map at ' + e.latlng.toString())
                 .openOn(myMap);
         });
-        
+
         return myMap;
     }
 }

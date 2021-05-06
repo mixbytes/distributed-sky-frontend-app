@@ -39,7 +39,7 @@ export default class MapUsageView extends BaseView {
     async onFormRendered(data = {}) {
         // Rendering maps after building the page
         this.myMap = this._MapUsageForm.drawMap();
-        const result = await this._MapController.initMap(this.myMap);
+        await this._MapController.initMap(this.myMap);
     }
 
     async onReset() {
