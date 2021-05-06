@@ -1,55 +1,55 @@
 const BCTypes = {
-	"AccountRole": "u8",
-	"Address": "AccountId",
-	"LookupSource": "AccountId",
-	"Moment": "u64",
-	"AccountOf": {
-	  "roles": "AccountRole",
-	  "create_date": "u64"
-	},
-	"SerialNumber": "Vec<u8>",
-	"MetaIPFS": "Vec<u8>",
-	"UAVOf": {
-		"uav_id": "SerialNumber",
-		"metadata_ipfs_hash": "MetaIPFS",
-		"managed_by": "AccountId"
-	},
-	"Coord": "I9F23",
-	"LightCoord": "u32",
-	"AreaId": "u16",
-	"RootId": "u32",
-	"ZoneId": "u64",
-	"Point2D":{ 
-		"lon":"Coord", 
-		"lat":"Coord"
-	},
-	"Rect2D": {
-		"north_west": "Point2D",
-		"south_east": "Point2D"
-	},
-	"ZoneOf": {
-		"zone_id": "ZoneId",
-		"rect": "Rect2D",
-		"height": "u16"
-	},
-	"Point3D": {
-		"lat":"Coord",
-		"lon":"Coord",
-		"alt":"Coord"
-	},
-	"Box3D": {
-		"point_1": "Point3D",
-		"point_2": "Point3D"
-	},
-	"RootBoxOf": {
-		"id": "RootId",
-		"bounding_box": "Box3D",
-		"delta": "Coord"
-	},
-	"Area": {
-		"area_type": "u8",
-		"child_amount": "u16"
-	}
-}
+    'AccountRole': 'u8',
+    'Address': 'AccountId',
+    'LookupSource': 'AccountId',
+    'Moment': 'u64',
+    'AccountOf': {
+	  'roles': 'AccountRole',
+	  'create_date': 'u64',
+    },
+    'SerialNumber': 'Vec<u8>',
+    'MetaIPFS': 'Vec<u8>',
+    'UAVOf': {
+        'uav_id': 'SerialNumber',
+        'metadata_ipfs_hash': 'MetaIPFS',
+        'managed_by': 'AccountId',
+    },
+    'Coord': 'I9F23',
+    'LightCoord': 'u32',
+    'AreaId': 'u16',
+    'RootId': 'u32',
+    'ZoneId': 'u64',
+    'Point2D': {
+        'lon': 'Coord',
+        'lat': 'Coord',
+    },
+    'Rect2D': {
+        'north_west': 'Point2D',
+        'south_east': 'Point2D',
+    },
+    'ZoneOf': {
+        'zone_id': 'ZoneId',
+        'rect': 'Rect2D',
+        'height': 'u16',
+    },
+    'Point3D': {
+        'lat': 'Coord',
+        'lon': 'Coord',
+        'alt': 'Coord',
+    },
+    'Box3D': {
+        'point_1': 'Point3D',
+        'point_2': 'Point3D',
+    },
+    'RootBoxOf': {
+        'id': 'RootId',
+        'bounding_box': 'Box3D',
+        'delta': 'Coord',
+    },
+    'Area': {
+        'area_type': 'u8',
+        'child_amount': 'u16',
+    },
+};
 
 export default BCTypes;

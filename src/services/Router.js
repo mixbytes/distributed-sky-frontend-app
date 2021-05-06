@@ -41,17 +41,17 @@ class Router {
                 if (clickTarget.parentNode.matches('button') || clickTarget.parentNode.matches('a')) {
                     clickTarget = clickTarget.parentNode;
                 }
-                    
+
                 const data = {...clickTarget.dataset};
                 if (!Object.prototype.hasOwnProperty.call(data, 'event')) {
                     return;
                 }
                 e.preventDefault();
-                
+
                 if (Object.prototype.hasOwnProperty.call(clickTarget, 'id')) {
                     data.id = clickTarget.id;
                 }
-                data.target = clickTarget;                
+                data.target = clickTarget;
                 EventBus.emit(data.event, data);
             }
         });
@@ -93,13 +93,13 @@ class Router {
             this.currentView.hide();
         }
         this.currentView = routeData.view;
-        if (window.location.pathname !== path) {    
+        if (window.location.pathname !== path) {
             window.history.pushState(null, null, path);
         }
         this.currentView.show(routeData);
         // I don't like the way this implemented, but it works
-        // We trigger FormRendered event only when loading page w maps. 
-        if(path == "/use_map") {
+        // We trigger FormRendered event only when loading page w maps.
+        if (path == '/use_map') {
             EventBus.emit(Events.FormRendered, path);
         }
     }

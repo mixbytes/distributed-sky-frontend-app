@@ -25,22 +25,22 @@ export default class UseMapView extends BaseView {
 
         EventBus.on(Events.FormRendered, this._onFormRendered);
         EventBus.on(Events.MapTouched, this._onMapTouched);
-        
+
         const data = {
             // Create buttons, making place for maps
             UseMapForm: this._useMapForm.render(),
         };
-        
+
         await super.show(this._template(data));
     }
- 
+
     async onFormRendered(data = {}) {
         // Rendering maps after building the page
-        this._useMapForm.draw_map();
+        this._useMapForm.drawMap();
     }
-    
+
     async onReset() {
-        console.log("Input data was cleaned");
+        console.log('Input data was cleaned');
     }
 
     async onSubmit() {

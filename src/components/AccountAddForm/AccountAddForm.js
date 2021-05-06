@@ -1,10 +1,10 @@
-import Routes from 'consts/Routes';
+import AccountAddFormItems from 'consts/AccountAddFormItems';
+import BaseComponent from 'components/BaseComponent';
 import Events from 'consts/Events';
-import TextInput from 'components/BaseComponents/TextInput/TextInput';
+import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/AccountAddForm/AccountAddForm.hbs';
-import BaseComponent from 'components/BaseComponent';
-import AccountAddFormItems from 'consts/AccountAddFormItems';
+import TextInput from 'components/BaseComponents/TextInput/TextInput';
 
 export default class AccountAddForm extends BaseComponent {
     constructor(context = {}) {
