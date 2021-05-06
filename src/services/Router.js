@@ -97,11 +97,6 @@ class Router {
             window.history.pushState(null, null, path);
         }
         this.currentView.show(routeData);
-        // I don't like the way this implemented, but it works
-        // We trigger FormRendered event only when loading page w maps.
-        if (path == '/use_map') {
-            EventBus.emit(Events.FormRendered, path);
-        }
     }
 
     /**

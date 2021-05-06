@@ -16,10 +16,11 @@ export default class MapUsageView extends BaseView {
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
-        this._MapUsageForm = new MapUsageForm();
     }
 
     async show(routeData) {
+        this._MapUsageForm = new MapUsageForm();
+
         this._onSubmitHandler = this.onSubmit.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
 
@@ -32,6 +33,8 @@ export default class MapUsageView extends BaseView {
         };
 
         await super.show(this._template(data));
+
+        EventBus.emit(Events.FormRendered);
     }
 
     async onFormRendered(data = {}) {

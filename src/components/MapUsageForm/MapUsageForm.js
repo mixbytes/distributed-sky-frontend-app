@@ -33,7 +33,7 @@ export default class MapUsageForm extends BaseComponent {
         }
 
         // Setting default location to Moscow
-        const mymap = L.map('mapid').setView([55.751, 37.618], 10);
+        const myMap = L.map('mapid').setView([55.751, 37.618], 10);
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 19,
             minZoom: 3,
@@ -42,15 +42,15 @@ export default class MapUsageForm extends BaseComponent {
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
-        }).addTo(mymap);
+        }).addTo(myMap);
 
         const popup = L.popup();
         // So, this is weird way to handle events. But otherwise, we can't get latlng.
-        mymap.on('click', (e) => {
+        myMap.on('click', (e) => {
             popup
                 .setLatLng(e.latlng)
                 .setContent('You clicked the map at ' + e.latlng.toString())
-                .openOn(mymap);
+                .openOn(myMap);
         });
     }
 }
