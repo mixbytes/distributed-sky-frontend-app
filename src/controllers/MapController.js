@@ -1,7 +1,7 @@
 import ManagerMap from 'utils/ManagerMap';
 
 export default class MapController {
-    async InitMap() {
-        return await (new ManagerMap()).initMap();
+    async initMap(myMap) {
+        return await (new ManagerMap()).initMap(myMap);
     }
 }

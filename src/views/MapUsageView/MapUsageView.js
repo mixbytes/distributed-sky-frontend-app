@@ -6,7 +6,6 @@ import MapController from 'controllers/MapController';
 import template from 'views/MapUsageView/MapUsageView.hbs';
 import MapUsageForm from 'components/MapUsageForm/MapUsageForm';
 
-
 export default class MapUsageView extends BaseView {
     constructor(title = 'Distributed Sky') {
         super(title);
@@ -39,7 +38,8 @@ export default class MapUsageView extends BaseView {
 
     async onFormRendered(data = {}) {
         // Rendering maps after building the page
-        this._MapUsageForm.drawMap();
+        this.myMap = this._MapUsageForm.drawMap();
+        const result = await this._MapController.initMap(this.myMap);
     }
 
     async onReset() {
