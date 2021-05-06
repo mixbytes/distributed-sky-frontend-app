@@ -3,11 +3,11 @@ import Events from 'consts/Events';
 import BaseView from 'views/BaseView/BaseView';
 import BCController from 'controllers/BCController';
 import MapController from 'controllers/MapController';
-import template from 'views/UseMapView/UseMapView.hbs';
-import UseMapForm from 'components/UseMapForm/UseMapForm';
+import template from 'views/MapUsageView/MapUsageView.hbs';
+import MapUsageForm from 'components/MapUsageForm/MapUsageForm';
 
 
-export default class UseMapView extends BaseView {
+export default class MapUsageView extends BaseView {
     constructor(title = 'Distributed Sky') {
         super(title);
         this._template = template;
@@ -16,7 +16,7 @@ export default class UseMapView extends BaseView {
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
-        this._useMapForm = new UseMapForm();
+        this._MapUsageForm = new MapUsageForm();
     }
 
     async show(routeData) {
@@ -28,7 +28,7 @@ export default class UseMapView extends BaseView {
 
         const data = {
             // Create buttons, making place for maps
-            UseMapForm: this._useMapForm.render(),
+            MapUsageForm: this._MapUsageForm.render(),
         };
 
         await super.show(this._template(data));
@@ -36,7 +36,7 @@ export default class UseMapView extends BaseView {
 
     async onFormRendered(data = {}) {
         // Rendering maps after building the page
-        this._useMapForm.drawMap();
+        this._MapUsageForm.drawMap();
     }
 
     async onReset() {

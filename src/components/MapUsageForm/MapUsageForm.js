@@ -3,15 +3,15 @@ import Events from 'consts/Events';
 import L from 'leaflet';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
-import template from 'components/UseMapForm/UseMapForm.hbs';
+import template from 'components/MapUsageForm/MapUsageForm.hbs';
 
-export default class UseMapForm extends BaseComponent {
+export default class MapUsageForm extends BaseComponent {
     constructor(context = {}) {
         super(context);
         this._template = template;
         this._context.input = [];
 
-        this._context.RegisterPath = Routes.UseMap;
+        this._context.RegisterPath = Routes.MapUsage;
         this._context.RegisterEvent = Events.ChangePath;
         // This two buttons are just stubs for now
         this._context.SubmitRootButton = (new StandardButton({

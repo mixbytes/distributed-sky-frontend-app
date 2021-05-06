@@ -1,6 +1,6 @@
 import Events from 'consts/Events';
 
-const UseMapFormItems = {
+const MapUsageFormItems = {
     // Not sure, what should be here for now
     rootCoords: {
         inputID: 'rootCoords',
@@ -10,4 +10,4 @@ const UseMapFormItems = {
     },
 };
 
-export default UseMapFormItems;
+export default MapUsageFormItems;
