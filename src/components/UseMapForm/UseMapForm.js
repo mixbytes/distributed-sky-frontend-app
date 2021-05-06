@@ -1,11 +1,9 @@
-import Routes from 'consts/Routes';
+import BaseComponent from 'components/BaseComponent';
 import Events from 'consts/Events';
-import TextInput from 'components/BaseComponents/TextInput/TextInput';
+import L from 'leaflet';
+import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/UseMapForm/UseMapForm.hbs';
-import BaseComponent from 'components/BaseComponent';
-import UseMapFormItems from 'consts/UseMapFormItems';
-import L from 'leaflet';
 
 export default class UseMapForm extends BaseComponent {
     constructor(context = {}) {
@@ -27,15 +25,15 @@ export default class UseMapForm extends BaseComponent {
         })).render();
     }
 
-    draw_map() {
+    drawMap() {
         // If map already exists, replace w new one
-        let container = L.DomUtil.get('mapid');
-        if(container != null) {
+        const container = L.DomUtil.get('mapid');
+        if (container != null) {
             container._leaflet_id = null;
         }
 
         // Setting default location to Moscow
-        let mymap = L.map('mapid').setView([55.751, 37.618], 10);
+        const mymap = L.map('mapid').setView([55.751, 37.618], 10);
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 19,
             minZoom: 3,
@@ -43,15 +41,15 @@ export default class UseMapForm extends BaseComponent {
             'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             id: 'mapbox/streets-v11',
             tileSize: 512,
-            zoomOffset: -1
+            zoomOffset: -1,
         }).addTo(mymap);
 
-        let popup = L.popup();
+        const popup = L.popup();
         // So, this is weird way to handle events. But otherwise, we can't get latlng.
         mymap.on('click', (e) => {
             popup
                 .setLatLng(e.latlng)
-                .setContent("You clicked the map at " + e.latlng.toString())
+                .setContent('You clicked the map at ' + e.latlng.toString())
                 .openOn(mymap);
         });
     }
