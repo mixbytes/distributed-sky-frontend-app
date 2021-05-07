@@ -1,7 +1,7 @@
 import BaseComponent from 'components/BaseComponent';
-import menuItems from 'consts/Menu';
 import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
+import menuItems from 'consts/Menu';
 import Routes from 'consts/Routes';
 import template from 'components/Menu/Menu.hbs';
 
