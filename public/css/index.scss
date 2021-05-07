@@ -1,11 +1,12 @@
 @import "vars";
-@import "../../src/components/AccountAddForm/AccountAddForm";
 @import "../../src/components/BaseComponents/StandardButton/StandardButton";
 @import "../../src/components/BaseComponents/TextInput/TextInput";
+@import "../../src/components/AccountAddForm/AccountAddForm";
 @import "../../src/components/ExtractFromStorageForm/ExtractFromStorageForm";
 @import "../../src/components/ImageForIPFS/_ImageForIPFS";
 @import "../../src/components/Menu/Menu";
 @import "../../src/components/RegisterPilotForm/RegisterPilotForm";
+@import "../../src/components/MapUsageForm/MapUsageForm";
 
 html, body {
   padding: 0;
@@ -36,8 +37,8 @@ html, body {
   padding: $main__border_padding;
   margin: $main__border_margin;
 
-  width: 700px;
-  height: 500px;
+  width: 800px;
+  height: 600px;
   border: $main__border_thickness solid $main__brand_color {
     radius: $main__border_radius;
   };

@@ -6,6 +6,7 @@ const Routes = {
     ExtractFromIPFS: '/extract_from_ipfs',
     Main: '/',
     RegisterPilot: '/register_pilot',
+    MapUsage: '/use_map',
 };
 
 export default Routes;

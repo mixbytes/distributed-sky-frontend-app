@@ -1,0 +1,28 @@
+.map-usage__form-block {
+  display: flex;
+  flex-direction: row;
+  align-items: normal;
+  justify-content: center;
+  // height: 100%;
+}
+
+.map-container {
+  // border: 2px solid red; /* Параметры рамки */
+  padding: 10px; /* Поля вокруг текста */
+  // margin-top: 50%; /* Отступ сверху */
+}
+
+.buttons {
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-button__admission {
+  display: flex;
+  margin: 10px;
+  flex-direction: row;
+  align-items: center;
+}

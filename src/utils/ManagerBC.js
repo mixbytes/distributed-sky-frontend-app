@@ -59,12 +59,12 @@ export default class ManagerBC {
         }
 
         const accountId = this._api.createType('AccountId', accountAddress);
-        const metaIPFS = this._api.createType('MetaIPFS', metadataIPFSHash);
+        // const metaIPFS = this._api.createType('MetaIPFS', metadataIPFSHash);
         const roleType = this._api.createType('AccountRole', roleValue);
 
         const account = this._userAccounts[0];
         const injector = await web3FromSource(account.meta.source);
-        await this._api.tx.dsAccountsModule.accountAdd(accountId, roleType, metaIPFS)
+        await this._api.tx.dsAccountsModule.accountAdd(accountId, roleType)
             .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
                     document.querySelector('.account-add__info').innerHTML = 'Completed at block hash';

@@ -52,7 +52,6 @@ class Router {
                     data.id = clickTarget.id;
                 }
                 data.target = clickTarget;
-
                 EventBus.emit(data.event, data);
             }
         });
@@ -70,6 +69,7 @@ class Router {
                 EventBus.emit(data.event, data);
             }
         });
+
         window.addEventListener('popstate', () => {
             this.go(window.location.pathname, window.history.state);
         });
