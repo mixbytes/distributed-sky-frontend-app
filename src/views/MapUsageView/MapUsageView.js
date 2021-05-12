@@ -21,10 +21,11 @@ export default class MapUsageView extends BaseView {
         this._MapUsageForm = new MapUsageForm();
 
         this._onSubmitHandler = this.onSubmit.bind(this);
+        this._onRootAddition = this.onRootAddition.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
 
         EventBus.on(Events.FormRendered, this._onFormRendered);
-        EventBus.on(Events.MapTouched, this._onMapTouched);
+        EventBus.on(Events.RootAddition, this._onRootAddition);
 
         const data = {
             // Create buttons, making place for maps
@@ -42,6 +43,11 @@ export default class MapUsageView extends BaseView {
         await this._MapController.initMap(this.myMap);
     }
 
+    async onRootAddition(data = {}) {
+        console.log('It went thru');
+        await this._MapController.initMap(this.myMap);
+    }
+    
     async onReset() {
         await this._MapController.clearSelection();
     }
