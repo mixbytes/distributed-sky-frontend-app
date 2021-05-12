@@ -4,6 +4,7 @@ import L from 'leaflet';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/MapUsageForm/MapUsageForm.hbs';
+import 'leaflet-draw';
 
 export default class MapUsageForm extends BaseComponent {
     constructor(context = {}) {
@@ -35,6 +36,24 @@ export default class MapUsageForm extends BaseComponent {
         // Setting default location to Moscow
         const myMap = L.map('mapid').setView([55.751, 37.618], 10);
 
+
+        let drawnItems = L.featureGroup().addTo(myMap);
+
+        myMap.addControl(new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems,
+                poly: {
+                    allowIntersection: false
+                }
+            },
+            draw: {
+                polygon: {
+                    allowIntersection: false,
+                    showArea: true
+                }
+            }
+        }));
+
         const popup = L.popup();
         // binding leaflet events to map clicks
         myMap.on('click', (e) => {
@@ -42,6 +61,12 @@ export default class MapUsageForm extends BaseComponent {
                 .setLatLng(e.latlng)
                 .setContent('You clicked the map at ' + e.latlng.toString())
                 .openOn(myMap);
+        });
+
+        myMap.on(L.Draw.Event.CREATED, function (event) {
+            let layer = event.layer;
+            console.log(event);  
+            drawnItems.addLayer(layer);
         });
 
         return myMap;
