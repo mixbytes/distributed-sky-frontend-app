@@ -38,6 +38,16 @@ module.exports = {
                 test: /\.hbs$/,
                 use: 'handlebars-loader',
             },
+            {
+                // IMAGE LOADER
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader:'file-loader'
+            },
+            {
+                // HTML LOADER
+                test: /\.html$/,
+                loader: 'html-loader'
+            },
         ],
     },
     output: {

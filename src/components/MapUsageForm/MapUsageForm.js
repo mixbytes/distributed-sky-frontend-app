@@ -14,14 +14,9 @@ export default class MapUsageForm extends BaseComponent {
 
         this._context.RegisterPath = Routes.MapUsage;
         this._context.RegisterEvent = Events.ChangePath;
-        // This two buttons are just stubs for now
+
         this._context.SubmitRootButton = (new StandardButton({
             buttonName: 'Submit Root',
-            event: Events.AccountAddSubmit,
-        })).render();
-
-        this._context.ResetButton = (new StandardButton({
-            buttonName: 'Reset selection',
             event: Events.AccountAddSubmit,
         })).render();
     }
@@ -50,7 +45,12 @@ export default class MapUsageForm extends BaseComponent {
                 polygon: {
                     allowIntersection: false,
                     showArea: true
-                }
+                },
+                marker: false,
+                polygon: false,
+                circlemarker: false,
+                circle: false,
+                polyline: false,
             }
         }));
 
