@@ -61,7 +61,6 @@ export default class ManagerBC {
         const accountId = this._api.createType('AccountId', accountAddress);
         // const metaIPFS = this._api.createType('MetaIPFS', metadataIPFSHash);
         const roleType = this._api.createType('AccountRole', roleValue);
-
         const account = this._userAccounts[0];
         const injector = await web3FromSource(account.meta.source);
         await this._api.tx.dsAccountsModule.accountAdd(accountId, roleType)
@@ -155,5 +154,56 @@ export default class ManagerBC {
         const account = await this.extractAccountFromStorage(accountId);
 
         return account['metadata_ipfs_hash'].toHuman();
+    }
+
+    async rootAdd(rootCoords) {
+        if (!this._isExtension) {
+            if (!(await this.login())) {
+                throw new Error(Errors.ExtensionsNotFound);
+            }
+            await this.loadUserAccounts();
+        }
+
+        if (!this._isConnectedToNode) {
+            if (!await this.connectToNode()) {
+                throw new Error(Errors.ConnectionToNode);
+            }
+        }
+        console.log("tryin to create whatever");
+        // const metaIPFS = this._api.createType('MetaIPFS', metadataIPFSHash);
+        const delta = this._api.registry.createType('Coord', rootCoords.lat_def);
+        
+        const box3D = this._api.createType('Box3D', {
+                'south_west': {
+                    "lat": this._api.createType('Coord', rootCoords.south_west_lat),
+                    "lon": this._api.createType('Coord', rootCoords.south_west_lon),
+                    "alt": this._api.createType('Coord', rootCoords.lat_def),
+                },
+                'north_east': {
+                    "lat": this._api.createType('Coord', rootCoords.north_east_lat),
+                    "lon": this._api.createType('Coord', rootCoords.north_east_lon),
+                    "alt": this._api.createType('Coord', rootCoords.lat_def),
+                },
+            });
+        console.log('here is the box', box3D);
+        const account = this._userAccounts[0];
+        const injector = await web3FromSource(account.meta.source);
+        await this._api.tx.dsMapsModule.rootAdd(box3D, delta)
+            .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
+                if (status.isInBlock) {
+                    console.log("in block now?", status);
+
+                } else {
+                    if (status.type === 'Finalized') {
+                        console.log("Finalized now");
+                        return;
+                    }
+                }
+            }).catch((errorMessage) => {
+                throw new Error(errorMessage);
+            });
+
+            const what = await this._api.query.dsMapsModule.totalRoots();
+            console.log(what);
     }
 }

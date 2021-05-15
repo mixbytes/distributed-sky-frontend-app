@@ -10,6 +10,7 @@ const Events = {
     InputRole: 'inputRole',
     RefreshPage: 'refreshPage',
     RootAddition: 'rootAddition',
+    RootAdditionSubmit: 'rootAdditionSubmit',
     RegisterPilotSubmit: 'registerPilotSubmit',
     UploadImage: 'uploadImage',
     UploadToIPFS: 'uploadToIPFS',

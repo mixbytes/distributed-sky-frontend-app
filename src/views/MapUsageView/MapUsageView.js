@@ -10,8 +10,9 @@ export default class MapUsageView extends BaseView {
     constructor(title = 'Distributed Sky') {
         super(title);
         this._template = template;
+        // I couldn't figure out, how to make complex structure, so it's like this
         this._rootAddFormData = {
-            rootCoords: '',
+            data: ''
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
@@ -23,9 +24,10 @@ export default class MapUsageView extends BaseView {
         this._onSubmitHandler = this.onSubmit.bind(this);
         this._onRootAddition = this.onRootAddition.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
-
+        
         EventBus.on(Events.FormRendered, this._onFormRendered);
         EventBus.on(Events.RootAddition, this._onRootAddition);
+        EventBus.on(Events.RootAdditionSubmit, this._onSubmitHandler);
 
         const data = {
             // Create buttons, making place for maps
@@ -43,18 +45,13 @@ export default class MapUsageView extends BaseView {
         await this._MapController.initMap(this.myMap);
     }
 
-    async onRootAddition(data = {}) {
-        console.log('It went thru');
-        await this._MapController.initMap(this.myMap);
-    }
-    
-    async onReset() {
-        await this._MapController.clearSelection();
+    onRootAddition(data = {}) {
+        this._rootAddFormData = data;
     }
 
     async onSubmit() {
         await this._BCController.rootAdd(
-            this._rootAddFormData.rootCoords,
+            this._rootAddFormData,
         );
     }
 }

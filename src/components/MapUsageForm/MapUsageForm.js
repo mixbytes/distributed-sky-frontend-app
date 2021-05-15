@@ -18,7 +18,7 @@ export default class MapUsageForm extends BaseComponent {
 
         this._context.SubmitRootButton = (new StandardButton({
             buttonName: 'Submit Root',
-            event: Events.AccountAddSubmit,
+            event: Events.RootAdditionSubmit,
         })).render();
     }
 
@@ -55,9 +55,7 @@ export default class MapUsageForm extends BaseComponent {
         }));
 
         myMap.on(L.Draw.Event.CREATED, (e) => {
-            console.log(e.layer.getLatLngs());
-            EventBus.emit(Events.RootAddition, e.layer.getLatLngs());
-
+            EventBus.emit(Events.RootAddition, e.layer.getLatLngs()[0]);
             drawnItems.clearLayers();
             drawnItems.addLayer(e.layer);
         });

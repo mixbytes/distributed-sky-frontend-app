@@ -38,8 +38,8 @@ const BCTypes = {
         'alt': 'Coord',
     },
     'Box3D': {
-        'point_1': 'Point3D',
-        'point_2': 'Point3D',
+        'south_west': 'Point3D',
+        'north_east': 'Point3D',
     },
     'RootBoxOf': {
         'id': 'RootId',
