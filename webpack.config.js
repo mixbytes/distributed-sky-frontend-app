@@ -18,7 +18,7 @@ module.exports = {
 
             'index.scss': path.resolve(__dirname, 'public/css/index.scss'),
         },
-        extensions: ['.js'],
+        extensions: ['.js',],
         fallback: {
             'crypto': require.resolve('crypto-browserify'),
             'stream': require.resolve('stream-browserify'),

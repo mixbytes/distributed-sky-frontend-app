@@ -1,4 +1,4 @@
-import { parseI32F32, toI16F16, toFixPoint } from '@encointer/util';
+// import { toFixPoint } from '@encointer/util';
 
 export default class Parser {
 
