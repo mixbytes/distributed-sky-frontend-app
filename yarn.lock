@@ -3321,6 +3321,11 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.4.tgz#7bb1e3affb0cb8624547ef7e8f6708ea2e39dfc0"
   integrity sha512-ZRbnvdg/NxqzC7L9Uyqzf4psi1OM4Cuc+sJAkQPjO6XkQIJTNbfK2Rsmbw8fx1p2mkZdp2FZYo2+LwXYY/uwIA==
 
+leaflet-auto-graticule@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/leaflet-auto-graticule/-/leaflet-auto-graticule-1.0.9.tgz#e51469b26986b03faae03c50d49a3e1c1139cc13"
+  integrity sha512-mfl2NEHx4zXjCJLGMYLdlRoZUvsc8niOVPBeXScvKvM2DDPTUHm/SHDgpTa+klHocOUZgarG9FIaPCVVi9sMuQ==
+
 leaflet-draw@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/leaflet-draw/-/leaflet-draw-1.0.4.tgz#45be92f378ed253e7202fdeda1fcc71885198d46"
