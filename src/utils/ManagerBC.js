@@ -1,5 +1,6 @@
 import {ApiPromise, WsProvider} from '@polkadot/api';
 import {web3Accounts, web3Enable, web3FromSource} from '@polkadot/extension-dapp';
+// import {types} from '@encointer/types';
 import BCTypes from 'consts/BCTypes';
 import Errors from 'consts/Errors';
 import Roles from 'consts/Roles';
