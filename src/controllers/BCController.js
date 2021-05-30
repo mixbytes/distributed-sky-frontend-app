@@ -18,8 +18,7 @@ export default class BCController {
     }
 
     async rootAdd(rawRootCoords) {
-        let rootCoords = (new Parser()).getRectCoords(rawRootCoords);
-        console.log(rootCoords);
-        return await this._managerBC.rootAdd(rootCoords);
+        const parseData = (new Parser()).getRectCoords(rawRootCoords);
+        return await this._managerBC.rootAdd(parseData[0], parseData[1]);
     }
 }

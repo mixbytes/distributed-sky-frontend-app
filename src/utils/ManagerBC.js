@@ -156,7 +156,7 @@ export default class ManagerBC {
         return account['metadata_ipfs_hash'].toHuman();
     }
 
-    async rootAdd(rootCoords) {
+    async rootAdd(rootCoords, rawDelta) {
         if (!this._isExtension) {
             if (!(await this.login())) {
                 throw new Error(Errors.ExtensionsNotFound);
@@ -169,33 +169,22 @@ export default class ManagerBC {
                 throw new Error(Errors.ConnectionToNode);
             }
         }
-        console.log("tryin to create whatever");
-        // const metaIPFS = this._api.createType('MetaIPFS', metadataIPFSHash);
-        const delta = this._api.registry.createType('Coord', rootCoords.lat_def);
         
-        const box3D = this._api.createType('Box3D', {
-                'south_west': {
-                    "lat": this._api.createType('Coord', rootCoords.south_west_lat),
-                    "lon": this._api.createType('Coord', rootCoords.south_west_lon),
-                    "alt": this._api.createType('Coord', rootCoords.lat_def),
-                },
-                'north_east': {
-                    "lat": this._api.createType('Coord', rootCoords.north_east_lat),
-                    "lon": this._api.createType('Coord', rootCoords.north_east_lon),
-                    "alt": this._api.createType('Coord', rootCoords.lat_def),
-                },
-            });
-        console.log('here is the box', box3D);
+        // console.log('tryin to create whatever', rootCoords.lat_def);
+        const delta = this._api.registry.createType('RawCoord', rawDelta);
+        
+        let box3D = []; 
+        rootCoords.forEach(element => box3D.push(this._api.createType('RawCoord', element)));
+
         const account = this._userAccounts[0];
         const injector = await web3FromSource(account.meta.source);
-        await this._api.tx.dsMapsModule.rootAdd(box3D, delta)
+        await this._api.tx.dsMapsModule.rawRootAdd(box3D, delta)
             .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
-                    console.log("in block now?", status);
-
+                    console.log('in block now?', status);
                 } else {
                     if (status.type === 'Finalized') {
-                        console.log("Finalized now");
+                        console.log('Finalized now');
                         return;
                     }
                 }
@@ -203,7 +192,28 @@ export default class ManagerBC {
                 throw new Error(errorMessage);
             });
 
-            const what = await this._api.query.dsMapsModule.totalRoots();
-            console.log(what);
+            await this.checkEvents();
+    }
+
+    async checkEvents() {
+        this._api.query.system.events((events) => {
+            console.log(`\nReceived ${events.length} events:`);
+        
+            // Loop through the Vec<EventRecord>
+            events.forEach((record) => {
+              // Extract the phase, event and the event types
+              const { event, phase } = record;
+              const types = event.typeDef;
+        
+              // Show what we are busy with
+              console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
+              console.log(`\t\t${event.meta.documentation.toString()}`);
+        
+              // Loop through each of the parameters, displaying the type and data
+              event.data.forEach((data, index) => {
+                console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
+              });
+            });
+          });
     }
 }

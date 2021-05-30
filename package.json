@@ -2,16 +2,14 @@
   "name": "dsky-frontend-app",
   "version": "1.0.0",
   "dependencies": {
-    "@encointer/types": "^0.1.0",
-    "@encointer/node-api": "^0.1.0",
-    "@encointer/worker-api": "^0.1.0",
     "@encointer/util": "^0.1.0",
+    "@encointer/worker-api": "^0.1.0",
     "@mapbox/node-pre-gyp": "^1.0.0",
     "@polkadot/api": "^3.9.3",
     "@polkadot/extension-dapp": "^0.37.2",
     "@polkadot/types": "^3.9.3",
-    "@polkadot/util-crypto": "^6.4.1",
     "@polkadot/util": "^6.4.1",
+    "@polkadot/util-crypto": "^6.4.1",
     "assert": "^2.0.0",
     "babel-eslint": "^10.1.0",
     "buffer": "^5.7.1",
@@ -28,6 +26,7 @@
     "it-to-buffer": "^2.0.0",
     "leaflet": "^1.7.1",
     "leaflet-draw": "^1.0.4",
+    "leaflet-auto-graticule": "1.0.9",
     "mini-css-extract-plugin": "^1.3.9",
     "path": "^0.12.7",
     "path-browserify": "^1.0.1",
@@ -42,17 +41,16 @@
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "lint": "eslint --debug --ext .js src/",
-    "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package sample-polkadotjs-typegen/interfaces --input ./src/interfaces",
+    "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package @encointer/types/interfaces --input ./src/interfaces",
     "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package sample-polkadotjs-typegen/interfaces --endpoint ./dsky.json --output ./src/interfaces",
     "typeLint": "tsc --noEmit --pretty"
-
   },
   "devDependencies": {
+    "@polkadot/typegen": "^4.8.1",
     "eslint": "^7.25.0",
     "eslint-config-google": "^0.14.0",
-    "webpack-cli": "^4.5.0",
-    "@polkadot/typegen": "^2.3.1",
-    "ts-node": "^8.6.2",
-    "typescript": "^4.0.2"
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4",
+    "webpack-cli": "^4.5.0"
   }
 }

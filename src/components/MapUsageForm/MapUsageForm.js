@@ -3,6 +3,7 @@ import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
 import L from 'leaflet';
 import 'leaflet-draw';
+import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/MapUsageForm/MapUsageForm.hbs';
@@ -24,49 +25,48 @@ export default class MapUsageForm extends BaseComponent {
 
     drawMap() {
         // If map already exists, replace w new one
-        const container = L.DomUtil.get('mapid');
+        const container = L.DomUtil.get('map');
         if (container != null) {
             container._leaflet_id = null;
         }
 
         // Setting default location to Moscow
-        const myMap = L.map('mapid').setView([55.751, 37.618], 10);
+        const myMap = L.map('map', {closePopupOnClick: false}).setView([55.751, 37.618], 10);
 
-        let drawnItems = L.featureGroup().addTo(myMap);
+        const drawnItems = L.featureGroup().addTo(myMap);
 
         myMap.addControl(new L.Control.Draw({
-            edit: {
-                featureGroup: drawnItems,
-                poly: {
-                    allowIntersection: false
-                }
-            },
             draw: {
                 polygon: {
                     allowIntersection: false,
-                    showArea: true
+                    showArea: true,
                 },
                 marker: false,
                 polygon: false,
                 circlemarker: false,
                 circle: false,
                 polyline: false,
-            }
+            },
         }));
 
         myMap.on(L.Draw.Event.CREATED, (e) => {
-            EventBus.emit(Events.RootAddition, e.layer.getLatLngs()[0]);
-            drawnItems.clearLayers();
-            drawnItems.addLayer(e.layer);
-        });
+            const rawLatLngs = e.layer.getLatLngs()[0];
+            EventBus.emit(Events.RootAddition, rawLatLngs);
+            const bounds = (new Parser()).getTrimmedRect(rawLatLngs);
+            const layer = L.rectangle(bounds, {color: '#ff7800', weight: 3});
+            myMap.fitBounds(bounds);
 
-        const popup = L.popup();
-        // binding leaflet events to map clicks
-        myMap.on('click', (e) => {
-            popup
-                .setLatLng(e.latlng)
-                .setContent('You clicked the map at ' + e.latlng.toString())
+            drawnItems.clearLayers();
+            drawnItems.addLayer(layer);
+
+            const latLng = new L.LatLng((bounds[1][0] + bounds[0][0]) / 2,
+                                        (bounds[1][1] + bounds[0][1]) / 2);
+            const popup = L.popup()
+                .setLatLng(latLng)
+                .setContent('SW: ' + bounds[1].toString() + '<br>NE: ' + bounds[0].toString())
                 .openOn(myMap);
+
+            drawnItems.addLayer(popup);
         });
 
         return myMap;
