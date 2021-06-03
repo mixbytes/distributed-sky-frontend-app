@@ -17,8 +17,9 @@ export default class BCController {
         return await this._managerBC.registerPilot(accountAddress, metadataIPFSHash);
     }
 
-    async rootAdd(rawRootCoords) {
+    async rootAdd(rawRootCoords, rawDelta) {
         const parseData = (new Parser()).getRectCoords(rawRootCoords);
-        return await this._managerBC.rootAdd(parseData[0], parseData[1]);
+        const delta = (new Parser()).parseToCoord(parseFloat(rawDelta));
+        return await this._managerBC.rootAdd(parseData, delta);
     }
 }

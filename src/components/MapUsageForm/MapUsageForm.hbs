@@ -3,7 +3,12 @@
     <div class="map-container" id="map" style="width: 700px; height: 500px;" tabindex="1">
     </div>
 </div>
-<div class="buttons">
+<div class="user-interaction">
+    <form class="map-delta__input">
+        {{#each input }}
+            {{{ this }}}
+        {{/each}}
+    </form>
     <div class="map-button__admission">
         {{{ SubmitRootButton }}}
     </div>

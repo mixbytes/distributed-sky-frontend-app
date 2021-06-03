@@ -12,7 +12,8 @@ export default class MapUsageView extends BaseView {
         this._template = template;
         // I couldn't figure out, how to make complex structure, so it's like this
         this._rootAddFormData = {
-            data: '',
+            coords: '',
+            delta: ''
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
@@ -22,13 +23,15 @@ export default class MapUsageView extends BaseView {
         this._MapUsageForm = new MapUsageForm();
 
         this._onSubmitHandler = this.onSubmit.bind(this);
+        this._onUpdateFieldHandler = this.onUpdateField.bind(this);
         this._onRootAddition = this.onRootAddition.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
 
         EventBus.on(Events.FormRendered, this._onFormRendered);
+        EventBus.on(Events.InputDelta, this._onUpdateFieldHandler);
         EventBus.on(Events.RootAddition, this._onRootAddition);
         EventBus.on(Events.RootAdditionSubmit, this._onSubmitHandler);
-
+        
         const data = {
             // Create buttons, making place for maps
             MapUsageForm: this._MapUsageForm.render(),
@@ -46,12 +49,25 @@ export default class MapUsageView extends BaseView {
     }
 
     onRootAddition(data = {}) {
-        this._rootAddFormData = data;
+        this._rootAddFormData.coords = data;
+    }
+
+    onUpdateField(data = {}) {
+        switch (data.event) {
+            case Events.InputDelta: {
+                this._rootAddFormData.delta = data.value;
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
 
     async onSubmit() {
         await this._BCController.rootAdd(
-            this._rootAddFormData,
+            this._rootAddFormData.coords, 
+            this._rootAddFormData.delta
         );
     }
 }

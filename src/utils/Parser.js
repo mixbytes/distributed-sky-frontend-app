@@ -5,7 +5,12 @@ import { toFixPoint } from '@encointer/util';
 export default class Parser {
     parseToI9F23(value) {
         const toI9F23 = toFixPoint(9, 23);
-        return toI9F23(value);
+        return toI9F23(value).toNumber();
+    }
+
+    // wrapping function, so type can be changed easily
+    parseToCoord(value) {
+        return this.parseToI9F23(value);
     }
 
     getTrimmedRect(data) {
@@ -25,14 +30,13 @@ export default class Parser {
         // TODO make check, which coord is greater, swap points accordingly
         let box3D = [];
         const whatever = box3D.push(
-            this.parseToI9F23(data[0].lat).toNumber(),
-            this.parseToI9F23(data[0].lng).toNumber(),
-            this.parseToI9F23(1).toNumber(), 
-            this.parseToI9F23(data[2].lat).toNumber(),
-            this.parseToI9F23(data[2].lng).toNumber(),
-            this.parseToI9F23(2).toNumber(), 
+            this.parseToCoord(data[0].lat),
+            this.parseToCoord(data[0].lng),
+            this.parseToCoord(1), 
+            this.parseToCoord(data[2].lat),
+            this.parseToCoord(data[2].lng),
+            this.parseToCoord(2), 
             );
-        let rawDelta = this.parseToI9F23(0.1).toNumber();
-        return [box3D, rawDelta];
+        return box3D;
     }
 }

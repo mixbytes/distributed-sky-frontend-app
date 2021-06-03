@@ -171,7 +171,6 @@ export default class ManagerBC {
             }
         }
         
-        // console.log('tryin to create whatever', rootCoords.lat_def);
         const delta = this._api.registry.createType('RawCoord', rawDelta);
         
         let box3D = []; 

@@ -13,12 +13,20 @@
   // margin-top: 50%; /* Отступ сверху */
 }
 
-.buttons {
+.user-interaction {
   height: 60px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.map-delta__input {
+	display: flex;
+	margin: 20px;
+	margin-bottom: 1px;
+	flex-direction: row;
+	align-items: center;
 }
 
 .map-button__admission {

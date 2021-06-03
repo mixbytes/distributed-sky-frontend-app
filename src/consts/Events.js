@@ -6,6 +6,7 @@ const Events = {
     FormRendered: 'formRendered',
     GoToUploadToIPFSBlock: 'goToUploadToIPFSBlock',
     InputAddress: 'inputAddress',
+    InputDelta: 'inputDelta',
     InputHash: 'inputHash',
     InputRole: 'inputRole',
     RefreshPage: 'refreshPage',
