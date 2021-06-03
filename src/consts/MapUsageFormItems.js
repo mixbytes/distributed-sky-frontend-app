@@ -3,7 +3,7 @@ import Events from 'consts/Events';
 const MapUsageFormItems = {
     rootDelta: {
         inputID: 'rootDelta',
-        inputName: 'root Delta',
+        inputName: 'Delta for root',
         inputType: 'text',
         event: Events.InputDelta,
     },

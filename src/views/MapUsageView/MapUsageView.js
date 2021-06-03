@@ -13,7 +13,7 @@ export default class MapUsageView extends BaseView {
         // I couldn't figure out, how to make complex structure, so it's like this
         this._rootAddFormData = {
             coords: '',
-            delta: ''
+            delta: '',
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
@@ -31,7 +31,7 @@ export default class MapUsageView extends BaseView {
         EventBus.on(Events.InputDelta, this._onUpdateFieldHandler);
         EventBus.on(Events.RootAddition, this._onRootAddition);
         EventBus.on(Events.RootAdditionSubmit, this._onSubmitHandler);
-        
+
         const data = {
             // Create buttons, making place for maps
             MapUsageForm: this._MapUsageForm.render(),
@@ -66,8 +66,8 @@ export default class MapUsageView extends BaseView {
 
     async onSubmit() {
         await this._BCController.rootAdd(
-            this._rootAddFormData.coords, 
-            this._rootAddFormData.delta
+            this._rootAddFormData.coords,
+            this._rootAddFormData.delta,
         );
     }
 }

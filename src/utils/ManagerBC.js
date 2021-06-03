@@ -170,11 +170,11 @@ export default class ManagerBC {
                 throw new Error(Errors.ConnectionToNode);
             }
         }
-        
+
         const delta = this._api.registry.createType('RawCoord', rawDelta);
-        
-        let box3D = []; 
-        rootCoords.forEach(element => box3D.push(this._api.createType('RawCoord', element)));
+
+        const box3D = [];
+        rootCoords.forEach((element) => box3D.push(this._api.createType('RawCoord', element)));
 
         const account = this._userAccounts[0];
         const injector = await web3FromSource(account.meta.source);
@@ -192,28 +192,28 @@ export default class ManagerBC {
                 throw new Error(errorMessage);
             });
 
-            await this.checkEvents();
+        await this.checkEvents();
     }
 
     async checkEvents() {
         this._api.query.system.events((events) => {
             console.log(`\nReceived ${events.length} events:`);
-        
+
             // Loop through the Vec<EventRecord>
             events.forEach((record) => {
-              // Extract the phase, event and the event types
-              const { event, phase } = record;
-              const types = event.typeDef;
-        
-              // Show what we are busy with
-              console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
-              console.log(`\t\t${event.meta.documentation.toString()}`);
-        
-              // Loop through each of the parameters, displaying the type and data
-              event.data.forEach((data, index) => {
-                console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
-              });
+                // Extract the phase, event and the event types
+                const {event, phase} = record;
+                const types = event.typeDef;
+
+                // Show what we are busy with
+                console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
+                console.log(`\t\t${event.meta.documentation.toString()}`);
+
+                // Loop through each of the parameters, displaying the type and data
+                event.data.forEach((data, index) => {
+                    console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
+                });
             });
-          });
+        });
     }
 }

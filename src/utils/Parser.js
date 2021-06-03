@@ -1,6 +1,4 @@
-import assert from 'assert';
-import BN from 'bn.js';
-import { toFixPoint } from '@encointer/util';
+import {toFixPoint} from '@encointer/util';
 
 export default class Parser {
     parseToI9F23(value) {
@@ -25,18 +23,18 @@ export default class Parser {
         return coord;
     }
 
-    getRectCoords(data) {        
+    getRectCoords(data) {
         // So somewhere here should be checks for non-zero, max dimensons, snapping => requires refactoring.
         // TODO make check, which coord is greater, swap points accordingly
-        let box3D = [];
-        const whatever = box3D.push(
+        const box3D = [];
+        box3D.push(
             this.parseToCoord(data[0].lat),
             this.parseToCoord(data[0].lng),
-            this.parseToCoord(1), 
+            this.parseToCoord(1),
             this.parseToCoord(data[2].lat),
             this.parseToCoord(data[2].lng),
-            this.parseToCoord(2), 
-            );
+            this.parseToCoord(2),
+        );
         return box3D;
     }
 }

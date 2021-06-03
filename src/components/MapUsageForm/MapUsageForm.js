@@ -69,7 +69,7 @@ export default class MapUsageForm extends BaseComponent {
             drawnItems.addLayer(layer);
 
             const latLng = new L.LatLng((bounds[1][0] + bounds[0][0]) / 2,
-                                        (bounds[1][1] + bounds[0][1]) / 2);
+                (bounds[1][1] + bounds[0][1]) / 2);
             const popup = L.popup()
                 .setLatLng(latLng)
                 .setContent('SW: ' + bounds[1].toString() + '<br>NE: ' + bounds[0].toString())
