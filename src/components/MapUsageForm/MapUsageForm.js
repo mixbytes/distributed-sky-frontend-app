@@ -61,7 +61,7 @@ export default class MapUsageForm extends BaseComponent {
         myMap.on(L.Draw.Event.CREATED, (e) => {
             const rawLatLngs = e.layer.getLatLngs()[0];
             EventBus.emit(Events.RootAddition, rawLatLngs);
-            const bounds = (new Parser()).getTrimmedRect(rawLatLngs);
+            const bounds = Parser.getTrimmedRect(rawLatLngs);
             const layer = L.rectangle(bounds, {color: '#ff7800', weight: 3});
             myMap.fitBounds(bounds);
 

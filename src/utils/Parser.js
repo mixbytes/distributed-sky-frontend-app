@@ -1,29 +1,29 @@
 import {toFixPoint} from '@encointer/util';
 
 export default class Parser {
-    parseToI9F23(value) {
+    static parseToI9F23(value) {
         const toI9F23 = toFixPoint(9, 23);
         return toI9F23(value).toNumber();
     }
 
     // wrapping function, so type can be changed easily
-    parseToCoord(value) {
+    static parseToCoord(value) {
         return this.parseToI9F23(value);
     }
 
-    getTrimmedRect(data) {
+    static getTrimmedRect(data) {
         const rect = [];
         rect.push([this.trim(data[0].lat), this.trim(data[0].lng)]);
         rect.push([this.trim(data[2].lat), this.trim(data[2].lng)]);
         return rect;
     }
 
-    trim(coord) {
+    static trim(coord) {
         coord = parseFloat(coord.toFixed(1));
         return coord;
     }
 
-    getRectCoords(data) {
+    static getRectCoords(data) {
         // So somewhere here should be checks for non-zero, max dimensons, snapping => requires refactoring.
         // TODO make check, which coord is greater, swap points accordingly
         const box3D = [];
