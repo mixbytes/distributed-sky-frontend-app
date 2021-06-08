@@ -3,12 +3,12 @@ import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
 import L from 'leaflet';
 import 'leaflet-draw';
+import MapUsageFormItems from 'consts/MapUsageFormItems';
 import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/MapUsageForm/MapUsageForm.hbs';
 import TextInput from 'components/BaseComponents/TextInput/TextInput';
-import MapUsageFormItems from 'consts/MapUsageFormItems';
 
 export default class MapUsageForm extends BaseComponent {
     constructor(context = {}) {

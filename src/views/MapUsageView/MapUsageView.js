@@ -3,14 +3,13 @@ import Events from 'consts/Events';
 import BaseView from 'views/BaseView/BaseView';
 import BCController from 'controllers/BCController';
 import MapController from 'controllers/MapController';
-import template from 'views/MapUsageView/MapUsageView.hbs';
 import MapUsageForm from 'components/MapUsageForm/MapUsageForm';
+import template from 'views/MapUsageView/MapUsageView.hbs';
 
 export default class MapUsageView extends BaseView {
     constructor(title = 'Distributed Sky') {
         super(title);
         this._template = template;
-        // I couldn't figure out, how to make complex structure, so it's like this
         this._rootAddFormData = {
             coords: '',
             delta: '',

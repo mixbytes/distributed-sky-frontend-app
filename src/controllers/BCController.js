@@ -1,5 +1,6 @@
 import ManagerBC from 'utils/ManagerBC';
 import Parser from 'utils/Parser';
+
 export default class BCController {
     constructor() {
         this._managerBC = new ManagerBC();
