@@ -6,9 +6,14 @@ export default class Parser {
         return toI9F23(value).toNumber();
     }
 
+    static parseToI10F22(value) {
+        const toI10F22 = toFixPoint(10, 22);
+        return toI10F22(value).toNumber();
+    }
+    
     // wrapping function, so type can be changed easily
     static parseToCoord(value) {
-        return this.parseToI9F23(value);
+        return this.parseToI10F22(value);
     }
 
     static getTrimmedRect(data) {
