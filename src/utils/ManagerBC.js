@@ -61,7 +61,6 @@ export default class ManagerBC {
         const accountId = this._api.createType('AccountId', accountAddress);
         // const metaIPFS = this._api.createType('MetaIPFS', metadataIPFSHash);
         const roleType = this._api.createType('AccountRole', roleValue);
-
         const account = this._userAccounts[0];
         const injector = await web3FromSource(account.meta.source);
         await this._api.tx.dsAccountsModule.accountAdd(accountId, roleType)
@@ -155,5 +154,65 @@ export default class ManagerBC {
         const account = await this.extractAccountFromStorage(accountId);
 
         return account['metadata_ipfs_hash'].toHuman();
+    }
+
+    async rootAdd(rootCoords, rawDelta) {
+        if (!this._isExtension) {
+            if (!(await this.login())) {
+                throw new Error(Errors.ExtensionsNotFound);
+            }
+            await this.loadUserAccounts();
+        }
+
+        if (!this._isConnectedToNode) {
+            if (!await this.connectToNode()) {
+                throw new Error(Errors.ConnectionToNode);
+            }
+        }
+
+        const delta = this._api.registry.createType('RawCoord', rawDelta);
+
+        const box3D = [];
+        rootCoords.forEach((element) => box3D.push(this._api.createType('RawCoord', element)));
+
+        const account = this._userAccounts[0];
+        const injector = await web3FromSource(account.meta.source);
+        await this._api.tx.dsMapsModule.rawRootAdd(box3D, delta)
+            .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
+                if (status.isInBlock) {
+                    console.log('in block now?', status);
+                } else {
+                    if (status.type === 'Finalized') {
+                        console.log('Finalized now');
+                        return;
+                    }
+                }
+            }).catch((errorMessage) => {
+                throw new Error(errorMessage);
+            });
+
+        await this.checkEvents();
+    }
+
+    async checkEvents() {
+        this._api.query.system.events((events) => {
+            console.log(`\nReceived ${events.length} events:`);
+
+            // Loop through the Vec<EventRecord>
+            events.forEach((record) => {
+                // Extract the phase, event and the event types
+                const {event, phase} = record;
+                const types = event.typeDef;
+
+                // Show what we are busy with
+                console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
+                console.log(`\t\t${event.meta.documentation.toString()}`);
+
+                // Loop through each of the parameters, displaying the type and data
+                event.data.forEach((data, index) => {
+                    console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
+                });
+            });
+        });
     }
 }

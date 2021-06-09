@@ -3,16 +3,19 @@ const Events = {
     ChangePath: 'changePath',
     ExtractFromIPFSSubmit: 'extractFromIPFSSubmit',
     ExtractFromStorageSubmit: 'extractFromStorageSubmit',
+    FormRendered: 'formRendered',
     GoToUploadToIPFSBlock: 'goToUploadToIPFSBlock',
     InputAddress: 'inputAddress',
+    InputDelta: 'inputDelta',
     InputHash: 'inputHash',
     InputRole: 'inputRole',
     RefreshPage: 'refreshPage',
+    RootAddition: 'rootAddition',
+    RootAdditionSubmit: 'rootAdditionSubmit',
     RegisterPilotSubmit: 'registerPilotSubmit',
     UploadImage: 'uploadImage',
     UploadToIPFS: 'uploadToIPFS',
     UploadToIPFSSubmit: 'uploadToIPFSSubmit',
-    FormRendered: 'formRendered',
 };
 
 export default Events;

@@ -18,7 +18,7 @@ module.exports = {
 
             'index.scss': path.resolve(__dirname, 'public/css/index.scss'),
         },
-        extensions: ['.js'],
+        extensions: ['.js',],
         fallback: {
             'crypto': require.resolve('crypto-browserify'),
             'stream': require.resolve('stream-browserify'),
@@ -37,6 +37,16 @@ module.exports = {
             {
                 test: /\.hbs$/,
                 use: 'handlebars-loader',
+            },
+            {
+                // IMAGE LOADER
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader:'file-loader'
+            },
+            {
+                // HTML LOADER
+                test: /\.html$/,
+                loader: 'html-loader'
             },
         ],
     },

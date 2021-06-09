@@ -14,9 +14,11 @@ const BCTypes = {
         'metadata_ipfs_hash': 'MetaIPFS',
         'managed_by': 'AccountId',
     },
-    'Coord': 'I9F23',
+    'Coord': 'u32',
     'LightCoord': 'u32',
+    'RawCoord': 'i32',
     'AreaId': 'u16',
+    'PageId': 'u32',
     'RootId': 'u32',
     'ZoneId': 'u64',
     'Point2D': {
@@ -38,8 +40,8 @@ const BCTypes = {
         'alt': 'Coord',
     },
     'Box3D': {
-        'point_1': 'Point3D',
-        'point_2': 'Point3D',
+        'south_west': 'Point3D',
+        'north_east': 'Point3D',
     },
     'RootBoxOf': {
         'id': 'RootId',

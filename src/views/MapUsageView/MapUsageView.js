@@ -3,15 +3,16 @@ import Events from 'consts/Events';
 import BaseView from 'views/BaseView/BaseView';
 import BCController from 'controllers/BCController';
 import MapController from 'controllers/MapController';
-import template from 'views/MapUsageView/MapUsageView.hbs';
 import MapUsageForm from 'components/MapUsageForm/MapUsageForm';
+import template from 'views/MapUsageView/MapUsageView.hbs';
 
 export default class MapUsageView extends BaseView {
     constructor(title = 'Distributed Sky') {
         super(title);
         this._template = template;
         this._rootAddFormData = {
-            rootCoords: '',
+            coords: '',
+            delta: '',
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
@@ -21,10 +22,14 @@ export default class MapUsageView extends BaseView {
         this._MapUsageForm = new MapUsageForm();
 
         this._onSubmitHandler = this.onSubmit.bind(this);
+        this._onUpdateFieldHandler = this.onUpdateField.bind(this);
+        this._onRootAddition = this.onRootAddition.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
 
         EventBus.on(Events.FormRendered, this._onFormRendered);
-        EventBus.on(Events.MapTouched, this._onMapTouched);
+        EventBus.on(Events.InputDelta, this._onUpdateFieldHandler);
+        EventBus.on(Events.RootAddition, this._onRootAddition);
+        EventBus.on(Events.RootAdditionSubmit, this._onSubmitHandler);
 
         const data = {
             // Create buttons, making place for maps
@@ -42,13 +47,26 @@ export default class MapUsageView extends BaseView {
         await this._MapController.initMap(this.myMap);
     }
 
-    async onReset() {
-        await this._MapController.clearSelection();
+    onRootAddition(data = {}) {
+        this._rootAddFormData.coords = data;
+    }
+
+    onUpdateField(data = {}) {
+        switch (data.event) {
+            case Events.InputDelta: {
+                this._rootAddFormData.delta = data.value;
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
 
     async onSubmit() {
         await this._BCController.rootAdd(
-            this._rootAddFormData.rootCoords,
+            this._rootAddFormData.coords,
+            this._rootAddFormData.delta,
         );
     }
 }

@@ -1,4 +1,5 @@
 import ManagerBC from 'utils/ManagerBC';
+import Parser from 'utils/Parser';
 
 export default class BCController {
     constructor() {
@@ -17,8 +18,9 @@ export default class BCController {
         return await this._managerBC.registerPilot(accountAddress, metadataIPFSHash);
     }
 
-    // Not implemented yet, as the selection not yet implemented
-    async rootAdd(rootCoords) {
-        return await this._managerBC.rootAdd(rootCoords);
+    async rootAdd(rawRootCoords, rawDelta) {
+        const parseData = Parser.getRectCoords(rawRootCoords);
+        const delta = Parser.parseToCoord(parseFloat(rawDelta));
+        return await this._managerBC.rootAdd(parseData, delta);
     }
 }
