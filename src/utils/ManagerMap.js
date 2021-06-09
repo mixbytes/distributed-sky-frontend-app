@@ -1,5 +1,6 @@
 import L from 'leaflet';
 import AutoGraticule from 'leaflet-auto-graticule';
+import 'components/MapUsageForm/Graticule'
 
 export default class ManagerMap {
     async initMap(myMap) {
@@ -14,12 +15,22 @@ export default class ManagerMap {
         }).addTo(myMap);
 
         const options = {
-            /** Leaflet map event on which to redraw the graticule. */
-            redraw: 'move',
-            /** Minimum distance in pixels between two graticule lines. */
-            minDistance: 50,
+            showLabel: true,
+            opacity: 1,
+            weight: 0.8,
+            color: '#000',
+            font: '12px Verdana',
+            lngLineCurved: 0,
+            latLineCurved: 0,
+            zoomInterval: [
+                {start: 2, end: 2, interval: 40},
+                {start: 3, end: 3, interval: 20},
+                {start: 4, end: 4, interval: 10},
+                {start: 5, end: 7, interval: 5},
+                {start: 8, end: 20, interval: 1}
+            ]
         };
         // TODO rewrite AutoGraticule for our needs (stepping w 0.1 degree especially)
-        new AutoGraticule(options).addTo(myMap);
+        new L.LatLngGraticule(options).addTo(myMap);
     }
 }
