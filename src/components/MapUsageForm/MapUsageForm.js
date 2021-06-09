@@ -3,6 +3,7 @@ import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
 import L from 'leaflet';
 import 'leaflet-draw';
+import Locations from 'consts/Locations';
 import MapUsageFormItems from 'consts/MapUsageFormItems';
 import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
@@ -40,7 +41,7 @@ export default class MapUsageForm extends BaseComponent {
         }
 
         // Setting default location to Moscow
-        const myMap = L.map('map', {closePopupOnClick: false}).setView([55.751, 37.618], 10);
+        const myMap = L.map('map', {closePopupOnClick: false}).setView(Locations.Moscow, 10);
 
         const drawnItems = L.featureGroup().addTo(myMap);
 
