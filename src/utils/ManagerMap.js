@@ -27,7 +27,7 @@ export default class ManagerMap {
                 {start: 3, end: 3, interval: 20},
                 {start: 4, end: 4, interval: 10},
                 {start: 5, end: 7, interval: 5},
-                {start: 8, end: 20, interval: 1}
+                {start: 8, end: 20, interval: 0.1}
             ]
         };
         // TODO rewrite AutoGraticule for our needs (stepping w 0.1 degree especially)

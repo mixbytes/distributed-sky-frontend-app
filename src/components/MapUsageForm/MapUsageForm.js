@@ -9,6 +9,7 @@ import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/MapUsageForm/MapUsageForm.hbs';
 import TextInput from 'components/BaseComponents/TextInput/TextInput';
+import DropDownList from 'components/BaseComponents/DropDownList/DropDownList';
 
 export default class MapUsageForm extends BaseComponent {
     constructor(context = {}) {
@@ -19,12 +20,18 @@ export default class MapUsageForm extends BaseComponent {
         this._context.RegisterPath = Routes.MapUsage;
         this._context.RegisterEvent = Events.ChangePath;
 
-        // TODO Consider automated calculations for delta value
-        for (const i in MapUsageFormItems) {
-            if (Object.prototype.hasOwnProperty.call(MapUsageFormItems, i)) {
-                this._context.input.push((new TextInput(MapUsageFormItems[i])).render());
-            }
-        }
+        // // TODO Consider automated calculations for delta value
+        // for (const i in MapUsageFormItems) {
+        //     if (Object.prototype.hasOwnProperty.call(MapUsageFormItems, i)) {
+        //         this._context.input.push((new TextInput(MapUsageFormItems[i])).render());
+        //     }
+        // }
+
+        this._context.DropDownList = (new DropDownList({
+            FirstName: 'Root selection',
+            SecondName: 'Zone selection', 
+            event: Events.RootAdditionSubmit,
+        })).render();
 
         this._context.SubmitRootButton = (new StandardButton({
             buttonName: 'Submit Root',
