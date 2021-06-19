@@ -26,12 +26,18 @@ export default class MapUsageForm extends BaseComponent {
         //         this._context.input.push((new TextInput(MapUsageFormItems[i])).render());
         //     }
         // }
-
+        let handler = function(control) {
+            console.log(control);
+        }
+        
         this._context.DropDownList = (new DropDownList({
             FirstName: 'Root selection',
-            SecondName: 'Zone selection', 
-            event: Events.RootAdditionSubmit,
-        })).render();
+            LastName: 'Zone selection',
+            event: Event.SelectMapOption,
+            }
+            // changeHandler: handler,
+            // event: Events.RootAdditionSubmit,
+        )).render();
 
         this._context.SubmitRootButton = (new StandardButton({
             buttonName: 'Submit Root',

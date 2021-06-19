@@ -12,10 +12,13 @@ const Events = {
     RefreshPage: 'refreshPage',
     RootAddition: 'rootAddition',
     RootAdditionSubmit: 'rootAdditionSubmit',
+    RootAdditionMode: 'rootAdditionMode',
+    ZoneAdditionMode: 'zoneAdditionMode',
     RegisterPilotSubmit: 'registerPilotSubmit',
     UploadImage: 'uploadImage',
     UploadToIPFS: 'uploadToIPFS',
     UploadToIPFSSubmit: 'uploadToIPFSSubmit',
+    SelectMapOption: 'selectMapOption',
 };
 
 export default Events;

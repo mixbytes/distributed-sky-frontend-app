@@ -21,6 +21,7 @@ export default class BCController {
     async rootAdd(rawRootCoords, rawDelta) {
         const parseData = Parser.getRectCoords(rawRootCoords);
         const delta = Parser.parseToCoord(parseFloat(rawDelta));
+
         return await this._managerBC.rootAdd(parseData, delta);
     }
 }

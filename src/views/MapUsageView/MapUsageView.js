@@ -12,7 +12,7 @@ export default class MapUsageView extends BaseView {
         this._template = template;
         this._rootAddFormData = {
             coords: '',
-            delta: '',
+            delta: '0.1',
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
@@ -25,7 +25,9 @@ export default class MapUsageView extends BaseView {
         this._onUpdateFieldHandler = this.onUpdateField.bind(this);
         this._onRootAddition = this.onRootAddition.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
+        this._onMapOptionSelectHandler = this.onMapOptionSelect.bind(this);
 
+        EventBus.on(Events.SelectMapOption, this._onMapOptionSelectHandler);
         EventBus.on(Events.FormRendered, this._onFormRendered);
         EventBus.on(Events.InputDelta, this._onUpdateFieldHandler);
         EventBus.on(Events.RootAddition, this._onRootAddition);
@@ -45,6 +47,11 @@ export default class MapUsageView extends BaseView {
         // Rendering maps after building the page
         this.myMap = this._MapUsageForm.drawMap();
         await this._MapController.initMap(this.myMap);
+    }
+
+
+    onMapOptionSelect(data = {}) {
+        console.log('HIIIIIII')
     }
 
     onRootAddition(data = {}) {

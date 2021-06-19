@@ -175,7 +175,7 @@ export default class ManagerBC {
         const box3D = [];
         rootCoords.forEach((element) => box3D.push(this._api.createType('RawCoord', element)));
 
-        const account = this._userAccounts[0];
+        const account = this._userAccounts[1];
         const injector = await web3FromSource(account.meta.source);
         await this._api.tx.dsMapsModule.rawRootAdd(box3D, delta)
             .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
