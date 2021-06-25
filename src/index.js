@@ -4,6 +4,7 @@ import ExtractFromStorageView from 'views/ExtractFromStorageView/ExtractFromStor
 import MainView from 'views/MainView/MainView';
 import MapUsageView from 'views/MapUsageView/MapUsageView';
 import RegisterPilotView from 'views/RegisterPilotView/RegisterPilotView';
+import ZoneAdditionView from 'views/ZoneAdditionView/ZoneAdditionView';
 import Router from 'services/Router';
 import Routes from 'consts/Routes';
 
@@ -16,4 +17,5 @@ router
     .register(Routes.RegisterPilot, new RegisterPilotView())
     .register(Routes.ExtractFromStorage, new ExtractFromStorageView())
     .register(Routes.MapUsage, new MapUsageView())
+    .register(Routes.ZoneAddition, new ZoneAdditionView())
     .start();

@@ -7,41 +7,20 @@ import MapUsageFormItems from 'consts/MapUsageFormItems';
 import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
-import template from 'components/MapUsageForm/MapUsageForm.hbs';
-import TextInput from 'components/BaseComponents/TextInput/TextInput';
-import DropDownList from 'components/BaseComponents/DropDownList/DropDownList';
+import template from 'components/ZoneAdditionForm/ZoneAdditionForm.hbs';
 
-export default class MapUsageForm extends BaseComponent {
+export default class ZoneAdditionForm extends BaseComponent {
     constructor(context = {}) {
         super(context);
         this._template = template;
         this._context.input = [];
 
-        this._context.RegisterPath = Routes.MapUsage;
+        this._context.RegisterPath = Routes.ZomeAddition;
         this._context.RegisterEvent = Events.ChangePath;
 
-        // // TODO Consider automated calculations for delta value
-        // for (const i in MapUsageFormItems) {
-        //     if (Object.prototype.hasOwnProperty.call(MapUsageFormItems, i)) {
-        //         this._context.input.push((new TextInput(MapUsageFormItems[i])).render());
-        //     }
-        // }
-        let handler = function(control) {
-            console.log(control);
-        }
-        
-        this._context.DropDownList = (new DropDownList({
-            FirstName: 'Root selection',
-            LastName: 'Zone selection',
-            event: handler,
-            }
-            // changeHandler: handler,
-            // event: Events.RootAdditionSubmit,
-        )).render();
-
         this._context.SubmitRootButton = (new StandardButton({
-            buttonName: 'Submit Root',
-            event: Events.RootAdditionSubmit,
+            buttonName: 'Add Zone',
+            event: Events.ZoneAdditionSubmit,
         })).render();
     }
 
@@ -82,7 +61,7 @@ export default class MapUsageForm extends BaseComponent {
             drawnItems.addLayer(layer);
 
             const latLng = new L.LatLng((bounds[1][0] + bounds[0][0]) / 2,
-                (bounds[1][1] + bounds[0][1]) / 2);
+                                        (bounds[1][1] + bounds[0][1]) / 2);
             const popup = L.popup()
                 .setLatLng(latLng)
                 .setContent('SW: ' + bounds[1].toString() + '<br>NE: ' + bounds[0].toString())

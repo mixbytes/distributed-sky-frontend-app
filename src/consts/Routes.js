@@ -7,6 +7,7 @@ const Routes = {
     Main: '/',
     RegisterPilot: '/register_pilot',
     MapUsage: '/use_map',
+    ZoneAddition: '/add_zone',
 };
 
 export default Routes;
