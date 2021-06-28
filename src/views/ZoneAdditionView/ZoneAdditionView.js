@@ -14,6 +14,9 @@ export default class ZoneAdditionView extends BaseView {
             coords: '',
             delta: '0.1',
         };
+        this._rootRequestFormData = {
+            index: '',
+        };
         this._BCController = new BCController();
         this._MapController = new MapController();
     }
@@ -23,14 +26,14 @@ export default class ZoneAdditionView extends BaseView {
 
         this._onSubmitHandler = this.onSubmit.bind(this);
         // this._onUpdateFieldHandler = this.onUpdateField.bind(this);
-        // this._onRootAddition = this.onRootAddition.bind(this);
+        this._onRootRequest = this.onRootRequest.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
         // this._onMapOptionSelectHandler = this.onMapOptionSelect.bind(this);
 
         // EventBus.on(Events.SelectMapOption, this._onMapOptionSelectHandler);
         EventBus.on(Events.FormRendered, this._onFormRendered);
         // EventBus.on(Events.InputDelta, this._onUpdateFieldHandler);
-        // EventBus.on(Events.RootAddition, this._onRootAddition);
+        EventBus.on(Events.RootRequest, this._onRootRequest);
         EventBus.on(Events.RootAdditionSubmit, this._onSubmitHandler);
 
         const data = {
@@ -52,9 +55,10 @@ export default class ZoneAdditionView extends BaseView {
     //     console.log('HIIIIIII')
     // }
 
-    // onRootAddition(data = {}) {
-    //     this._rootAddFormData.coords = data;
-    // }
+    async onRootRequest(data = {}) {
+        this._rootRequestFormData.index = data;
+        await this._BCController.rootRequest(this._rootRequestFormData.index);
+    }
 
     // onUpdateField(data = {}) {
     //     switch (data.event) {

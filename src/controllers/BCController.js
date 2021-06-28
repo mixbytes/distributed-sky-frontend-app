@@ -24,4 +24,8 @@ export default class BCController {
 
         return await this._managerBC.rootAdd(parseData, delta);
     }
+
+    async rootRequest(index) {
+        return await this._managerBC.rootRequest(index);
+    }
 }

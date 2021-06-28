@@ -194,6 +194,14 @@ export default class ManagerBC {
         await this.checkEvents();
     }
 
+    async rootRequest(index) {
+        if (!this.isConnectedToNode) {
+            await this.connectToNode();
+        }
+            
+        console.log(await this._api.query.dsMapsModule.earthBitmap(index));
+    }
+
     async checkEvents() {
         this._api.query.system.events((events) => {
             console.log(`\nReceived ${events.length} events:`);

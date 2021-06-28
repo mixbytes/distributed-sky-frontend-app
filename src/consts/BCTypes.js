@@ -18,7 +18,6 @@ const BCTypes = {
     'LightCoord': 'u32',
     'RawCoord': 'i32',
     'AreaId': 'u16',
-    'PageId': 'u32',
     'RootId': 'u32',
     'ZoneId': 'u64',
     'Point2D': {

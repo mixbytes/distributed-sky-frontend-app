@@ -8,6 +8,7 @@ import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/ZoneAdditionForm/ZoneAdditionForm.hbs';
+import * as wasm from 'wasm_indexes';
 
 export default class ZoneAdditionForm extends BaseComponent {
     constructor(context = {}) {
@@ -33,9 +34,9 @@ export default class ZoneAdditionForm extends BaseComponent {
 
         // Setting default location to Moscow
         const myMap = L.map('map', {closePopupOnClick: false}).setView([55.751, 37.618], 10);
-
+        
         const drawnItems = L.featureGroup().addTo(myMap);
-
+        
         myMap.addControl(new L.Control.Draw({
             draw: {
                 polygon: {
@@ -49,27 +50,24 @@ export default class ZoneAdditionForm extends BaseComponent {
                 polyline: false,
             },
         }));
-
-        myMap.on(L.Draw.Event.CREATED, (e) => {
-            const rawLatLngs = e.layer.getLatLngs()[0];
-            EventBus.emit(Events.RootAddition, rawLatLngs);
-            const bounds = Parser.getTrimmedRect(rawLatLngs);
-            const layer = L.rectangle(bounds, {color: '#ff7800', weight: 3});
-            myMap.fitBounds(bounds);
-
-            drawnItems.clearLayers();
-            drawnItems.addLayer(layer);
-
-            const latLng = new L.LatLng((bounds[1][0] + bounds[0][0]) / 2,
-                                        (bounds[1][1] + bounds[0][1]) / 2);
-            const popup = L.popup()
-                .setLatLng(latLng)
-                .setContent('SW: ' + bounds[1].toString() + '<br>NE: ' + bounds[0].toString())
-                .openOn(myMap);
-
-            drawnItems.addLayer(popup);
-        });
-
+        
+        var popup = L.popup();
+        
+        function onMapClick(e) {
+            let lat_fix = Parser.parseToCoord(Parser.trimTo(parseFloat(e.latlng.lat), 5));
+            let lon_fix = Parser.parseToCoord(Parser.trimTo(parseFloat(e.latlng.lon), 5));
+            // 2097202
+            
+            let index = wasm.index_generate(lat_fix, lon_fix);
+            EventBus.emit(Events.RootRequest, index);
+            popup
+            .setLatLng(e.latlng)
+            .setContent("You clicked the map at " + e.latlng.toString())
+            .openOn(myMap);
+        }
+        
+        myMap.on('click', onMapClick);
+        
         return myMap;
     }
 }

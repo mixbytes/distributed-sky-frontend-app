@@ -11,6 +11,7 @@ const Events = {
     InputRole: 'inputRole',
     RefreshPage: 'refreshPage',
     RootAddition: 'rootAddition',
+    RootRequest: 'RootRequest',
     RootAdditionSubmit: 'rootAdditionSubmit',
     ZoneAdditionSubmit: 'zoneAdditionSubmit',
     RootAdditionMode: 'rootAdditionMode',

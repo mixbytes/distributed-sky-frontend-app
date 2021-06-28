@@ -13,13 +13,13 @@ export default class Parser {
 
     static getTrimmedRect(data) {
         const rect = [];
-        rect.push([this.trim(data[0].lat), this.trim(data[0].lng)]);
-        rect.push([this.trim(data[2].lat), this.trim(data[2].lng)]);
+        rect.push([this.trimTo(data[0].lat, 1), this.trimTo(data[0].lng, 1)]);
+        rect.push([this.trimTo(data[2].lat, 1), this.trimTo(data[2].lng, 1)]);
         return rect;
     }
 
-    static trim(coord) {
-        coord = parseFloat(coord.toFixed(1));
+    static trimTo(coord, limit) {
+        coord = parseFloat(coord.toFixed(limit));
         return coord;
     }
 
