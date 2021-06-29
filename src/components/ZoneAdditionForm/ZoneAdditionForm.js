@@ -56,7 +56,6 @@ export default class ZoneAdditionForm extends BaseComponent {
         function onMapClick(e) {
             let lat_fix = Parser.parseToCoord(Parser.trimTo(parseFloat(e.latlng.lat), 5));
             let lon_fix = Parser.parseToCoord(Parser.trimTo(parseFloat(e.latlng.lon), 5));
-            // 2097202
             
             let index = wasm.index_generate(lat_fix, lon_fix);
             EventBus.emit(Events.RootRequest, index);
@@ -66,7 +65,7 @@ export default class ZoneAdditionForm extends BaseComponent {
             .openOn(myMap);
         }
         
-        myMap.on('click', onMapClick);
+        // myMap.on('click', onMapClick);
         
         return myMap;
     }

@@ -48,7 +48,7 @@ export default class ZoneAdditionView extends BaseView {
     async onFormRendered(data = {}) {
         // Rendering maps after building the page
         this.myMap = this._ZoneAdditionForm.drawMap();
-        await this._MapController.initMap(this.myMap, false);
+        await this._MapController.initZoneMap(this.myMap);
     }
 
     // onMapOptionSelect(data = {}) {
