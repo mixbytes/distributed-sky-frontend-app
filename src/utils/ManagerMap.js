@@ -1,6 +1,5 @@
 import L from 'leaflet';
-import AutoGraticule from 'leaflet-auto-graticule';
-import 'components/MapUsageForm/Graticule'
+import 'components/MapUsageForm/Graticule';
 
 export default class ManagerMap {
     async initRootMap(myMap) {
@@ -13,7 +12,7 @@ export default class ManagerMap {
             tileSize: 512,
             zoomOffset: -1,
         }).addTo(myMap);
-        
+
         const options = {
             showLabel: true,
             opacity: 1,
@@ -27,8 +26,8 @@ export default class ManagerMap {
                 {start: 3, end: 3, interval: 20},
                 {start: 4, end: 4, interval: 10},
                 {start: 5, end: 7, interval: 5},
-                {start: 8, end: 20, interval: 0.1}
-            ]
+                {start: 8, end: 20, interval: 0.1},
+            ],
         };
         // TODO rewrite AutoGraticule for our needs (stepping w 0.1 degree especially)
         new L.LatLngGraticule(options).addTo(myMap);

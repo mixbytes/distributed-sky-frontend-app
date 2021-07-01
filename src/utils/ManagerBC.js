@@ -194,12 +194,27 @@ export default class ManagerBC {
         await this.checkEvents();
     }
 
-    async rootRequest(index) {
+    async rootRequest(index, touchLat, touchLon) {
         if (!this.isConnectedToNode) {
             await this.connectToNode();
         }
-            
-        console.log(await this._api.query.dsMapsModule.earthBitmap(index));
+
+        // consts from BC
+        const pageLength = 32;
+        const pageWidth = 50;
+
+        let bitmap = await this._api.query.dsMapsModule.earthBitmap(index);
+        // calculating cell coords in global grid
+        let column = Math.trunc(touchLat * 100);
+        let row = Math.trunc(touchLon * 100);
+        console.log(bitmap[row % pageWidth][column % pageLength].toHuman());
+        console.log(bitmap[1][1]);
+        console.log(bitmap);
+        let rootId = bitmap[row % pageWidth][column % pageLength];
+        // const rootId = this._api.registry.createType('RootId', "1565298361787027151");
+
+        let rootBox = await this._api.query.dsMapsModule.rootBoxes(rootId);
+        console.log(rootBox['bounding_box'].toHuman());
     }
 
     async checkEvents() {

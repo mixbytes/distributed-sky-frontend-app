@@ -8,7 +8,6 @@ import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/ZoneAdditionForm/ZoneAdditionForm.hbs';
-import * as wasm from 'wasm_indexes';
 
 export default class ZoneAdditionForm extends BaseComponent {
     constructor(context = {}) {
@@ -34,9 +33,9 @@ export default class ZoneAdditionForm extends BaseComponent {
 
         // Setting default location to Moscow
         const myMap = L.map('map', {closePopupOnClick: false}).setView([55.751, 37.618], 10);
-        
+
         const drawnItems = L.featureGroup().addTo(myMap);
-        
+
         myMap.addControl(new L.Control.Draw({
             draw: {
                 polygon: {
@@ -50,23 +49,20 @@ export default class ZoneAdditionForm extends BaseComponent {
                 polyline: false,
             },
         }));
-        
-        var popup = L.popup();
-        
+
+        const popup = L.popup();
+
         function onMapClick(e) {
-            let lat_fix = Parser.parseToCoord(Parser.trimTo(parseFloat(e.latlng.lat), 5));
-            let lon_fix = Parser.parseToCoord(Parser.trimTo(parseFloat(e.latlng.lon), 5));
-            
-            let index = wasm.index_generate(lat_fix, lon_fix);
-            EventBus.emit(Events.RootRequest, index);
+            EventBus.emit(Events.RootRequest, [e.latlng.lat, e.latlng.lng]);
             popup
-            .setLatLng(e.latlng)
-            .setContent("You clicked the map at " + e.latlng.toString())
-            .openOn(myMap);
+                .setLatLng(e.latlng)
+                .setContent('You clicked the map at ' + Parser.parseToCoord(Parser.trimTo(parseFloat(e.latlng.lat), 5)) +
+                    +'aaa' + Parser.parseToCoord(Parser.trimTo(parseFloat(e.latlng.lng), 5)))
+                .openOn(myMap);
         }
-        
-        // myMap.on('click', onMapClick);
-        
+
+        myMap.on('click', onMapClick);
+
         return myMap;
     }
 }

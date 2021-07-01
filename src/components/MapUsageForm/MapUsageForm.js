@@ -3,12 +3,10 @@ import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
 import L from 'leaflet';
 import 'leaflet-draw';
-import MapUsageFormItems from 'consts/MapUsageFormItems';
 import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/MapUsageForm/MapUsageForm.hbs';
-import TextInput from 'components/BaseComponents/TextInput/TextInput';
 import DropDownList from 'components/BaseComponents/DropDownList/DropDownList';
 
 export default class MapUsageForm extends BaseComponent {
@@ -26,15 +24,15 @@ export default class MapUsageForm extends BaseComponent {
         //         this._context.input.push((new TextInput(MapUsageFormItems[i])).render());
         //     }
         // }
-        let handler = function(control) {
+        const handler = function(control) {
             console.log(control);
-        }
-        
+        };
+
         this._context.DropDownList = (new DropDownList({
-            FirstName: 'Root selection',
-            LastName: 'Zone selection',
-            event: handler,
-            }
+                FirstName: 'Root selection',
+                LastName: 'Zone selection',
+                event: handler,
+            },
             // changeHandler: handler,
             // event: Events.RootAdditionSubmit,
         )).render();

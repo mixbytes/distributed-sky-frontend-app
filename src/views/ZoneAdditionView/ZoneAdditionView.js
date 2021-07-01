@@ -56,8 +56,9 @@ export default class ZoneAdditionView extends BaseView {
     // }
 
     async onRootRequest(data = {}) {
-        this._rootRequestFormData.index = data;
-        await this._BCController.rootRequest(this._rootRequestFormData.index);
+        this._rootRequestFormData.lat = data[0];
+        this._rootRequestFormData.lon = data[1];
+        await this._BCController.rootRequest(this._rootRequestFormData.lat, this._rootRequestFormData.lon);
     }
 
     // onUpdateField(data = {}) {
