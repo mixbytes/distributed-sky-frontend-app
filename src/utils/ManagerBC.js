@@ -3,6 +3,7 @@ import {web3Accounts, web3Enable, web3FromSource} from '@polkadot/extension-dapp
 import BCTypes from 'consts/BCTypes';
 import Errors from 'consts/Errors';
 import Roles from 'consts/Roles';
+import Parser from 'utils/Parser';
 
 export default class ManagerBC {
     constructor() {
@@ -207,14 +208,21 @@ export default class ManagerBC {
         // calculating cell coords in global grid
         let column = Math.trunc(touchLat * 100);
         let row = Math.trunc(touchLon * 100);
-        console.log(bitmap[row % pageWidth][column % pageLength].toHuman());
-        console.log(bitmap[1][1]);
-        console.log(bitmap);
+        // TODO check if this is correct
         let rootId = bitmap[row % pageWidth][column % pageLength];
-        // const rootId = this._api.registry.createType('RootId', "1565298361787027151");
 
         let rootBox = await this._api.query.dsMapsModule.rootBoxes(rootId);
-        console.log(rootBox['bounding_box'].toHuman());
+        const bBox = [];
+
+        bBox.push(rootBox['bounding_box']['south_west']['lat'].toHuman());
+        bBox.push(rootBox['bounding_box']['south_west']['lon'].toHuman());
+        bBox.push(rootBox['bounding_box']['north_east']['lat'].toHuman());
+        bBox.push(rootBox['bounding_box']['north_east']['lon'].toHuman());
+
+        const floatBox3D = [];
+        bBox.forEach((element) => floatBox3D.push(Parser.parseNodeOutput(element)));
+
+        console.log(floatBox3D);
     }
 
     async checkEvents() {

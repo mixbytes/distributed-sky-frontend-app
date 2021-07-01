@@ -62,7 +62,6 @@ export default class MapUsageForm extends BaseComponent {
                     showArea: true,
                 },
                 marker: false,
-                polygon: false,
                 circlemarker: false,
                 circle: false,
                 polyline: false,

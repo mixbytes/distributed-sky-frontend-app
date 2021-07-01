@@ -1,14 +1,31 @@
-import {toFixPoint} from '@encointer/util';
+import {toFixPoint, parserFixPoint} from '@encointer/util';
+import BN from 'bn.js';
 
 export default class Parser {
-    static parseToI10F22(value) {
+    static _parseToI10F22(value) {
         const toI10F22 = toFixPoint(10, 22);
         return toI10F22(value).toNumber();
     }
 
     // wrapping function, so type can be changed easily
     static parseToCoord(value) {
-        return this.parseToI10F22(value);
+        return this._parseToI10F22(value);
+    }
+
+    static _parseFromI10F22(value) {
+        const fromI10F22 = parserFixPoint(10, 22);
+        return parseFloat(fromI10F22(value));
+    }
+
+    // wrapping function, so type can be changed easily
+    static parseFromCoord(value) {
+        return this._parseFromI10F22(value);
+    }
+
+    static parseNodeOutput(stringValue) {
+        let value = parseInt(stringValue.split(',').join(''));
+        let bnValue = new BN(value, 10);
+        return this.parseFromCoord(bnValue);
     }
 
     static getTrimmedRect(data) {
