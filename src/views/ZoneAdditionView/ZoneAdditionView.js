@@ -19,6 +19,8 @@ export default class ZoneAdditionView extends BaseView {
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
+
+        this._busy = false;
     }
     // TODO merge Zone addition and root addition to one page with switch.
     async show(routeData) {
@@ -27,6 +29,7 @@ export default class ZoneAdditionView extends BaseView {
         this._onSubmitHandler = this.onSubmit.bind(this);
         // this._onUpdateFieldHandler = this.onUpdateField.bind(this);
         this._onRootRequest = this.onRootRequest.bind(this);
+        this._onRootShow = this.onRootShow.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
         // this._onMapOptionSelectHandler = this.onMapOptionSelect.bind(this);
 
@@ -34,6 +37,7 @@ export default class ZoneAdditionView extends BaseView {
         EventBus.on(Events.FormRendered, this._onFormRendered);
         // EventBus.on(Events.InputDelta, this._onUpdateFieldHandler);
         EventBus.on(Events.RootRequest, this._onRootRequest);
+        EventBus.on(Events.RootShow, this._onRootShow);
         EventBus.on(Events.RootAdditionSubmit, this._onSubmitHandler);
 
         const data = {
@@ -56,9 +60,18 @@ export default class ZoneAdditionView extends BaseView {
     // }
 
     async onRootRequest(data = {}) {
-        this._rootRequestFormData.lat = data[0];
-        this._rootRequestFormData.lon = data[1];
-        await this._BCController.rootRequest(this._rootRequestFormData.lat, this._rootRequestFormData.lon);
+        if (!this._busy) {
+            this._busy = true;
+            this._rootRequestFormData.lat = data[0];
+            this._rootRequestFormData.lon = data[1];
+            await this._BCController.rootRequest(this._rootRequestFormData.lat, this._rootRequestFormData.lon);
+            this._busy = false;
+        }
+    }
+
+    onRootShow(data = {}) {
+        this._ZoneAdditionForm.drawRoot(data);
+        // await this._BCController.rootRequest(this._rootRequestFormData.lat, this._rootRequestFormData.lon);
     }
 
     // onUpdateField(data = {}) {

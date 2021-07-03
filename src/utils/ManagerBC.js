@@ -4,6 +4,8 @@ import BCTypes from 'consts/BCTypes';
 import Errors from 'consts/Errors';
 import Roles from 'consts/Roles';
 import Parser from 'utils/Parser';
+import EventBus from 'services/EventBus';
+import Events from 'consts/Events';
 
 export default class ManagerBC {
     constructor() {
@@ -203,26 +205,23 @@ export default class ManagerBC {
         // consts from BC
         const pageLength = 32;
         const pageWidth = 50;
-
-        let bitmap = await this._api.query.dsMapsModule.earthBitmap(index);
+        console.log(index);
+        const bitmap = await this._api.query.dsMapsModule.earthBitmap(index);
         // calculating cell coords in global grid
-        let column = Math.trunc(touchLat * 100);
-        let row = Math.trunc(touchLon * 100);
+        const row = Math.trunc(touchLat * 100);
+        const column = Math.trunc(touchLon * 100);
         // TODO check if this is correct
-        let rootId = bitmap[row % pageWidth][column % pageLength];
+        const rootId = bitmap[column % pageLength][row % pageWidth];
 
-        let rootBox = await this._api.query.dsMapsModule.rootBoxes(rootId);
-        const bBox = [];
+        const rootBox = await this._api.query.dsMapsModule.rootBoxes(rootId);
 
-        bBox.push(rootBox['bounding_box']['south_west']['lat'].toHuman());
-        bBox.push(rootBox['bounding_box']['south_west']['lon'].toHuman());
-        bBox.push(rootBox['bounding_box']['north_east']['lat'].toHuman());
-        bBox.push(rootBox['bounding_box']['north_east']['lon'].toHuman());
+        const swLatCoord = Parser.parseNodeOutput(rootBox['bounding_box']['south_west']['lat'].toHuman());
+        const swLonCoord = Parser.parseNodeOutput(rootBox['bounding_box']['south_west']['lon'].toHuman());
+        const neLatCoord = Parser.parseNodeOutput(rootBox['bounding_box']['north_east']['lat'].toHuman());
+        const neLonCoord = Parser.parseNodeOutput(rootBox['bounding_box']['north_east']['lon'].toHuman());
+        const floatBox3D = [[neLatCoord, neLonCoord], [swLatCoord, swLonCoord]];
 
-        const floatBox3D = [];
-        bBox.forEach((element) => floatBox3D.push(Parser.parseNodeOutput(element)));
-
-        console.log(floatBox3D);
+        EventBus.emit(Events.RootShow, floatBox3D);
     }
 
     async checkEvents() {

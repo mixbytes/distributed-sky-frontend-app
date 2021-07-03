@@ -24,18 +24,15 @@ export default class MapUsageForm extends BaseComponent {
         //         this._context.input.push((new TextInput(MapUsageFormItems[i])).render());
         //     }
         // }
-        const handler = function(control) {
-            console.log(control);
-        };
 
-        this._context.DropDownList = (new DropDownList({
-                FirstName: 'Root selection',
-                LastName: 'Zone selection',
-                event: handler,
-            },
-            // changeHandler: handler,
-            // event: Events.RootAdditionSubmit,
-        )).render();
+        // this._context.DropDownList = (new DropDownList({
+        //     FirstName: 'Root selection',
+        //     LastName: 'Zone selection',
+        //     event: handler,
+        // },
+        //     // changeHandler: handler,
+        //     // event: Events.RootAdditionSubmit,
+        // )).render();
 
         this._context.SubmitRootButton = (new StandardButton({
             buttonName: 'Submit Root',
@@ -49,8 +46,8 @@ export default class MapUsageForm extends BaseComponent {
         if (container != null) {
             container._leaflet_id = null;
         }
-
         // Setting default location to Moscow
+
         const myMap = L.map('map', {closePopupOnClick: false}).setView([55.751, 37.618], 10);
 
         const drawnItems = L.featureGroup().addTo(myMap);
