@@ -7,7 +7,6 @@ import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/MapUsageForm/MapUsageForm.hbs';
-import DropDownList from 'components/BaseComponents/DropDownList/DropDownList';
 
 export default class MapUsageForm extends BaseComponent {
     constructor(context = {}) {

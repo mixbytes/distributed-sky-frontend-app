@@ -3,8 +3,6 @@ import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
 import L from 'leaflet';
 import 'leaflet-draw';
-import MapUsageFormItems from 'consts/MapUsageFormItems';
-import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/ZoneAdditionForm/ZoneAdditionForm.hbs';
@@ -45,7 +43,6 @@ export default class ZoneAdditionForm extends BaseComponent {
                     showArea: true,
                 },
                 marker: false,
-                polygon: false,
                 circlemarker: false,
                 circle: false,
                 polyline: false,
@@ -80,7 +77,7 @@ export default class ZoneAdditionForm extends BaseComponent {
             this.drawnItems.addLayer(layer);
             this.myMap.fitBounds(bbox);
             this.popup.setContent('Here is your root').openOn(this.myMap);
-        } else { // TODO write an error handling for this
+        } else {
             this.popup.setContent('You already selected this root!').openOn(this.myMap);
         }
     }

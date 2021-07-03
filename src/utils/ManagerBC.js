@@ -205,12 +205,14 @@ export default class ManagerBC {
         // consts from BC
         const pageLength = 32;
         const pageWidth = 50;
-        console.log(index);
-        const bitmap = await this._api.query.dsMapsModule.earthBitmap(index);
+
         // calculating cell coords in global grid
+        // TODO check if this is correct, something here is definetely broken
+        // TODO Sometimes index is formed wrongly, so requested bitmap is just zeroes.
+        const bitmap = await this._api.query.dsMapsModule.earthBitmap(index);
         const row = Math.trunc(touchLat * 100);
         const column = Math.trunc(touchLon * 100);
-        // TODO check if this is correct
+        // TODO this is ok, I checked
         const rootId = bitmap[column % pageLength][row % pageWidth];
 
         const rootBox = await this._api.query.dsMapsModule.rootBoxes(rootId);

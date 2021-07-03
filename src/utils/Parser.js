@@ -23,8 +23,8 @@ export default class Parser {
     }
 
     static parseNodeOutput(stringValue) {
-        let value = parseInt(stringValue.split(',').join(''));
-        let bnValue = new BN(value, 10);
+        const value = parseInt(stringValue.split(',').join(''));
+        const bnValue = new BN(value, 10);
         return this.parseFromCoord(bnValue);
     }
 

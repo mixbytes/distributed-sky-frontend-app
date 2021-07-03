@@ -1,5 +1,3 @@
-import Events from 'consts/Events';
-
 const ZoneadditionFormItems = {
     consts_BC: {
         BITMAP_CELL_LENGTH: 1,
