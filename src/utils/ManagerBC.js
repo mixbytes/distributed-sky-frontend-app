@@ -215,15 +215,19 @@ export default class ManagerBC {
         // TODO this is ok, I checked
         const rootId = bitmap[column % pageLength][row % pageWidth];
 
-        const rootBox = await this._api.query.dsMapsModule.rootBoxes(rootId);
+        const _rootBox = await this._api.query.dsMapsModule.rootBoxes(rootId);
 
-        const swLatCoord = Parser.parseNodeOutput(rootBox['bounding_box']['south_west']['lat'].toHuman());
-        const swLonCoord = Parser.parseNodeOutput(rootBox['bounding_box']['south_west']['lon'].toHuman());
-        const neLatCoord = Parser.parseNodeOutput(rootBox['bounding_box']['north_east']['lat'].toHuman());
-        const neLonCoord = Parser.parseNodeOutput(rootBox['bounding_box']['north_east']['lon'].toHuman());
+        const swLatCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['south_west']['lat'].toHuman());
+        const swLonCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['south_west']['lon'].toHuman());
+        const neLatCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['north_east']['lat'].toHuman());
+        const neLonCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['north_east']['lon'].toHuman());
         const floatBox3D = [[neLatCoord, neLonCoord], [swLatCoord, swLonCoord]];
-
-        EventBus.emit(Events.RootShow, floatBox3D);
+        const rootBox = {
+            id: _rootBox['id'].toHuman(),
+            bounding_box: floatBox3D,
+            delta: _rootBox['delta'].toHuman(),
+        };
+        EventBus.emit(Events.RootShow, rootBox);
     }
 
     async checkEvents() {
