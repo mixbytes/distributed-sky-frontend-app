@@ -35,6 +35,17 @@ export default class Parser {
         return rect;
     }
 
+    // Note. there is default numeration in leaflet, so fn is correct for any selected rect.
+    // Output is default array, as used in leaflet [[sw_lat, sw_lon], [ne_lat, ne_lon]]
+    static getRect(data) {
+        const rect = [
+            [data[0].lat, data[0].lng],
+            [data[2].lat, data[2].lng],
+        ];
+        return rect;
+    }
+
+    // (55.63962388406009,  3) => 55.640 (with rounding)
     static trimTo(coord, limit) {
         coord = parseFloat(coord.toFixed(limit));
         return coord;

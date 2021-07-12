@@ -53,11 +53,8 @@ export default class MapUsageForm extends BaseComponent {
 
         myMap.addControl(new L.Control.Draw({
             draw: {
-                polygon: {
-                    allowIntersection: false,
-                    showArea: true,
-                },
                 marker: false,
+                polygon: false,
                 circlemarker: false,
                 circle: false,
                 polyline: false,

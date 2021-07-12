@@ -36,12 +36,75 @@ export default class ManagerMap {
     async initZoneMap(myMap) {
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 18,
-            minZoom: 3,
+            minZoom: 14,
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
         }).addTo(myMap);
+    }
+
+    // Note to self [[sw_lat, sw_lon], [ne_lat, ne_lon]]
+    // TODO consider converter to JSON and back, JSON easier to understand while reading, but array easier to use
+    // Returns (IsSplitted, [zones; 2-4])
+    static trySplitZone(root, zoneBbox) {
+        const delta = root.delta;
+        const rootBbox = root.bounding_box;
+        console.log('root: ', rootBbox, 'zone ', zoneBbox);
+        const localZone = ManagerMap.toLocal(rootBbox, zoneBbox);
+
+        // console.log(localLat1, localLat2, localLon1, localLon2)
+        const area1Lat = Math.trunc(localZone[0][0] / delta);
+        const area2Lat = Math.trunc(localZone[1][0] / delta);
+
+        const area1Lon = Math.trunc(localZone[0][1] / delta);
+        const area2Lon = Math.trunc(localZone[1][1] / delta);
+        const output = [];
+        // True if they lie in same area, also expect (bbox size) < (2 * delta)
+        if (!(area1Lon === area2Lon)) {
+            const lonSplitLine = (area1Lon + 1) * delta;
+            const leftZone = ManagerMap.toGlobal(rootBbox, [localZone[0], [localZone[1][0], lonSplitLine]]);
+            const rightZone = ManagerMap.toGlobal(rootBbox, [[localZone[0][0], lonSplitLine], localZone[1]]);
+            output.push(leftZone);
+            output.push(rightZone);
+        } else {
+            output.push(localZone);
+        }
+
+        if (!(area1Lat === area2Lat)) {
+            output.forEach((item) => {
+                const latSplitLine = (area1Lat + 1) * delta;
+                const topZone = ManagerMap.toGlobal(rootBbox, [localZone[0], [latSplitLine, localZone[1][1]]]);
+                const bottomZone = ManagerMap.toGlobal(rootBbox, [[latSplitLine, localZone[0][1]], localZone[1]]);
+                output.push(topZone);
+                output.push(bottomZone);
+            });
+        }
+
+        // if (area1Lat == area2Lat) {
+        //     console.log('overlapping on lat, splitting');
+
+        // }
+
+        return output;
+    }
+
+    static toLocal(base, target) {
+        const output = [[], []];
+        output[0][0] = Math.abs(target[0][0] - base[0][0]);
+        output[1][0] = Math.abs(target[1][0] - base[0][0]);
+        output[0][1] = Math.abs(target[0][1] - base[0][1]);
+        output[1][1] = Math.abs(target[1][1] - base[0][1]);
+        return output;
+    }
+
+    static toGlobal(base, target) {
+        const output = [[], []];
+        output[0][0] = target[0][0] + base[0][0];
+        output[1][0] = target[1][0] + base[0][0];
+        output[0][1] = target[0][1] + base[0][1];
+        output[1][1] = target[1][1] + base[0][1];
+        return output;
     }
 }

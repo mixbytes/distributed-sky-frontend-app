@@ -12,7 +12,8 @@ export default class MapUsageView extends BaseView {
         this._template = template;
         this._rootAddFormData = {
             coords: '',
-            delta: '0.1',
+            // TODO change this mock to delta calculations
+            delta: '0.01',
         };
         this._BCController = new BCController();
         this._MapController = new MapController();

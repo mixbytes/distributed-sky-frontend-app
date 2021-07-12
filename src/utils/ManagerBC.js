@@ -205,7 +205,6 @@ export default class ManagerBC {
         // consts from BC
         const pageLength = 32;
         const pageWidth = 50;
-
         // calculating cell coords in global grid
         // TODO check if this is correct, something here is definetely broken
         // TODO Sometimes index is formed wrongly, so requested bitmap is just zeroes.
@@ -221,11 +220,11 @@ export default class ManagerBC {
         const swLonCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['south_west']['lon'].toHuman());
         const neLatCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['north_east']['lat'].toHuman());
         const neLonCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['north_east']['lon'].toHuman());
-        const floatBox3D = [[neLatCoord, neLonCoord], [swLatCoord, swLonCoord]];
+        const floatBox3D = [[swLatCoord, swLonCoord], [neLatCoord, neLonCoord]];
         const rootBox = {
-            id: _rootBox['id'].toHuman(),
+            id: _rootBox['id'].toHuman().split(',').join(''),
             bounding_box: floatBox3D,
-            delta: _rootBox['delta'].toHuman(),
+            delta: Parser.parseNodeOutput(_rootBox['delta'].toHuman()),
         };
         EventBus.emit(Events.RootShow, rootBox);
     }
