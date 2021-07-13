@@ -26,8 +26,9 @@ export default class BCController {
         return await this._managerBC.rootAdd(parseData, delta);
     }
 
-    async zoneAdd(zones, rootId) {
-        zones.forEach((zone, index) => {
+    async zoneAdd(_zones, rootId) {
+        const zones = [];
+        _zones.forEach((zone, index) => {
             zones[index] = Parser.getRectCoords(zone);
         });
         return await this._managerBC.zoneAdd(zones, rootId);

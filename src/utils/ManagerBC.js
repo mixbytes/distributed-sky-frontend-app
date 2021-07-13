@@ -180,6 +180,7 @@ export default class ManagerBC {
 
         const account = this._userAccounts[1];
         const injector = await web3FromSource(account.meta.source);
+        console.log(box3D);
         await this._api.tx.dsMapsModule.rawRootAdd(box3D, delta)
             .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
@@ -222,11 +223,61 @@ export default class ManagerBC {
         const neLonCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['north_east']['lon'].toHuman());
         const floatBox3D = [[swLatCoord, swLonCoord], [neLatCoord, neLonCoord]];
         const rootBox = {
-            id: _rootBox['id'].toHuman().split(',').join(''),
+            // id: _rootBox['id'].toHuman().split(',').join(''),
+            id: _rootBox['id'],
             bounding_box: floatBox3D,
             delta: Parser.parseNodeOutput(_rootBox['delta'].toHuman()),
         };
         EventBus.emit(Events.RootShow, rootBox);
+    }
+
+    async zoneAdd(_zones, _rootId) {
+        if (!this._isExtension) {
+            if (!(await this.login())) {
+                throw new Error(Errors.ExtensionsNotFound);
+            }
+            await this.loadUserAccounts();
+        }
+
+        if (!this._isConnectedToNode) {
+            if (!await this.connectToNode()) {
+                throw new Error(Errors.ConnectionToNode);
+            }
+        }
+        const _height = 10;
+        // console.log()
+        const rootId = _rootId;
+        // const rootId = this._api.registry.createType('RootId', _rootId);
+        const height = this._api.registry.createType('LightCoord', _height);
+        console.log(_zones);
+        const zones = [];
+        _zones.forEach((_zone) => {
+            const zone = [];
+            _zone.forEach((element) => zone.push(this._api.createType('RawCoord', element)));
+            zones.push(zone);
+        });
+
+        console.log(zones);
+
+        const account = this._userAccounts[1];
+        const injector = await web3FromSource(account.meta.source);
+        for (let i = 0; i < zones.length; i++) {
+            console.log('iteration ' + i);
+            await this._api.tx.dsMapsModule.rawZoneAdd(zones[0], height, rootId)
+                .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
+                    if (status.isInBlock) {
+                        console.log('in block now?', status);
+                    } else {
+                        if (status.type === 'Finalized') {
+                            console.log('Finalized now');
+                            return;
+                        }
+                    }
+                }).catch((errorMessage) => {
+                    throw new Error(errorMessage);
+                });
+        }
+        await this.checkEvents();
     }
 
     async checkEvents() {

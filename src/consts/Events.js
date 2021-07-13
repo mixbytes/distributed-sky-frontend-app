@@ -13,6 +13,7 @@ const Events = {
     RootAddition: 'rootAddition',
     ZoneAddition: 'zoneAddition',
     ZoneAdditionSubmit: 'zoneAdditionSubmit',
+    RootAdditionSubmit: 'rootAdditionSubmit',
     RootRequest: 'rootRequest',
     RootShow: 'rootShow',
     RootAdditionMode: 'rootAdditionMode',

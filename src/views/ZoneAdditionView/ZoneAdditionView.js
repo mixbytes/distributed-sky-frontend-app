@@ -12,9 +12,11 @@ export default class ZoneAdditionView extends BaseView {
         this._template = template;
         this._zoneAddFormData = {
             zones: '',
+            index: '',
         };
         this._rootRequestFormData = {
-            index: '',
+            lat: '',
+            lon: '',
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
@@ -64,6 +66,7 @@ export default class ZoneAdditionView extends BaseView {
     }
 
     onRootShow(data = {}) {
+        this._zoneAddFormData.index = data.id;
         this._ZoneAdditionForm.drawRoot(data);
         // await this._BCController.rootRequest(this._rootRequestFormData.lat, this._rootRequestFormData.lon);
     }
@@ -73,9 +76,10 @@ export default class ZoneAdditionView extends BaseView {
     }
 
     async onSubmit() {
+        console.log(this._zoneAddFormData);
         await this._BCController.zoneAdd(
             this._zoneAddFormData.zones,
-            this._rootRequestFormData.index,
+            this._zoneAddFormData.index,
         );
     }
 }
