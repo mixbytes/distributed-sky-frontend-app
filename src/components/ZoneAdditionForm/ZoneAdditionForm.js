@@ -119,20 +119,21 @@ export default class ZoneAdditionForm extends BaseComponent {
 
             this.drawnZone.clearLayers();
             this.drawnZone.addLayer(layer);
-            console.log(bounds);
-            const output = ManagerMap.trySplitZone(this.root, bounds);
-            console.log(output);
+            const zones = ManagerMap.trySplitZone(this.root, bounds);
 
             // TODO consider removing this, maybe all splitting shall be internal
-            if (output[0].length !== 0) {
-                console.log('[WARN] Selected zone lies in two areas!');
-                output.forEach((item) => {
+            if (zones.length !== 1) {
+                console.warn('[WARN] Selected zone lies in ' + zones.length + ' areas!');
+                zones.forEach((item) => {
                     const newLayer = L.rectangle(item, {color: '#000000', weight: 3});
                     this.drawnZone.addLayer(newLayer);
                 });
             }
-
-            EventBus.emit(Events.ZoneAdditionSubmit, output);
+            // const output = {
+            //     zones: zones,
+            //     rootId: this.root.rootId,
+            // };
+            EventBus.emit(Events.ZoneAddition, zones);
 
             const latLng = new L.LatLng(
                 (bounds[1][0] + bounds[0][0]) / 2,

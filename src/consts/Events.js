@@ -12,6 +12,7 @@ const Events = {
     RefreshPage: 'refreshPage',
     RootAddition: 'rootAddition',
     ZoneAddition: 'zoneAddition',
+    ZoneAdditionSubmit: 'zoneAdditionSubmit',
     RootRequest: 'rootRequest',
     RootShow: 'rootShow',
     RootAdditionMode: 'rootAdditionMode',

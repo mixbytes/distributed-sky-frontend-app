@@ -11,8 +11,7 @@ export default class ZoneAdditionView extends BaseView {
         super(title);
         this._template = template;
         this._zoneAddFormData = {
-            coords: '',
-            delta: '0.1',
+            zones: '',
         };
         this._rootRequestFormData = {
             index: '',
@@ -22,23 +21,22 @@ export default class ZoneAdditionView extends BaseView {
 
         this._busy = false;
     }
-    // TODO merge Zone addition and root addition to one page with switch.
+
+    // TODO merge Zone addition and root addition to one page with a switch.
     async show(routeData) {
         this._ZoneAdditionForm = new ZoneAdditionForm();
 
         this._onSubmitHandler = this.onSubmit.bind(this);
-        // this._onUpdateFieldHandler = this.onUpdateField.bind(this);
         this._onRootRequest = this.onRootRequest.bind(this);
         this._onRootShow = this.onRootShow.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
-        // this._onMapOptionSelectHandler = this.onMapOptionSelect.bind(this);
+        this._onZoneAdd = this.onZoneAdd.bind(this);
 
-        // EventBus.on(Events.SelectMapOption, this._onMapOptionSelectHandler);
         EventBus.on(Events.FormRendered, this._onFormRendered);
-        // EventBus.on(Events.InputDelta, this._onUpdateFieldHandler);
         EventBus.on(Events.RootRequest, this._onRootRequest);
         EventBus.on(Events.RootShow, this._onRootShow);
-        EventBus.on(Events.RootAdditionSubmit, this._onSubmitHandler);
+        EventBus.on(Events.ZoneAdditionSubmit, this._onSubmitHandler);
+        EventBus.on(Events.ZoneAddition, this._onZoneAdd);
 
         const data = {
             ZoneAdditionForm: this._ZoneAdditionForm.render(),
@@ -55,10 +53,6 @@ export default class ZoneAdditionView extends BaseView {
         await this._MapController.initZoneMap(this.myMap);
     }
 
-    // onMapOptionSelect(data = {}) {
-    //     console.log('HIIIIIII')
-    // }
-
     async onRootRequest(data = {}) {
         if (!this._busy) {
             this._busy = true;
@@ -74,22 +68,14 @@ export default class ZoneAdditionView extends BaseView {
         // await this._BCController.rootRequest(this._rootRequestFormData.lat, this._rootRequestFormData.lon);
     }
 
-    // onUpdateField(data = {}) {
-    //     switch (data.event) {
-    //         case Events.InputDelta: {
-    //             this._rootAddFormData.delta = data.value;
-    //             break;
-    //         }
-    //         default: {
-    //             break;
-    //         }
-    //     }
-    // }
+    onZoneAdd(data = {}) {
+        this._zoneAddFormData.zones = data;
+    }
 
     async onSubmit() {
         await this._BCController.zoneAdd(
-            this._zoneAddFormData.coords,
-            this._zoneAddFormData.delta,
+            this._zoneAddFormData.zones,
+            this._rootRequestFormData.index,
         );
     }
 }

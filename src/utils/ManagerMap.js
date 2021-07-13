@@ -51,17 +51,14 @@ export default class ManagerMap {
     static trySplitZone(root, zoneBbox) {
         const delta = root.delta;
         const rootBbox = root.bounding_box;
-        console.log('root: ', rootBbox, 'zone ', zoneBbox);
         const localZone = ManagerMap.toLocal(rootBbox, zoneBbox);
 
-        // console.log(localLat1, localLat2, localLon1, localLon2)
         const area1Lat = Math.trunc(localZone[0][0] / delta);
         const area2Lat = Math.trunc(localZone[1][0] / delta);
-
         const area1Lon = Math.trunc(localZone[0][1] / delta);
         const area2Lon = Math.trunc(localZone[1][1] / delta);
         const output = [];
-        // True if they lie in same area, also expect (bbox size) < (2 * delta)
+        // TODO consider restricting (bbox size) < (2 * delta), or handling it (for now max splitting is up to 4)
         if (!(area1Lon === area2Lon)) {
             const lonSplitLine = (area1Lon + 1) * delta;
             const leftZone = ManagerMap.toGlobal(rootBbox, [localZone[0], [localZone[1][0], lonSplitLine]]);
@@ -71,21 +68,23 @@ export default class ManagerMap {
         } else {
             output.push(localZone);
         }
-
         if (!(area1Lat === area2Lat)) {
-            output.forEach((item) => {
+            let totalZones = 1;
+            output.forEach((splitZone, index) => {
+                totalZones = index;
                 const latSplitLine = (area1Lat + 1) * delta;
-                const topZone = ManagerMap.toGlobal(rootBbox, [localZone[0], [latSplitLine, localZone[1][1]]]);
-                const bottomZone = ManagerMap.toGlobal(rootBbox, [[latSplitLine, localZone[0][1]], localZone[1]]);
+                const localSplitZone = ManagerMap.toLocal(rootBbox, splitZone);
+                const topZone = ManagerMap.toGlobal(rootBbox, [localSplitZone[0], [latSplitLine, localSplitZone[1][1]]]);
+                const bottomZone = ManagerMap.toGlobal(rootBbox, [[latSplitLine, localSplitZone[0][1]], localSplitZone[1]]);
+                // output.shift();
                 output.push(topZone);
                 output.push(bottomZone);
             });
+            while (totalZones >= 0) {
+                output.shift();
+                totalZones -= 1;
+            }
         }
-
-        // if (area1Lat == area2Lat) {
-        //     console.log('overlapping on lat, splitting');
-
-        // }
 
         return output;
     }

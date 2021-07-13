@@ -20,10 +20,17 @@ export default class BCController {
     }
 
     async rootAdd(rawRootCoords, rawDelta) {
-        const parseData = Parser.getRectCoords(rawRootCoords);
+        const parseData = Parser.getBoxCoords(rawRootCoords);
         const delta = Parser.parseToCoord(parseFloat(rawDelta));
 
         return await this._managerBC.rootAdd(parseData, delta);
+    }
+
+    async zoneAdd(zones, rootId) {
+        zones.forEach((zone, index) => {
+            zones[index] = Parser.getRectCoords(zone);
+        });
+        return await this._managerBC.zoneAdd(zones, rootId);
     }
 
     async rootRequest(touchLat, touchLon) {

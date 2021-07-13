@@ -51,7 +51,7 @@ export default class Parser {
         return coord;
     }
 
-    static getRectCoords(data) {
+    static getBoxCoords(data) {
         // So somewhere here should be checks for non-zero, max dimensons, snapping => requires refactoring.
         // TODO make check, which coord is greater, swap points accordingly
         const box3D = [];
@@ -64,5 +64,18 @@ export default class Parser {
             this.parseToCoord(2),
         );
         return box3D;
+    }
+
+    static getRectCoords(data) {
+        // So somewhere here should be checks for non-zero, max dimensons, snapping => requires refactoring.
+        // TODO make check, which coord is greater, swap points accordingly
+        const rect = [];
+        rect.push(
+            this.parseToCoord(data[0][0]),
+            this.parseToCoord(data[0][1]),
+            this.parseToCoord(data[1][0]),
+            this.parseToCoord(data[1][1]),
+        );
+        return rect;
     }
 }
