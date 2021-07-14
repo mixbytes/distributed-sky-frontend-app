@@ -85,7 +85,9 @@ export default class ManagerMap {
                 totalZones -= 1;
             }
         }
-
+        if (output.length === 1) {
+            output[0] = ManagerMap.toGlobal(rootBbox, output[0]);
+        }
         return output;
     }
 

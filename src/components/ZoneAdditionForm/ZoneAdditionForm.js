@@ -129,10 +129,7 @@ export default class ZoneAdditionForm extends BaseComponent {
                     this.drawnZone.addLayer(newLayer);
                 });
             }
-            // const output = {
-            //     zones: zones,
-            //     rootId: this.root.rootId,
-            // };
+
             EventBus.emit(Events.ZoneAddition, zones);
 
             const latLng = new L.LatLng(

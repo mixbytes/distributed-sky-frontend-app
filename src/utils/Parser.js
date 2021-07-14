@@ -19,13 +19,14 @@ export default class Parser {
 
     // wrapping function, so type can be changed easily
     static parseFromCoord(value) {
-        return this._parseFromI10F22(value);
+        const bnValue = new BN(value, 10);
+        return this._parseFromI10F22(bnValue);
     }
+
 
     static parseNodeOutput(stringValue) {
         const value = parseInt(stringValue.split(',').join(''));
-        const bnValue = new BN(value, 10);
-        return this.parseFromCoord(bnValue);
+        return this.parseFromCoord(value);
     }
 
     static getTrimmedRect(data) {

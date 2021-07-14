@@ -245,11 +245,8 @@ export default class ManagerBC {
             }
         }
         const _height = 10;
-        // console.log()
         const rootId = _rootId;
-        // const rootId = this._api.registry.createType('RootId', _rootId);
         const height = this._api.registry.createType('LightCoord', _height);
-        console.log(_zones);
         const zones = [];
         _zones.forEach((_zone) => {
             const zone = [];
@@ -257,12 +254,9 @@ export default class ManagerBC {
             zones.push(zone);
         });
 
-        console.log(zones);
-
         const account = this._userAccounts[1];
         const injector = await web3FromSource(account.meta.source);
         for (let i = 0; i < zones.length; i++) {
-            console.log('iteration ' + i);
             await this._api.tx.dsMapsModule.rawZoneAdd(zones[0], height, rootId)
                 .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                     if (status.isInBlock) {
