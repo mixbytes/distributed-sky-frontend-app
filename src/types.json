@@ -14,7 +14,7 @@
 		"metadata_ipfs_hash": "MetaIPFS",
 		"managed_by": "AccountId"
 	},
-	"Coord":   "u32",
+	"Coord": "u32",
 	"LightCoord": "u32",
 	"RawCoord": "i32",
 	"AreaId": "u16",

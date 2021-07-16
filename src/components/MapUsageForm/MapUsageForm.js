@@ -3,6 +3,11 @@ import EventBus from 'services/EventBus';
 import Events from 'consts/Events';
 import L from 'leaflet';
 import 'leaflet-draw';
+
+
+import Locations from 'consts/Locations';
+import MapUsageFormItems from 'consts/MapUsageFormItems';
+
 import Parser from 'utils/Parser';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
@@ -47,7 +52,10 @@ export default class MapUsageForm extends BaseComponent {
         }
         // Setting default location to Moscow
 
-        const myMap = L.map('map', {closePopupOnClick: false}).setView([55.751, 37.618], 10);
+
+
+        const myMap = L.map('map', {closePopupOnClick: false}).setView(Locations.Moscow, 10);
+
 
         const drawnItems = L.featureGroup().addTo(myMap);
 
@@ -72,7 +80,7 @@ export default class MapUsageForm extends BaseComponent {
             drawnItems.addLayer(layer);
 
             const latLng = new L.LatLng((bounds[1][0] + bounds[0][0]) / 2,
-                (bounds[1][1] + bounds[0][1]) / 2);
+                                        (bounds[1][1] + bounds[0][1]) / 2);
             const popup = L.popup()
                 .setLatLng(latLng)
                 .setContent('SW: ' + bounds[1].toString() + '<br>NE: ' + bounds[0].toString())
