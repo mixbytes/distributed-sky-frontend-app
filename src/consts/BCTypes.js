@@ -19,7 +19,9 @@ const BCTypes = {
     'RawCoord': 'i32',
     'AreaId': 'u16',
     'PageId': 'u32',
-    'RootId': 'u32',
+    'PageLine': '[RootId; 50]',
+    'PageOf': '[PageLine; 32]',
+    'RootId': 'u64',
     'ZoneId': 'u64',
     'Point2D': {
         'lon': 'Coord',

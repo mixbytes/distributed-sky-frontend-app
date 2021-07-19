@@ -1,5 +1,6 @@
 import ManagerBC from 'utils/ManagerBC';
 import Parser from 'utils/Parser';
+import * as wasm from 'wasm_indexes';
 
 export default class BCController {
     constructor() {
@@ -19,8 +20,25 @@ export default class BCController {
     }
 
     async rootAdd(rawRootCoords, rawDelta) {
-        const parseData = Parser.getRectCoords(rawRootCoords);
+        const parseData = Parser.getBoxCoords(rawRootCoords);
         const delta = Parser.parseToCoord(parseFloat(rawDelta));
+
         return await this._managerBC.rootAdd(parseData, delta);
+    }
+
+    async zoneAdd(_zones, rootId) {
+        const zones = [];
+        _zones.forEach((zone, index) => {
+            zones[index] = Parser.getRectCoords(zone);
+        });
+        return await this._managerBC.zoneAdd(zones, rootId);
+    }
+
+    async rootRequest(touchLat, touchLon) {
+        const latFix = Parser.parseToCoord(Parser.trimTo(parseFloat(touchLat), 7));
+        const lonFix = Parser.parseToCoord(Parser.trimTo(parseFloat(touchLon), 7));
+        const index = wasm.index_generate(latFix, lonFix);
+
+        return await this._managerBC.rootRequest(index, touchLat, touchLon);
     }
 }

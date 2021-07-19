@@ -3,6 +3,9 @@ import {web3Accounts, web3Enable, web3FromSource} from '@polkadot/extension-dapp
 import BCTypes from 'consts/BCTypes';
 import Errors from 'consts/Errors';
 import Roles from 'consts/Roles';
+import Parser from 'utils/Parser';
+import EventBus from 'services/EventBus';
+import Events from 'consts/Events';
 
 export default class ManagerBC {
     constructor() {
@@ -175,8 +178,9 @@ export default class ManagerBC {
         const box3D = [];
         rootCoords.forEach((element) => box3D.push(this._api.createType('RawCoord', element)));
 
-        const account = this._userAccounts[0];
+        const account = this._userAccounts[1];
         const injector = await web3FromSource(account.meta.source);
+        console.log(box3D);
         await this._api.tx.dsMapsModule.rawRootAdd(box3D, delta)
             .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
                 if (status.isInBlock) {
@@ -191,6 +195,82 @@ export default class ManagerBC {
                 throw new Error(errorMessage);
             });
 
+        await this.checkEvents();
+    }
+
+    async rootRequest(index, touchLat, touchLon) {
+        if (!this.isConnectedToNode) {
+            await this.connectToNode();
+        }
+
+        // consts from BC
+        const pageLength = 32;
+        const pageWidth = 50;
+        // calculating cell coords in global grid
+        // TODO check if this is correct, something here is definetely broken
+        // TODO Sometimes index is formed wrongly, so requested bitmap is just zeroes.
+        const bitmap = await this._api.query.dsMapsModule.earthBitmap(index);
+        const row = Math.trunc(touchLat * 100);
+        const column = Math.trunc(touchLon * 100);
+        // TODO this is ok, I checked
+        const rootId = bitmap[column % pageLength][row % pageWidth];
+
+        const _rootBox = await this._api.query.dsMapsModule.rootBoxes(rootId);
+
+        const swLatCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['south_west']['lat'].toHuman());
+        const swLonCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['south_west']['lon'].toHuman());
+        const neLatCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['north_east']['lat'].toHuman());
+        const neLonCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['north_east']['lon'].toHuman());
+        const floatBox3D = [[swLatCoord, swLonCoord], [neLatCoord, neLonCoord]];
+        const rootBox = {
+            // id: _rootBox['id'].toHuman().split(',').join(''),
+            id: _rootBox['id'],
+            bounding_box: floatBox3D,
+            delta: Parser.parseNodeOutput(_rootBox['delta'].toHuman()),
+        };
+        EventBus.emit(Events.RootShow, rootBox);
+    }
+
+    async zoneAdd(_zones, _rootId) {
+        if (!this._isExtension) {
+            if (!(await this.login())) {
+                throw new Error(Errors.ExtensionsNotFound);
+            }
+            await this.loadUserAccounts();
+        }
+
+        if (!this._isConnectedToNode) {
+            if (!await this.connectToNode()) {
+                throw new Error(Errors.ConnectionToNode);
+            }
+        }
+        const _height = 10;
+        const rootId = _rootId;
+        const height = this._api.registry.createType('LightCoord', _height);
+        const zones = [];
+        _zones.forEach((_zone) => {
+            const zone = [];
+            _zone.forEach((element) => zone.push(this._api.createType('RawCoord', element)));
+            zones.push(zone);
+        });
+
+        const account = this._userAccounts[1];
+        const injector = await web3FromSource(account.meta.source);
+        for (let i = 0; i < zones.length; i++) {
+            await this._api.tx.dsMapsModule.rawZoneAdd(zones[0], height, rootId)
+                .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
+                    if (status.isInBlock) {
+                        console.log('in block now?', status);
+                    } else {
+                        if (status.type === 'Finalized') {
+                            console.log('Finalized now');
+                            return;
+                        }
+                    }
+                }).catch((errorMessage) => {
+                    throw new Error(errorMessage);
+                });
+        }
         await this.checkEvents();
     }
 

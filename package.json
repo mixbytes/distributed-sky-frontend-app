@@ -36,11 +36,13 @@
     "stream-browserify": "^3.0.0",
     "style-loader": "^2.0.0",
     "util": "^0.12.3",
+    "wasm_indexes": "file:packages/wasm-indexes-pkg",
     "webpack": "^5.26.0"
   },
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "lint": "eslint --debug --ext .js src/",
+    "start": "webpack-dev-server",
     "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package @encointer/types/interfaces --input ./src/interfaces",
     "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package sample-polkadotjs-typegen/interfaces --endpoint ./dsky.json --output ./src/interfaces",
     "typeLint": "tsc --noEmit --pretty"
@@ -51,6 +53,7 @@
     "eslint-config-google": "^0.14.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",
-    "webpack-cli": "^4.7.2"
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.1.5"
   }
 }

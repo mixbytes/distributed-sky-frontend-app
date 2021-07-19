@@ -19,8 +19,13 @@ const menuItems = {
             event: Events.ChangePath,
         },
         MapUsage: {
-            name: 'Use maps',
+            name: 'Add Root',
             url: Routes.MapUsage,
+            event: Events.ChangePath,
+        },
+        ZoneAddition: {
+            name: 'Add Zone',
+            url: Routes.ZoneAddition,
             event: Events.ChangePath,
         },
     },

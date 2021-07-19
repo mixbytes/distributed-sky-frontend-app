@@ -1,9 +1,10 @@
-import {toFixPoint} from '@encointer/util';
+import {toFixPoint, parserFixPoint} from '@encointer/util';
+import BN from 'bn.js';
 
 export default class Parser {
-    static parseToI9F23(value) {
-        const toI9F23 = toFixPoint(9, 23);
-        return toI9F23(value).toNumber();
+    static _parseToI10F22(value) {
+        const toI10F22 = toFixPoint(10, 22);
+        return toI10F22(value).toNumber();
     }
 
     static parseToI10F22(value) {
@@ -13,22 +14,52 @@ export default class Parser {
     
     // wrapping function, so type can be changed easily
     static parseToCoord(value) {
-        return this.parseToI10F22(value);
+
+        return this._parseToI10F22(value);
+    }
+
+    static _parseFromI10F22(value) {
+        const fromI10F22 = parserFixPoint(10, 22);
+        return parseFloat(fromI10F22(value));
+    }
+
+    // wrapping function, so type can be changed easily
+    static parseFromCoord(value) {
+        const bnValue = new BN(value, 10);
+        return this._parseFromI10F22(bnValue);
+    }
+
+
+    static parseNodeOutput(stringValue) {
+        const value = parseInt(stringValue.split(',').join(''));
+        return this.parseFromCoord(value);
+
     }
 
     static getTrimmedRect(data) {
         const rect = [];
-        rect.push([this.trim(data[0].lat), this.trim(data[0].lng)]);
-        rect.push([this.trim(data[2].lat), this.trim(data[2].lng)]);
+        rect.push([this.trimTo(data[0].lat, 1), this.trimTo(data[0].lng, 1)]);
+        rect.push([this.trimTo(data[2].lat, 1), this.trimTo(data[2].lng, 1)]);
         return rect;
     }
 
-    static trim(coord) {
-        coord = parseFloat(coord.toFixed(1));
+    // Note. there is default numeration in leaflet, so fn is correct for any selected rect.
+    // Output is default array, as used in leaflet [[sw_lat, sw_lon], [ne_lat, ne_lon]]
+    static getRect(data) {
+        const rect = [
+            [data[0].lat, data[0].lng],
+            [data[2].lat, data[2].lng],
+        ];
+        return rect;
+    }
+
+    // (55.63962388406009,  3) => 55.640 (with rounding)
+    static trimTo(coord, limit) {
+        coord = parseFloat(coord.toFixed(limit));
         return coord;
     }
 
-    static getRectCoords(data) {
+    static getBoxCoords(data) {
         // So somewhere here should be checks for non-zero, max dimensons, snapping => requires refactoring.
         // TODO make check, which coord is greater, swap points accordingly
         const box3D = [];
@@ -41,5 +72,18 @@ export default class Parser {
             this.parseToCoord(2),
         );
         return box3D;
+    }
+
+    static getRectCoords(data) {
+        // So somewhere here should be checks for non-zero, max dimensons, snapping => requires refactoring.
+        // TODO make check, which coord is greater, swap points accordingly
+        const rect = [];
+        rect.push(
+            this.parseToCoord(data[0][0]),
+            this.parseToCoord(data[0][1]),
+            this.parseToCoord(data[1][0]),
+            this.parseToCoord(data[1][1]),
+        );
+        return rect;
     }
 }

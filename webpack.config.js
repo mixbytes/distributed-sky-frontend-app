@@ -66,4 +66,7 @@ module.exports = {
             process: 'process/browser.js',
         }),
     ],
+    experiments: {
+        asyncWebAssembly: true,
+      }
 };

@@ -11,11 +11,18 @@ const Events = {
     InputRole: 'inputRole',
     RefreshPage: 'refreshPage',
     RootAddition: 'rootAddition',
+    ZoneAddition: 'zoneAddition',
+    ZoneAdditionSubmit: 'zoneAdditionSubmit',
     RootAdditionSubmit: 'rootAdditionSubmit',
+    RootRequest: 'rootRequest',
+    RootShow: 'rootShow',
+    RootAdditionMode: 'rootAdditionMode',
+    ZoneAdditionMode: 'zoneAdditionMode',
     RegisterPilotSubmit: 'registerPilotSubmit',
     UploadImage: 'uploadImage',
     UploadToIPFS: 'uploadToIPFS',
     UploadToIPFSSubmit: 'uploadToIPFSSubmit',
+    SelectMapOption: 'selectMapOption',
 };
 
 export default Events;
