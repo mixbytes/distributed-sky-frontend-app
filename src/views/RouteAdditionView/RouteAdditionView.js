@@ -16,7 +16,7 @@ export default class RouteAdditionView extends BaseView {
         };
         this._routeAddFormData = {
             index: '', 
-            zones: '',
+            polyline: '',
         };
         this._BCController = new BCController();
         this._MapController = new MapController();
@@ -32,13 +32,13 @@ export default class RouteAdditionView extends BaseView {
         this._onRootRequest = this.onRootRequest.bind(this);
         this._onRootShow = this.onRootShow.bind(this);
         this._onFormRendered = this.onFormRendered.bind(this);
-        // this._onZoneAdd = this.onZoneAdd.bind(this);
+        this._onRouteAdd = this.onRouteAdd.bind(this);
 
         EventBus.on(Events.FormRendered, this._onFormRendered);
         EventBus.on(Events.RootRequest, this._onRootRequest);
         EventBus.on(Events.RootShow, this._onRootShow);
-        EventBus.on(Events.ZoneAdditionSubmit, this._onSubmitHandler);
-        EventBus.on(Events.ZoneAddition, this._onZoneAdd);
+        EventBus.on(Events.RouteAdditionSubmit, this._onSubmitHandler);
+        EventBus.on(Events.RouteAddition, this._onRouteAdd);
 
         const data = {
             RouteAdditionForm: this._RouteAdditionForm.render(),
@@ -68,17 +68,15 @@ export default class RouteAdditionView extends BaseView {
     onRootShow(data = {}) {
         this._routeAddFormData.index = data.id;
         this._RouteAdditionForm.drawRoot(data);
-        // await this._BCController.rootRequest(this._rootRequestFormData.lat, this._rootRequestFormData.lon);
     }
 
-    onZoneAdd(data = {}) {
-        this._routeAddFormData.zones = data;
+    onRouteAdd(data = {}) {
+        this._routeAddFormData.polyline = data;
     }
 
     async onSubmit() {
-        console.log(this._routeAddFormData);
-        await this._BCController.zoneAdd(
-            this._routeAddFormData.zones,
+        await this._BCController.routeAdd(
+            this._routeAddFormData.polyline,
             this._routeAddFormData.index,
         );
     }

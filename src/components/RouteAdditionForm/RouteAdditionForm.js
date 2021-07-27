@@ -29,7 +29,7 @@ export default class RouteAdditionForm extends BaseComponent {
 
         this._context.SubmitRootButton = (new StandardButton({
             buttonName: 'Add Route',
-            event: Events.ZoneAdditionSubmit,
+            event: Events.RouteAdditionSubmit,
         })).render();
     }
 
@@ -113,28 +113,22 @@ export default class RouteAdditionForm extends BaseComponent {
         this.myMap.on(L.Draw.Event.CREATED, (e) => {
             const rawLatLngs = e.layer.getLatLngs();
             console.log(rawLatLngs);
-            const bounds = Parser.getRect(rawLatLngs);
+            if(rawLatLngs.length > 2) {
+                alert('Please, supply two-point route');
+                return;
+            }
+            const polyline = Parser.getLine(rawLatLngs);
 
-            const layer = L.polyline(rawLatLngs, {color: 'green', weight: 3});
+            const layer = L.polyline(polyline, {color: 'green', weight: 3});
 
             this.drawnRoute.clearLayers();
             this.drawnRoute.addLayer(layer);
-            // const zones = ManagerMap.trySplitZone(this.root, bounds);
 
-            // // TODO consider removing this, maybe all splitting shall be internal
-            // if (zones.length !== 1) {
-            //     console.warn('[WARN] Selected zone lies in ' + zones.length + ' areas!');
-            //     zones.forEach((item) => {
-            //         const newLayer = L.rectangle(item, {color: '#000000', weight: 3});
-            //         this.drawnZone.addLayer(newLayer);
-            //     });
-            // }
-
-            // EventBus.emit(Events.ZoneAddition, zones);
+            EventBus.emit(Events.RouteAddition, polyline);
 
             const latLng = new L.LatLng(
-                (bounds[1][0] + bounds[0][0]) / 2,
-                (bounds[1][1] + bounds[0][1]) / 2);
+                (polyline[1][0] + polyline[0][0]) / 2,
+                (polyline[1][1] + polyline[0][1]) / 2);
 
             const popup = L.popup()
                 .setLatLng(latLng)

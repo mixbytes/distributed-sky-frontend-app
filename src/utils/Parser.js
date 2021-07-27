@@ -46,6 +46,13 @@ export default class Parser {
         return rect;
     }
 
+    static getLine(data) {
+        const line = [
+            [data[0].lat, data[0].lng],
+            [data[1].lat, data[1].lng],
+        ];
+        return line;
+    }
 
     // (55.63962388406009,  3) => 55.640 (fn with rounding)
     static trimTo(coord, limit) {

@@ -274,6 +274,47 @@ export default class ManagerBC {
         await this.checkEvents();
     }
 
+    async routeAdd(_route, _rootId, _startTime, _arrivalTime) {
+        if (!this._isExtension) {
+            if (!(await this.login())) {
+                throw new Error(Errors.ExtensionsNotFound);
+            }
+            await this.loadUserAccounts();
+        }
+
+        if (!this._isConnectedToNode) {
+            if (!await this.connectToNode()) {
+                throw new Error(Errors.ConnectionToNode);
+            }
+        }
+        const rootId = _rootId;
+        const startTime = this._api.registry.createType('Moment', _startTime);
+        const arrivalTime = this._api.registry.createType('Moment', _arrivalTime);
+
+        const route = [];
+        _route.forEach((_coord) => {
+            route.push(this._api.registry.createType('RawCoord', _coord));
+        });
+
+        const account = this._userAccounts[1];
+        const injector = await web3FromSource(account.meta.source);
+        await this._api.tx.dsMapsModule.rawRouteAdd(route, startTime, arrivalTime, rootId)
+            .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
+                if (status.isInBlock) {
+                    console.log('in block now?', status);
+                } else {
+                    if (status.type === 'Finalized') {
+                        console.log('Finalized now');
+                        return;
+                    }
+                }
+            }).catch((errorMessage) => {
+                throw new Error(errorMessage);
+            });
+
+        await this.checkEvents();
+    }
+
     async checkEvents() {
         this._api.query.system.events((events) => {
             console.log(`\nReceived ${events.length} events:`);
