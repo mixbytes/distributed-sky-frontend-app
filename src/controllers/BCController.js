@@ -36,11 +36,11 @@ export default class BCController {
 
     async routeAdd(_polyline, rootId) {
         // TODO convert polyline to array, generate moments
-        const polyline = [];
+        console.log(_polyline);
         // (n>2) change fn for this, there will be an iter
-        // _polyline.forEach((point) => {
-        polyline.push(Parser.getRectCoords(_polyline));
-        // });
+        const polyline = Parser.getRectCoords(_polyline);
+        console.log(polyline);
+
         const startTime = Date.now();
         const arrivalTime = startTime + 1000;
         return await this._managerBC.routeAdd(polyline, rootId, startTime, arrivalTime);

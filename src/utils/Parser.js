@@ -45,11 +45,11 @@ export default class Parser {
         ];
         return rect;
     }
-
+    // TODO there is a lot of self-repeat, refactor all Parser
     static getLine(data) {
         const line = [
-            [data[0].lat, data[0].lng],
-            [data[1].lat, data[1].lng],
+            [this.trimTo(data[0].lat, 7), this.trimTo(data[0].lng, 7)],
+            [this.trimTo(data[1].lat, 7), this.trimTo(data[1].lng, 7)],
         ];
         return line;
     }

@@ -292,6 +292,7 @@ export default class ManagerBC {
         const arrivalTime = this._api.registry.createType('Moment', _arrivalTime);
 
         const route = [];
+        console.log(_route);
         _route.forEach((_coord) => {
             route.push(this._api.registry.createType('RawCoord', _coord));
         });
