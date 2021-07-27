@@ -207,8 +207,9 @@ export default class ManagerBC {
         const pageLength = 32;
         const pageWidth = 50;
         // calculating cell coords in global grid
-        // TODO check if this is correct, something here is definetely broken
-        // TODO Sometimes index is formed wrongly, so requested bitmap is just zeroes.
+        // TODO debug this fn, sometimes requested bitmap is just zeroes (lat/lon messed up?)
+        // 0001 0101 1110 0000(5600) 0000 1110 1101 1000 - correct
+        // 0001 0101 1100 0000(5568) 0000 1110 1101 1000 - wrong
         const bitmap = await this._api.query.dsMapsModule.earthBitmap(index);
         const row = Math.trunc(touchLat * 100);
         const column = Math.trunc(touchLon * 100);
@@ -223,7 +224,6 @@ export default class ManagerBC {
         const neLonCoord = Parser.parseNodeOutput(_rootBox['bounding_box']['north_east']['lon'].toHuman());
         const floatBox3D = [[swLatCoord, swLonCoord], [neLatCoord, neLonCoord]];
         const rootBox = {
-            // id: _rootBox['id'].toHuman().split(',').join(''),
             id: _rootBox['id'],
             bounding_box: floatBox3D,
             delta: Parser.parseNodeOutput(_rootBox['delta'].toHuman()),

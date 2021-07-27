@@ -5,31 +5,30 @@ import L from 'leaflet';
 import 'leaflet-draw';
 import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
-import template from 'components/ZoneAdditionForm/ZoneAdditionForm.hbs';
+import template from 'components/RouteAdditionForm/RouteAdditionForm.hbs';
 import Parser from 'utils/Parser';
 import ManagerMap from 'utils/ManagerMap';
 
-export default class ZoneAdditionForm extends BaseComponent {
+export default class RouteAdditionForm extends BaseComponent {
     constructor(context = {}) {
         super(context);
         this._template = template;
         this._context.input = [];
         this.myMap = '';
         this.drawnRoot = '';
-        this.drawnZone = '';
+        this.drawnRoute = '';
         this.root = {
             id: '',
             bounding_box: '',
             delta: '',
         };
-        // TODO remove this event thing
         this.RootRequestEvent = '';
         this.popup = '';
         this._context.RegisterPath = Routes.ZoneAddition;
         this._context.RegisterEvent = Events.ChangePath;
 
         this._context.SubmitRootButton = (new StandardButton({
-            buttonName: 'Add Zone',
+            buttonName: 'Add Route',
             event: Events.ZoneAdditionSubmit,
         })).render();
     }
@@ -51,12 +50,13 @@ export default class ZoneAdditionForm extends BaseComponent {
                 polygon: false,
                 circlemarker: false,
                 circle: false,
-                polyline: false,
+                rectangle: false,
+                polyline: true,
             },
         }));
 
         this.drawnRoot = L.featureGroup().addTo(myMap);
-        this.drawnZone = L.featureGroup().addTo(myMap);
+        this.drawnRoute = L.featureGroup().addTo(myMap);
 
         const popup = L.popup();
         this.popup = popup;
@@ -88,7 +88,7 @@ export default class ZoneAdditionForm extends BaseComponent {
             this.drawnRoot.clearLayers();
             this.drawnRoot.addLayer(layer);
             this.myMap.fitBounds(root.bounding_box);
-            this.popup.setContent('You successfully selected root.<br> Now add zones!').openOn(this.myMap);
+            this.popup.setContent('You successfully selected root.<br> Now add route!').openOn(this.myMap);
             // TODO add button for this mode change. Important, because this way we can't choose different root
             this.myMap.off('click', this.RootRequestEvent);
             this.changeMode();
@@ -111,26 +111,26 @@ export default class ZoneAdditionForm extends BaseComponent {
     // enabled only if root is already selected
     changeMode() {
         this.myMap.on(L.Draw.Event.CREATED, (e) => {
-            const rawLatLngs = e.layer.getLatLngs()[0];
+            const rawLatLngs = e.layer.getLatLngs();
+            console.log(rawLatLngs);
             const bounds = Parser.getRect(rawLatLngs);
 
-            const layer = L.rectangle(bounds, {color: '#08ff00', weight: 3});
-            this.myMap.fitBounds(bounds);
+            const layer = L.polyline(rawLatLngs, {color: 'green', weight: 3});
 
-            this.drawnZone.clearLayers();
-            this.drawnZone.addLayer(layer);
-            const zones = ManagerMap.trySplitZone(this.root, bounds);
+            this.drawnRoute.clearLayers();
+            this.drawnRoute.addLayer(layer);
+            // const zones = ManagerMap.trySplitZone(this.root, bounds);
 
-            // TODO consider removing this, maybe all splitting shall be internal
-            if (zones.length !== 1) {
-                console.warn('[WARN] Selected zone lies in ' + zones.length + ' areas!');
-                zones.forEach((item) => {
-                    const newLayer = L.rectangle(item, {color: '#000000', weight: 3});
-                    this.drawnZone.addLayer(newLayer);
-                });
-            }
+            // // TODO consider removing this, maybe all splitting shall be internal
+            // if (zones.length !== 1) {
+            //     console.warn('[WARN] Selected zone lies in ' + zones.length + ' areas!');
+            //     zones.forEach((item) => {
+            //         const newLayer = L.rectangle(item, {color: '#000000', weight: 3});
+            //         this.drawnZone.addLayer(newLayer);
+            //     });
+            // }
 
-            EventBus.emit(Events.ZoneAddition, zones);
+            // EventBus.emit(Events.ZoneAddition, zones);
 
             const latLng = new L.LatLng(
                 (bounds[1][0] + bounds[0][0]) / 2,
@@ -138,10 +138,10 @@ export default class ZoneAdditionForm extends BaseComponent {
 
             const popup = L.popup()
                 .setLatLng(latLng)
-                .setContent('You selected zone!<br>Click submit to add it!')
+                .setContent('You drawn a new route!<br>Click submit to add it!')
                 .openOn(this.myMap);
 
-            this.drawnZone.addLayer(popup);
+            this.drawnRoute.addLayer(popup);
         });
     }
 }

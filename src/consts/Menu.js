@@ -28,6 +28,11 @@ const menuItems = {
             url: Routes.ZoneAddition,
             event: Events.ChangePath,
         },
+        RouteAddition: {
+            name: 'Add Route',
+            url: Routes.RouteAddition,
+            event: Events.ChangePath,
+        },
     },
 };
 

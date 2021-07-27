@@ -46,7 +46,8 @@ export default class Parser {
         return rect;
     }
 
-    // (55.63962388406009,  3) => 55.640 (with rounding)
+
+    // (55.63962388406009,  3) => 55.640 (fn with rounding)
     static trimTo(coord, limit) {
         coord = parseFloat(coord.toFixed(limit));
         return coord;
