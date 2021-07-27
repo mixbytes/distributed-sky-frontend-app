@@ -182,20 +182,24 @@ export default class ManagerBC {
         const injector = await web3FromSource(account.meta.source);
         console.log(box3D);
         await this._api.tx.dsMapsModule.rawRootAdd(box3D, delta)
-            .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
-                if (status.isInBlock) {
-                    console.log('in block now?', status);
+            .signAndSend(account.address, {signer: injector.signer}, ({ status, events, dispatchError }) => {
+                // status would still be set, but in the case of error we can shortcut
+                // to just check it (so an error would indicate InBlock or Finalized)
+                if (dispatchError) {
+                  if (dispatchError.isModule) {
+                    // for module errors, we have the section indexed, lookup
+                    const decoded = this._api.registry.findMetaError(dispatchError.asModule);
+                    const { documentation, name, section } = decoded;
+            
+                    console.log(`${section}.${name}: ${documentation.join(' ')}`);
+                  } else {
+                    // Other, CannotLookup, BadOrigin, no extra info
+                    console.log(dispatchError.toString());
+                  }
                 } else {
-                    if (status.type === 'Finalized') {
-                        console.log('Finalized now');
-                        return;
-                    }
+                    this.checkEvents();
                 }
-            }).catch((errorMessage) => {
-                throw new Error(errorMessage);
             });
-
-        await this.checkEvents();
     }
 
     async rootRequest(index, touchLat, touchLon) {
@@ -258,20 +262,25 @@ export default class ManagerBC {
         const injector = await web3FromSource(account.meta.source);
         for (let i = 0; i < zones.length; i++) {
             await this._api.tx.dsMapsModule.rawZoneAdd(zones[0], height, rootId)
-                .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
-                    if (status.isInBlock) {
-                        console.log('in block now?', status);
+                .signAndSend(account.address, {signer: injector.signer}, ({ status, events, dispatchError }) => {
+                    // status would still be set, but in the case of error we can shortcut
+                    // to just check it (so an error would indicate InBlock or Finalized)
+                    if (dispatchError) {
+                      if (dispatchError.isModule) {
+                        // for module errors, we have the section indexed, lookup
+                        const decoded = this._api.registry.findMetaError(dispatchError.asModule);
+                        const { documentation, name, section } = decoded;
+                
+                        console.log(`${section}.${name}: ${documentation.join(' ')}`);
+                      } else {
+                        // Other, CannotLookup, BadOrigin, no extra info
+                        console.log(dispatchError.toString());
+                      }
                     } else {
-                        if (status.type === 'Finalized') {
-                            console.log('Finalized now');
-                            return;
-                        }
+                        this.checkEvents();
                     }
-                }).catch((errorMessage) => {
-                    throw new Error(errorMessage);
                 });
         }
-        await this.checkEvents();
     }
 
     async routeAdd(_route, _rootId, _startTime, _arrivalTime) {
@@ -300,20 +309,24 @@ export default class ManagerBC {
         const account = this._userAccounts[1];
         const injector = await web3FromSource(account.meta.source);
         await this._api.tx.dsMapsModule.rawRouteAdd(route, startTime, arrivalTime, rootId)
-            .signAndSend(account.address, {signer: injector.signer}, ({status}) => {
-                if (status.isInBlock) {
-                    console.log('in block now?', status);
+            .signAndSend(account.address, {signer: injector.signer}, ({ status, events, dispatchError }) => {
+                // status would still be set, but in the case of error we can shortcut
+                // to just check it (so an error would indicate InBlock or Finalized)
+                if (dispatchError) {
+                  if (dispatchError.isModule) {
+                    // for module errors, we have the section indexed, lookup
+                    const decoded = this._api.registry.findMetaError(dispatchError.asModule);
+                    const { documentation, name, section } = decoded;
+            
+                    console.log(`${section}.${name}: ${documentation.join(' ')}`);
+                  } else {
+                    // Other, CannotLookup, BadOrigin, no extra info
+                    console.log(dispatchError.toString());
+                  }
                 } else {
-                    if (status.type === 'Finalized') {
-                        console.log('Finalized now');
-                        return;
-                    }
+                    this.checkEvents();
                 }
-            }).catch((errorMessage) => {
-                throw new Error(errorMessage);
-            });
-
-        await this.checkEvents();
+              });
     }
 
     async checkEvents() {
@@ -325,7 +338,6 @@ export default class ManagerBC {
                 // Extract the phase, event and the event types
                 const {event, phase} = record;
                 const types = event.typeDef;
-
                 // Show what we are busy with
                 console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
                 console.log(`\t\t${event.meta.documentation.toString()}`);
