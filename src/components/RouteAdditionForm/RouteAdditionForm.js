@@ -7,7 +7,6 @@ import Routes from 'consts/Routes';
 import StandardButton from 'components/BaseComponents/StandardButton/StandardButton';
 import template from 'components/RouteAdditionForm/RouteAdditionForm.hbs';
 import Parser from 'utils/Parser';
-import ManagerMap from 'utils/ManagerMap';
 
 export default class RouteAdditionForm extends BaseComponent {
     constructor(context = {}) {
@@ -113,7 +112,7 @@ export default class RouteAdditionForm extends BaseComponent {
         this.myMap.on(L.Draw.Event.CREATED, (e) => {
             const rawLatLngs = e.layer.getLatLngs();
             console.log(rawLatLngs);
-            if(rawLatLngs.length > 2) {
+            if (rawLatLngs.length > 2) {
                 alert('Please, supply two-point route');
                 return;
             }

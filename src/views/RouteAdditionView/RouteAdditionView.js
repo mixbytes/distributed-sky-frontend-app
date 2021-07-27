@@ -15,7 +15,7 @@ export default class RouteAdditionView extends BaseView {
             lon: '',
         };
         this._routeAddFormData = {
-            index: '', 
+            index: '',
             polyline: '',
         };
         this._BCController = new BCController();

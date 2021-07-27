@@ -23,7 +23,6 @@ export default class Parser {
         return this._parseFromI10F22(bnValue);
     }
 
-
     static parseNodeOutput(stringValue) {
         const value = parseInt(stringValue.split(',').join(''));
         return this.parseFromCoord(value);
