@@ -41,8 +41,8 @@ export default class BCController {
         const polyline = Parser.getRectCoords(_polyline);
         console.log(polyline);
 
-        const startTime = Date.now();
-        const arrivalTime = startTime + 1000;
+        const startTime = Date.now() + 1000000;
+        const arrivalTime = startTime + 1000000;
         return await this._managerBC.routeAdd(polyline, rootId, startTime, arrivalTime);
     }
 

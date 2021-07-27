@@ -288,6 +288,7 @@ export default class ManagerBC {
             }
         }
         const rootId = _rootId;
+        console.log(_startTime, _arrivalTime);
         const startTime = this._api.registry.createType('Moment', _startTime);
         const arrivalTime = this._api.registry.createType('Moment', _arrivalTime);
 
