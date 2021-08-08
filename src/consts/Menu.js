@@ -18,6 +18,11 @@ const menuItems = {
             url: Routes.ExtractFromStorage,
             event: Events.ChangePath,
         },
+        uavAdd: {
+            name: 'Add new UAV',
+            url: Routes.UavAdd,
+            event: Events.ChangePath,
+        },
         MapUsage: {
             name: 'Add Root',
             url: Routes.MapUsage,

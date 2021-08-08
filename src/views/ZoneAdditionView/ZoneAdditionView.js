@@ -76,7 +76,6 @@ export default class ZoneAdditionView extends BaseView {
     }
 
     async onSubmit() {
-        console.log(this._zoneAddFormData);
         await this._BCController.zoneAdd(
             this._zoneAddFormData.zones,
             this._zoneAddFormData.index,

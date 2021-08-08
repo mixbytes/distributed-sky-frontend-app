@@ -40,6 +40,7 @@ export default class RegisterPilotView extends BaseView {
                 break;
             }
             case Events.UploadImage: {
+                // TODO consider move this from update handler to submit handler 
                 if (data.target.files[0].type.match('image.*')) {
                     this._registerPilotFormData.metadataIPFSHash = await this._ipfsController.uploadToIPFS(data.target.files[0]);
                 }

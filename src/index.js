@@ -4,6 +4,7 @@ import ExtractFromStorageView from 'views/ExtractFromStorageView/ExtractFromStor
 import MainView from 'views/MainView/MainView';
 import MapUsageView from 'views/MapUsageView/MapUsageView';
 import RegisterPilotView from 'views/RegisterPilotView/RegisterPilotView';
+import UavAddView from 'views/UavAddView/UavAddView';
 import ZoneAdditionView from 'views/ZoneAdditionView/ZoneAdditionView';
 import RouteAdditionView from 'views/RouteAdditionView/RouteAdditionView';
 import Router from 'services/Router';
@@ -17,6 +18,7 @@ router
     .register(Routes.AccountAdd, new AccountAddView())
     .register(Routes.RegisterPilot, new RegisterPilotView())
     .register(Routes.ExtractFromStorage, new ExtractFromStorageView())
+    .register(Routes.UavAdd, new UavAddView())
     // TODO this three pages shall be merged into one
     .register(Routes.MapUsage, new MapUsageView())
     .register(Routes.ZoneAddition, new ZoneAdditionView())

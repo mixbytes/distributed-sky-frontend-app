@@ -111,7 +111,6 @@ export default class RouteAdditionForm extends BaseComponent {
     changeMode() {
         this.myMap.on(L.Draw.Event.CREATED, (e) => {
             const rawLatLngs = e.layer.getLatLngs();
-            console.log(rawLatLngs);
             if (rawLatLngs.length > 2) {
                 alert('Please, supply two-point route');
                 return;

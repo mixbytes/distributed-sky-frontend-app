@@ -159,6 +159,51 @@ export default class ManagerBC {
         return account['metadata_ipfs_hash'].toHuman();
     }
 
+    async registerUAV() {
+        if (!this._isExtension) {
+            if (!(await this.login())) {
+                throw new Error(Errors.ExtensionsNotFound);
+            }
+            await this.loadUserAccounts();
+        }
+
+        if (!this._isConnectedToNode) {
+            if (!await this.connectToNode()) {
+                throw new Error(Errors.ConnectionToNode);
+            }
+        }
+        const _hash = 'QmRKNxX4z4MXxT4P2opxYAch7iQcVwhisMTLfDmCrDCUjB';
+        const hash = this._api.registry.createType('MetaIPFS', _hash);
+
+        const _serial = '1234-1234-1234-1234';
+        const serial = this._api.registry.createType('SerialNumber', _serial);
+
+        const _uavAddress = '5GLTPM9Xok4JeZQVPUdpnZ1eB6yorHntwLw5mT4qRFbG7k74';
+        const uavAddress = this._api.registry.createType('AccountId', _uavAddress);
+        
+        const account = this._userAccounts[2];
+        const injector = await web3FromSource(account.meta.source);
+        await this._api.tx.dsAccountsModule.registerUav(serial, hash, uavAddress)
+            .signAndSend(account.address, {signer: injector.signer}, ({ status, events, dispatchError }) => {
+                // status would still be set, but in the case of error we can shortcut
+                // to just check it (so an error would indicate InBlock or Finalized)
+                if (dispatchError) {
+                  if (dispatchError.isModule) {
+                    // for module errors, we have the section indexed, lookup
+                    const decoded = this._api.registry.findMetaError(dispatchError.asModule);
+                    const { documentation, name, section } = decoded;
+            
+                    console.log(`${section}.${name}: ${documentation.join(' ')}`);
+                  } else {
+                    // Other, CannotLookup, BadOrigin, no extra info
+                    console.log(dispatchError.toString());
+                  }
+                } else {
+                    this.checkEvents();
+                }
+            });
+    }
+
     async rootAdd(rootCoords, rawDelta) {
         if (!this._isExtension) {
             if (!(await this.login())) {
@@ -180,7 +225,6 @@ export default class ManagerBC {
 
         const account = this._userAccounts[1];
         const injector = await web3FromSource(account.meta.source);
-        console.log(box3D);
         await this._api.tx.dsMapsModule.rawRootAdd(box3D, delta)
             .signAndSend(account.address, {signer: injector.signer}, ({ status, events, dispatchError }) => {
                 // status would still be set, but in the case of error we can shortcut
@@ -260,27 +304,27 @@ export default class ManagerBC {
 
         const account = this._userAccounts[1];
         const injector = await web3FromSource(account.meta.source);
-        for (let i = 0; i < zones.length; i++) {
-            await this._api.tx.dsMapsModule.rawZoneAdd(zones[0], height, rootId)
-                .signAndSend(account.address, {signer: injector.signer}, ({ status, events, dispatchError }) => {
-                    // status would still be set, but in the case of error we can shortcut
-                    // to just check it (so an error would indicate InBlock or Finalized)
-                    if (dispatchError) {
-                      if (dispatchError.isModule) {
-                        // for module errors, we have the section indexed, lookup
-                        const decoded = this._api.registry.findMetaError(dispatchError.asModule);
-                        const { documentation, name, section } = decoded;
-                
-                        console.log(`${section}.${name}: ${documentation.join(' ')}`);
-                      } else {
-                        // Other, CannotLookup, BadOrigin, no extra info
-                        console.log(dispatchError.toString());
-                      }
+        // for (let i = 0; i <= zones.length; i++) {
+        await this._api.tx.dsMapsModule.rawZoneAdd(zones[0], height, rootId)
+            .signAndSend(account.address, {signer: injector.signer}, ({ status, events, dispatchError }) => {
+                // status would still be set, but in the case of error we can shortcut
+                // to just check it (so an error would indicate InBlock or Finalized)
+                if (dispatchError) {
+                    if (dispatchError.isModule) {
+                    // for module errors, we have the section indexed, lookup
+                    const decoded = this._api.registry.findMetaError(dispatchError.asModule);
+                    const { documentation, name, section } = decoded;
+            
+                    console.log(`${section}.${name}: ${documentation.join(' ')}`);
                     } else {
-                        this.checkEvents();
+                    // Other, CannotLookup, BadOrigin, no extra info
+                    console.log(dispatchError.toString());
                     }
-                });
-        }
+                } else {
+                    this.checkEvents();
+                }
+            });
+        // }
     }
 
     async routeAdd(_route, _rootId, _startTime, _arrivalTime) {
@@ -306,7 +350,7 @@ export default class ManagerBC {
             route.push(this._api.registry.createType('RawCoord', _coord));
         });
 
-        const account = this._userAccounts[1];
+        const account = this._userAccounts[2];
         const injector = await web3FromSource(account.meta.source);
         await this._api.tx.dsMapsModule.rawRouteAdd(route, startTime, arrivalTime, rootId)
             .signAndSend(account.address, {signer: injector.signer}, ({ status, events, dispatchError }) => {
@@ -330,23 +374,26 @@ export default class ManagerBC {
     }
 
     async checkEvents() {
-        this._api.query.system.events((events) => {
-            console.log(`\nReceived ${events.length} events:`);
-
-            // Loop through the Vec<EventRecord>
-            events.forEach((record) => {
+        const events = await this._api.query.system.events();
+        // Loop through the Vec<EventRecord>
+        events
+            .filter(event => event.phase.toHuman()["ApplyExtrinsic"] === "1")
+            .forEach(record => {
                 // Extract the phase, event and the event types
-                const {event, phase} = record;
+                const { event, phase } = record;
                 const types = event.typeDef;
+
                 // Show what we are busy with
-                console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
-                console.log(`\t\t${event.meta.documentation.toString()}`);
+                console.log(`${event.section}:${event.method}:: (phase=${phase.toString()})`);
+                
+                const documentation = event.meta && event.meta.documentation || '';
+                console.log(documentation.toString());
 
                 // Loop through each of the parameters, displaying the type and data
                 event.data.forEach((data, index) => {
-                    console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
+                    console.log(`${types[index].type}: ${data.toString()}`);
                 });
             });
-        });
+        
     }
 }
