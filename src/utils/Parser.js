@@ -29,7 +29,6 @@ export default class Parser {
         return this._parseFromI10F22(bnValue);
     }
 
-
     static parseNodeOutput(stringValue) {
         const value = parseInt(stringValue.split(',').join(''));
         return this.parseFromCoord(value);
@@ -52,8 +51,16 @@ export default class Parser {
         ];
         return rect;
     }
+    // TODO there is a lot of self-repeat, refactor all Parser
+    static getLine(data) {
+        const line = [
+            [this.trimTo(data[0].lat, 7), this.trimTo(data[0].lng, 7)],
+            [this.trimTo(data[1].lat, 7), this.trimTo(data[1].lng, 7)],
+        ];
+        return line;
+    }
 
-    // (55.63962388406009,  3) => 55.640 (with rounding)
+    // (55.63962388406009,  3) => 55.640 (fn with rounding)
     static trimTo(coord, limit) {
         coord = parseFloat(coord.toFixed(limit));
         return coord;

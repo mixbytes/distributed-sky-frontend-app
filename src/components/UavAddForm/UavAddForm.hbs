@@ -1,0 +1,24 @@
+<div class="register-pilot__form-block">
+    <form class="register-pilot-form__input">
+        {{#each input }}
+            {{{ this }}}
+        {{/each}}
+    </form>
+    <div class="register-pilot-form__admission">
+        <div class="register-pilot-form__header-enter">
+            {{{ StandardButton }}}
+        </div>
+    </div>
+    <div class="result-block {{#unless visibility }}result-block-display-none{{/unless}}">
+        {{ result }}
+    </div>
+    <div class="register-pilot__status {{#unless visibility}}status-display-none{{/unless}}">
+        {{ status }}
+    </div>
+    <div class="register-pilot__info {{#unless visibility}}info-display-none{{/unless}}">
+        {{ info }}
+    </div>
+    <div class="block-hash {{#unless visibility}}block-hash-display-none{{/unless}}">
+        {{ blockHash }}
+    </div>
+</div>

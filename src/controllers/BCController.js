@@ -18,6 +18,9 @@ export default class BCController {
     async registerPilot(accountAddress, metadataIPFSHash) {
         return await this._managerBC.registerPilot(accountAddress, metadataIPFSHash);
     }
+    async uavAdd() {
+        return await this._managerBC.registerUAV();
+    }
 
     async rootAdd(rawRootCoords, rawDelta) {
         const parseData = Parser.getBoxCoords(rawRootCoords);
@@ -32,6 +35,16 @@ export default class BCController {
             zones[index] = Parser.getRectCoords(zone);
         });
         return await this._managerBC.zoneAdd(zones, rootId);
+    }
+
+    async routeAdd(_polyline, rootId) {
+        // TODO convert polyline to array, generate moments
+        // (n>2) change fn for this, there will be an iter
+        const polyline = Parser.getRectCoords(_polyline);
+
+        const startTime = Date.now() + 1000000;
+        const arrivalTime = startTime + 1000000;
+        return await this._managerBC.routeAdd(polyline, rootId, startTime, arrivalTime);
     }
 
     async rootRequest(touchLat, touchLon) {

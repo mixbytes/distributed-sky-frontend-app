@@ -6,8 +6,10 @@ const Routes = {
     ExtractFromIPFS: '/extract_from_ipfs',
     Main: '/',
     RegisterPilot: '/register_pilot',
+    UavAdd: '/uav_add',
     MapUsage: '/use_map',
     ZoneAddition: '/add_zone',
+    RouteAddition: '/add_route',
 };
 
 export default Routes;
